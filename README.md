@@ -1,1 +1,3 @@
 # rubic-timer
+
+test
