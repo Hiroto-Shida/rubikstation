@@ -1,4 +1,4 @@
-import { Layout } from "../../components/Layout/container";
+import { Layout } from "../../components/layout/Layout/container";
 import { NotFoundPagePresenter } from "./presenter";
 
 export const NotFoundPage = () => {

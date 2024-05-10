@@ -1,4 +1,4 @@
-import { Layout } from "../../components/Layout/container";
+import { Layout } from "../../components/layout/Layout/container";
 import { IndexPagePresenter } from "./presenter";
 
 export const IndexPage = () => {
