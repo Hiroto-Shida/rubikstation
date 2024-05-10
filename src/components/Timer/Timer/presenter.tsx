@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 import { useState, useRef, useEffect, useContext } from 'react';
-import { RunningStateContext } from "../../pages/Index/presenter";
+import { RunningStateContext } from "../../../pages/Index/presenter";
 
 export const TimerPresenter = () => {
   const [time, setTime] = useState<number>(0);

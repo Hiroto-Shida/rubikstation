@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
-import { ScrambleText } from "../../components/ScrambleText/container";
-import { Timer } from "../../components/Timer/container";
+import { ScrambleText } from "../../components/scrambleText/ScrambleText/container";
+import { Timer } from "../../components/timer/Timer/container";
 
 export type RunningState = {
   isStay: boolean
