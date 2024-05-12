@@ -1,8 +1,9 @@
 import { Canvas } from "@react-three/fiber";
-import { CameraControls } from "@react-three/drei";
+import { CameraControls, Html, Text } from "@react-three/drei";
 import * as THREE from "three";
 import { Box } from "@mui/material";
 import { Cubes } from "../Cubes/container";
+import { color } from "three/examples/jsm/nodes/Nodes.js";
 
 export const RubicModelPresenter: React.FC = () => {
   return (
@@ -24,6 +25,20 @@ export const RubicModelPresenter: React.FC = () => {
           <ambientLight intensity={1.5} />
           <pointLight position={[10, 10, 10]} />
           <Cubes />
+
+          <Text
+            position={[3, 1, 3]}
+            rotation={[0, Math.PI / 4, 0]}
+            scale={0.5}
+            color={new THREE.Color("ff0000")}
+          >
+            {`-->`}
+          </Text>
+
+          <Html as="div" position={[2, 1, 3]} style={{ color: "#ffffff" }}>
+            <h1>hello</h1>
+            <p>world</p>
+          </Html>
 
           <CameraControls />
           {/* X:red, Y:green, Z:blue. args:長さ */}
