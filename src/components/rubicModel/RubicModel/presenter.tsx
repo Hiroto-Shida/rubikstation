@@ -4,7 +4,7 @@ import { CameraControls } from "@react-three/drei";
 import * as THREE from "three";
 import { Box, Typography } from "@mui/material";
 import { SURFACE_COLORS } from "../surfaceColors";
-import { ROTATE_DIRECTION } from "../rotateDirection";
+import { Axis, Limit, Multiplier, ROTATE_DIRECTION } from "../rotateDirection";
 
 const Cube = ({
   position,
@@ -47,7 +47,8 @@ const Cubes = ({ moveChar }: { moveChar: string }) => {
           cubeGroup.current,
           rotationGroup.current,
           ROTATE_DIRECTION[moveChar][0],
-          ROTATE_DIRECTION[moveChar][1]
+          ROTATE_DIRECTION[moveChar][1],
+          ROTATE_DIRECTION[moveChar][2]
         );
       } else {
         console.log(`回転記号 ${moveChar} は存在しません`);
@@ -88,8 +89,8 @@ const resetCubeGroup = (cubeGroup: THREE.Group, rotationGroup: THREE.Group) => {
 const attachToRotationGroup = (
   cubeGroup: THREE.Group,
   rotationGroup: THREE.Group,
-  axis: "x" | "y" | "z",
-  limit: number
+  axis: Axis,
+  limit: Limit
 ) => {
   cubeGroup.children
     .slice()
@@ -102,19 +103,24 @@ const attachToRotationGroup = (
     });
 };
 
-const rotateGroup = (rotationGroup: THREE.Group, axis: "x" | "y" | "z") => {
-  rotationGroup.rotation[axis] += Math.PI / 6;
+const rotateGroup = (
+  rotationGroup: THREE.Group,
+  axis: Axis,
+  multiplier: Multiplier
+) => {
+  rotationGroup.rotation[axis] += (Math.PI / 6) * multiplier;
 };
 
 const rotate = (
   cubeGroup: THREE.Group,
   rotationGroup: THREE.Group,
-  axis: "x" | "y" | "z",
-  limit: number
+  axis: Axis,
+  limit: Limit,
+  multiplier: Multiplier
 ) => {
   resetCubeGroup(cubeGroup, rotationGroup);
   attachToRotationGroup(cubeGroup, rotationGroup, axis, limit);
-  rotateGroup(rotationGroup, axis);
+  rotateGroup(rotationGroup, axis, multiplier);
 };
 
 type Props = {
@@ -131,7 +137,7 @@ export const RubicModelPresenter: React.FC<Props> = (props) => {
         alignItems="center"
       >
         <Canvas
-          camera={{ position: [5, 5, 5] }}
+          camera={{ position: [5, 3, 5] }}
           onCreated={({ gl }) => {
             gl.setClearColor(new THREE.Color("#363333"));
           }}
