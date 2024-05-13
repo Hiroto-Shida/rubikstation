@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { SURFACE_COLORS } from "../surfaceColors";
 import { Axis, Limit, Multiplier, ROTATE_DIRECTION } from "../rotateDirection";
 import { useEffect, useRef } from "react";
+import { useTexture } from "@react-three/drei"
 
 const resetCubeGroup = (cubeGroup: THREE.Group, rotationGroup: THREE.Group) => {
   rotationGroup.children
@@ -50,12 +51,29 @@ const rotate = (
   rotateGroup(rotationGroup, axis, multiplier);
 };
 
+const ArrowImage = ({position, rotation, scale}: {position: number[], rotation: number[], scale: number}) => {
+  const texture = useTexture('arrow.png')
+  return (
+    <mesh
+      position={new THREE.Vector3(position[0], position[1], position[2])}
+      rotation={new THREE.Euler(rotation[0], rotation[1], rotation[2])}
+      scale={scale}
+    >
+      <planeGeometry args={[36, 106]} />
+      <meshBasicMaterial transparent map={texture} />
+    </mesh>
+  )
+}
+
+
 const Cube = ({
   position,
   colorList,
+  moveChar
 }: {
   position: [number, number, number];
   colorList: string[];
+  moveChar: string
 }) => {
   const colorsDic: { [key: string]: string } = {
     green: "#188a28",
@@ -76,6 +94,11 @@ const Cube = ({
           color={colorsDic[value]}
         />
       ))}
+      {["x", "y", "z"].filter((axis) => axis !== ROTATE_DIRECTION[moveChar][0]).map((axis) => {
+        let axisDic: {[key: string]: number} = {"x":0, "y":0, "z":0}
+        axisDic[axis] = 0.5
+        return <ArrowImage position={Object.values(axisDic)} rotation={[0,Math.PI/2,0]} scale={0.01} />
+      })}
     </mesh>
   );
 };
@@ -110,6 +133,7 @@ export const CubesPresenter = ({ moveChar }: { moveChar: string }) => {
                 key={`${x}${y}${z}`}
                 position={[x - 1, y - 1, z - 1]}
                 colorList={SURFACE_COLORS[0]}
+                moveChar={moveChar}
               />
             ))
           )

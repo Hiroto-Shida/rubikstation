@@ -1,5 +1,5 @@
 import { CubesPresenter } from "./presenter";
 
 export const Cubes = () => {
-  return <CubesPresenter moveChar="U" />;
+  return <CubesPresenter moveChar="B" />;
 };
