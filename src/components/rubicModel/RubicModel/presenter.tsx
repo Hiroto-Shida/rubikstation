@@ -26,19 +26,19 @@ export const RubicModelPresenter: React.FC = () => {
           <pointLight position={[10, 10, 10]} />
           <Cubes />
 
-          <Text
+          {/* <Text
             position={[3, 1, 3]}
             rotation={[0, Math.PI / 4, 0]}
             scale={0.5}
-            color={new THREE.Color("ff0000")}
+            color={new THREE.Color("#ff0000")}
           >
             {`-->`}
-          </Text>
+          </Text> */}
 
-          <Html as="div" position={[2, 1, 3]} style={{ color: "#ffffff" }}>
+          {/* <Html as="div" position={[2, 1, 3]} style={{ color: "#ffffff" }}>
             <h1>hello</h1>
             <p>world</p>
-          </Html>
+          </Html> */}
 
           <CameraControls />
           {/* X:red, Y:green, Z:blue. args:長さ */}
