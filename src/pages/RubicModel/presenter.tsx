@@ -11,7 +11,7 @@ export const RubicModelPagePresenter: React.FC = () => {
         justifyContent="center"
         alignItems="center"
       >
-        <RubicModel />
+        <RubicModel moveChar={"D"} />
       </Box>
     </>
   );

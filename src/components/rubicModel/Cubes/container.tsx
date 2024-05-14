@@ -1,5 +1,9 @@
 import { CubesPresenter } from "./presenter";
 
-export const Cubes = () => {
-  return <CubesPresenter moveChar="D'" />;
+type Props = {
+  moveChar: string;
+};
+
+export const Cubes = ({ moveChar }: Props) => {
+  return <CubesPresenter moveChar={moveChar} />;
 };

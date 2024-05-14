@@ -1,5 +1,9 @@
 import { RubicModelPresenter } from "./presenter";
 
-export const RubicModel = () => {
-  return <RubicModelPresenter moveChar="U" />;
+type Props = {
+  moveChar: string;
+};
+
+export const RubicModel = ({ moveChar }: Props) => {
+  return <RubicModelPresenter moveChar={moveChar} />;
 };
