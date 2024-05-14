@@ -1,5 +1,6 @@
 import BugReportIcon from "@mui/icons-material/BugReport";
 import HomeIcon from "@mui/icons-material/Home";
+import Apps from "@mui/icons-material/Apps";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
   AppBar,
@@ -61,6 +62,7 @@ export const LayoutPresenter = ({ children }: Props) => {
         <ListSubheader>メイン</ListSubheader>
         <Divider />
         <AppListItem to="/" primaryText="トップ" icon={<HomeIcon />} />
+        <AppListItem to="/rubic-model" primaryText="モデル" icon={<Apps />} />
         <ListSubheader>その他</ListSubheader>
         <Divider />
         <AppListItem
