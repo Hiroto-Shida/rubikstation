@@ -14,7 +14,7 @@ export const RubicModelPresenter = ({ moveChar }: Props) => {
       <Canvas
         camera={{ position: [3, 2.8, 3] }}
         onCreated={({ gl }) => {
-          gl.setClearColor(new THREE.Color("#363333"))
+          gl.setClearColor(new THREE.Color("#bdbdbd"))
         }}
         gl={{ antialias: true }}
         style={{ width: "150px", height: "150px" }}
@@ -40,7 +40,7 @@ export const RubicModelPresenter = ({ moveChar }: Props) => {
 
         <CameraControls />
         {/* X:red, Y:green, Z:blue. args:長さ */}
-        <axesHelper args={[5]} />
+        {/* <axesHelper args={[5]} /> */}
       </Canvas>
     </>
   )

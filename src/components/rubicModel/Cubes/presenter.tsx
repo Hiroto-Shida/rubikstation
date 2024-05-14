@@ -47,12 +47,12 @@ const addArrow = (
   let countIndex = 0
   rotationGroup.children.forEach((child) => {
     if (child instanceof THREE.Mesh) {
-      const coneGeometry = new THREE.ConeGeometry(0.2, 1, 10)
-      const cylinderGeometry = new THREE.CylinderGeometry(0.1, 0.1, 2, 10)
+      const coneGeometry = new THREE.ConeGeometry(0.4, 1, 10)
+      const cylinderGeometry = new THREE.CylinderGeometry(0.15, 0.15, 2.3, 10)
 
       const meshMaterial = new THREE.MeshStandardMaterial({
-        color: "#ffffff",
-        emissive: "#ffffff",
+        color: "#000000",
+        emissive: "#000000",
       })
       const lineMaterial = new THREE.MeshStandardMaterial({
         color: "#ff0000",
@@ -70,6 +70,7 @@ const addArrow = (
       coneLine.position.setY(1)
 
       const cylinderMesh = new THREE.Mesh(cylinderGeometry, meshMaterial)
+      cylinderMesh.position.setY(-0.2)
 
       arrowGroup.add(coneMesh)
       arrowGroup.add(coneLine)
