@@ -44,129 +44,97 @@ const addArrow = (
   limit: Limit,
   multiplier: Multiplier
 ) => {
-  let countIndex = 0
+  let countIndex = 0;
   rotationGroup.children.forEach((child) => {
     if (child instanceof THREE.Mesh) {
       const coneGeometry = new THREE.ConeGeometry(0.2, 1, 10);
       const cylinderGeometry = new THREE.CylinderGeometry(0.1, 0.1, 2, 10);
       const material = new THREE.MeshBasicMaterial({ color: "#272222" });
 
+      const arrowGroup = new THREE.Group();
+      const coneMesh = new THREE.Mesh(coneGeometry, material);
+      coneMesh.position.setY(1);
+      const cylinderMesh = new THREE.Mesh(cylinderGeometry, material);
+      arrowGroup.add(coneMesh);
+      arrowGroup.add(cylinderMesh);
+
       const distanceFromSurface = 0.7;
 
-      const childPos = child.position.toArray()
-      console.log(childPos)
+      const childPos = child.position.toArray();
+      console.log(childPos);
 
-      const originAxis = ["x", "y", "z"]
+      const originAxis = ["x", "y", "z"];
 
-      const otherAxis = originAxis.filter(
-        (axis) => axis !== rotateAxis
-      ) as ("x" | "y" | "z")[];
+      const otherAxis = originAxis.filter((axis) => axis !== rotateAxis) as (
+        | "x"
+        | "y"
+        | "z"
+      )[];
 
-      // postion[x,y,z]の中で、1が2個、0が1個の場合
-      
-      // if ((childPos.filter(pos => pos===1).length == 2) && childPos.filter(pos => pos===0).length == 1) {
-      if ((childPos.filter(pos => pos===1).length == 1) &&(childPos.filter(pos => Math.abs(pos)===1).length == 2) && childPos.filter(pos => pos===0).length == 1) {
-
-        console.log(childPos)
-
-        const cylinderMesh = new THREE.Mesh(cylinderGeometry, material);
-
-        cylinderMesh.position.set(0, 0, 0);
-        cylinderMesh.rotation.set(
-          child.rotation.x,
-          child.rotation.y,
-          child.rotation.z
-        );
-
-        if (otherAxis[countIndex] === "x") {
-          cylinderMesh.position.setX(distanceFromSurface);
-          console.log("x")
-        }
-        if (otherAxis[countIndex] === "y") {
-          cylinderMesh.position.setY(distanceFromSurface);
-          console.log("y")
-        }
-        if (otherAxis[countIndex] === "z") {
-          cylinderMesh.position.setZ(distanceFromSurface);
-          console.log("z")
-        }
-
-        const targetParallelAxis = originAxis[childPos.indexOf(0)]
-        if(targetParallelAxis == "x"){
-          cylinderMesh.rotation.z = Math.PI / 2
-        }
-        // if(targetParallelAxis == "y"){
-        //   cylinderMesh.rotation.z = Math.PI / 2
-        // }
-        if(targetParallelAxis == "z"){
-          cylinderMesh.rotation.x = Math.PI / 2
-        }
-
-        cylinderMesh.scale.set(0.9, 0.9, 0.9);
-        child.add(cylinderMesh);
-        countIndex += 1
+      // 矢印をつける対象のCubeの場合、isTargetAddArrow = true
+      let isTargetAddArrow;
+      if (Math.sign(limit) == 1) {
+        isTargetAddArrow =
+          childPos.filter((pos) => pos === 1).length == 2 &&
+          childPos.filter((pos) => pos === 0).length == 1;
+      } else {
+        isTargetAddArrow =
+          childPos.filter((pos) => pos === 1).length == 1 &&
+          childPos.filter((pos) => pos === -1).length == 1 &&
+          childPos.filter((pos) => pos === 0).length == 1;
       }
 
-      // // console.log(child.position);
-      // otherAxis.map((axis: "x" | "y" | "z", index) => {
-      //   if (
-      //     child.position[otherAxis[index]] === 1 &&
-      //     child.position[otherAxis[1 - index]] === 0
-      //   ) {
-      //     // console.log(otherAxis[index], otherAxis[1 - index]);
-      //     const coneMesh = new THREE.Mesh(coneGeometry, material);
-      //     const cylinderMesh = new THREE.Mesh(cylinderGeometry, material);
+      if (isTargetAddArrow) {
+        if (otherAxis[countIndex] === "x") {
+          arrowGroup.position.setX(distanceFromSurface);
+          // console.log("pos x");
+        }
+        if (otherAxis[countIndex] === "y") {
+          arrowGroup.position.setY(distanceFromSurface);
+          // console.log("pos y");
+        }
+        if (otherAxis[countIndex] === "z") {
+          arrowGroup.position.setZ(distanceFromSurface);
+          // console.log("pos z");
+        }
 
-      //     coneMesh.position.set(0, 0, 0);
-      //     coneMesh.rotation.set(
-      //       child.rotation.x,
-      //       child.rotation.y,
-      //       child.rotation.z
-      //     );
-      //     cylinderMesh.position.set(0, 0, 0);
-      //     cylinderMesh.rotation.set(
-      //       child.rotation.x,
-      //       child.rotation.y,
-      //       child.rotation.z
-      //     );
+        if (rotateAxis === "z") {
+          if (multiplier === -1) {
+            arrowGroup.rotation.x = Math.PI;
+          }
+          if (originAxis[childPos.indexOf(0)] == "x") {
+            arrowGroup.rotation.z += (multiplier * Math.PI) / 2;
+          }
+        }
 
-      //     if (otherAxis[index] === "x") {
-      //       coneMesh.position.setX(distanceFromSurface);
-      //       coneMesh.rotation.x =
-      //         child.rotation.x + Math.PI / 2 - (multiplier * Math.PI) / 2;
-      //       cylinderMesh.position.setX(distanceFromSurface);
-      //     }
-      //     if (otherAxis[index] === "y") {
-      //       coneMesh.position.setY(distanceFromSurface);
-      //       coneMesh.rotation.y =
-      //         child.rotation.y + Math.PI / 2 - (multiplier * Math.PI) / 2;
-      //       cylinderMesh.position.setY(distanceFromSurface);
-      //     }
-      //     if (otherAxis[index] === "z") {
-      //       coneMesh.position.setZ(distanceFromSurface);
-      //       coneMesh.rotation.z =
-      //         child.rotation.z + Math.PI / 2 - (multiplier * Math.PI) / 2;
-      //       cylinderMesh.position.setZ(distanceFromSurface);
-      //     }
+        if (rotateAxis === "x") {
+          if (multiplier === 1) {
+            arrowGroup.rotation.x = Math.PI;
+          }
+          if (originAxis[childPos.indexOf(0)] == "z") {
+            arrowGroup.rotation.x += Math.PI / 2;
+            console.log("rotate x");
+          }
+        }
 
-      //     if (otherAxis[1 - index] === "x") {
-      //       coneMesh.position.setX(1 * multiplier);
-      //     }
-      //     if (otherAxis[1 - index] === "y") {
-      //       coneMesh.position.setY(1 * multiplier);
-      //     }
-      //     if (otherAxis[1 - index] === "z") {
-      //       coneMesh.position.setZ(1 * multiplier);
-      //     }
+        if (rotateAxis === "y") {
+          if (multiplier === 1) {
+            arrowGroup.rotation.x = Math.PI;
+          }
+          if (originAxis[childPos.indexOf(0)] == "x") {
+            arrowGroup.rotation.z -= (multiplier * Math.PI) / 2;
+            console.log("rotate z");
+          }
+          if (originAxis[childPos.indexOf(0)] == "z") {
+            arrowGroup.rotation.x += Math.PI / 2;
+            console.log("rotate x");
+          }
+        }
 
-      //     coneMesh.scale.set(0.9, 0.9, 0.9);
-      //     child.add(coneMesh);
-
-      //     cylinderMesh.scale.set(0.9, 0.9, 0.9);
-      //     child.add(cylinderMesh);
-      //   }
-      // });
-
+        arrowGroup.scale.set(0.9, 0.9, 0.9);
+        child.add(arrowGroup);
+        countIndex += 1;
+      }
     }
   });
 };
@@ -183,28 +151,6 @@ const rotate = (
   rotateGroup(rotationGroup, axis, multiplier);
   addArrow(rotationGroup, axis, limit, multiplier);
 };
-
-// const ArrowImage = ({
-//   position,
-//   rotation,
-//   scale,
-// }: {
-//   position: number[];
-//   rotation: number[];
-//   scale: number;
-// }) => {
-//   const texture = useTexture("arrow.png");
-//   return (
-//     <mesh
-//       position={new THREE.Vector3(position[0], position[1], position[2])}
-//       rotation={new THREE.Euler(rotation[0], rotation[1], rotation[2])}
-//       scale={scale}
-//     >
-//       <planeGeometry args={[36, 106]} />
-//       <meshBasicMaterial transparent map={texture} />
-//     </mesh>
-//   );
-// };
 
 const Cube = ({
   position,
@@ -232,19 +178,6 @@ const Cube = ({
           color={colorsDic[value]}
         />
       ))}
-      {/* {["x", "y", "z"]
-        .filter((axis) => axis !== ROTATE_DIRECTION[moveChar][0])
-        .map((axis) => {
-          const axisDic: { [key: string]: number } = { x: 0, y: 0, z: 0 };
-          axisDic[axis] = 0.5;
-          return (
-            <ArrowImage
-              position={Object.values(axisDic)}
-              rotation={[0, Math.PI / 2, 0]}
-              scale={0.01}
-            />
-          );
-        })} */}
     </mesh>
   );
 };
