@@ -1,4 +1,4 @@
-import { Grid, ImageList, ImageListItem, Typography } from "@mui/material"
+import { Grid, Typography } from "@mui/material"
 import { useContext, useEffect, useState } from "react"
 import { RunningStateContext } from "../../../pages/Index/presenter"
 import { RubicModel } from "../../rubicModel/RubicModel/container"
