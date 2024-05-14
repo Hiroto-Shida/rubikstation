@@ -44,6 +44,7 @@ const addArrow = (
   limit: Limit,
   multiplier: Multiplier
 ) => {
+  let countIndex = 0
   rotationGroup.children.forEach((child) => {
     if (child instanceof THREE.Mesh) {
       const coneGeometry = new THREE.ConeGeometry(0.2, 1, 10);
@@ -52,113 +53,120 @@ const addArrow = (
 
       const distanceFromSurface = 0.7;
 
-      const otherAxis = ["x", "y", "z"].filter(
+      const childPos = child.position.toArray()
+      console.log(childPos)
+
+      const originAxis = ["x", "y", "z"]
+
+      const otherAxis = originAxis.filter(
         (axis) => axis !== rotateAxis
       ) as ("x" | "y" | "z")[];
 
-      // console.log(child.position);
-      otherAxis.map((axis: "x" | "y" | "z", index) => {
-        if (
-          child.position[otherAxis[index]] === 1 &&
-          child.position[otherAxis[1 - index]] === 0
-        ) {
-          // console.log(otherAxis[index], otherAxis[1 - index]);
-          const coneMesh = new THREE.Mesh(coneGeometry, material);
-          const cylinderMesh = new THREE.Mesh(cylinderGeometry, material);
+      // postion[x,y,z]の中で、1が2個、0が1個の場合
+      
+      // if ((childPos.filter(pos => pos===1).length == 2) && childPos.filter(pos => pos===0).length == 1) {
+      if ((childPos.filter(pos => pos===1).length == 1) &&(childPos.filter(pos => Math.abs(pos)===1).length == 2) && childPos.filter(pos => pos===0).length == 1) {
 
-          coneMesh.position.set(0, 0, 0);
-          coneMesh.rotation.set(
-            child.rotation.x,
-            child.rotation.y,
-            child.rotation.z
-          );
-          cylinderMesh.position.set(0, 0, 0);
-          cylinderMesh.rotation.set(
-            child.rotation.x,
-            child.rotation.y,
-            child.rotation.z
-          );
+        console.log(childPos)
 
-          if (otherAxis[index] === "x") {
-            coneMesh.position.setX(distanceFromSurface);
-            coneMesh.rotation.x =
-              child.rotation.x + Math.PI / 2 - (multiplier * Math.PI) / 2;
-            cylinderMesh.position.setX(distanceFromSurface);
-          }
-          if (otherAxis[index] === "y") {
-            coneMesh.position.setY(distanceFromSurface);
-            coneMesh.rotation.y =
-              child.rotation.y + Math.PI / 2 - (multiplier * Math.PI) / 2;
-            cylinderMesh.position.setY(distanceFromSurface);
-          }
-          if (otherAxis[index] === "z") {
-            coneMesh.position.setZ(distanceFromSurface);
-            coneMesh.rotation.z =
-              child.rotation.z + Math.PI / 2 - (multiplier * Math.PI) / 2;
-            cylinderMesh.position.setZ(distanceFromSurface);
-          }
+        const cylinderMesh = new THREE.Mesh(cylinderGeometry, material);
 
-          if (otherAxis[1 - index] === "x") {
-            coneMesh.position.setX(1 * multiplier);
-          }
-          if (otherAxis[1 - index] === "y") {
-            coneMesh.position.setY(1 * multiplier);
-          }
-          if (otherAxis[1 - index] === "z") {
-            coneMesh.position.setZ(1 * multiplier);
-          }
+        cylinderMesh.position.set(0, 0, 0);
+        cylinderMesh.rotation.set(
+          child.rotation.x,
+          child.rotation.y,
+          child.rotation.z
+        );
 
-          coneMesh.scale.set(0.9, 0.9, 0.9);
-          child.add(coneMesh);
-
-          cylinderMesh.scale.set(0.9, 0.9, 0.9);
-          child.add(cylinderMesh);
+        if (otherAxis[countIndex] === "x") {
+          cylinderMesh.position.setX(distanceFromSurface);
+          console.log("x")
         }
-      });
+        if (otherAxis[countIndex] === "y") {
+          cylinderMesh.position.setY(distanceFromSurface);
+          console.log("y")
+        }
+        if (otherAxis[countIndex] === "z") {
+          cylinderMesh.position.setZ(distanceFromSurface);
+          console.log("z")
+        }
 
-      // if (child.position.x === 1 && child.position.y === 0) {
-      //   const coneMesh = new THREE.Mesh(coneGeometry, material);
-      //   coneMesh.position.set(0.7, 1 * multiplier, 0);
-      //   coneMesh.rotation.set(
-      //     child.rotation.x + Math.PI / 2 - (multiplier * Math.PI) / 2,
-      //     child.rotation.y,
-      //     child.rotation.z
-      //   );
-      //   coneMesh.scale.set(0.9, 0.9, 0.9);
-      //   child.add(coneMesh);
+        const targetParallelAxis = originAxis[childPos.indexOf(0)]
+        if(targetParallelAxis == "x"){
+          cylinderMesh.rotation.z = Math.PI / 2
+        }
+        // if(targetParallelAxis == "y"){
+        //   cylinderMesh.rotation.z = Math.PI / 2
+        // }
+        if(targetParallelAxis == "z"){
+          cylinderMesh.rotation.x = Math.PI / 2
+        }
 
-      //   const cylinderMesh = new THREE.Mesh(cylinderGeometry, material);
-      //   cylinderMesh.position.set(0.7, 0, 0);
-      //   cylinderMesh.rotation.set(
-      //     child.rotation.x,
-      //     child.rotation.y,
-      //     child.rotation.z
-      //   );
-      //   cylinderMesh.scale.set(0.9, 0.9, 0.9);
-      //   child.add(cylinderMesh);
-      // }
+        cylinderMesh.scale.set(0.9, 0.9, 0.9);
+        child.add(cylinderMesh);
+        countIndex += 1
+      }
 
-      // if (child.position.y === 1 && child.position.x === 0) {
-      //   const coneMesh = new THREE.Mesh(coneGeometry, material);
-      //   coneMesh.position.set(-1 * multiplier, 0.7, 0);
-      //   coneMesh.rotation.set(
-      //     child.rotation.x,
-      //     child.rotation.y + Math.PI / 2 - (multiplier * Math.PI) / 2,
-      //     child.rotation.z + Math.PI / 2
-      //   );
-      //   coneMesh.scale.set(0.9, 0.9, 0.9);
-      //   child.add(coneMesh);
+      // // console.log(child.position);
+      // otherAxis.map((axis: "x" | "y" | "z", index) => {
+      //   if (
+      //     child.position[otherAxis[index]] === 1 &&
+      //     child.position[otherAxis[1 - index]] === 0
+      //   ) {
+      //     // console.log(otherAxis[index], otherAxis[1 - index]);
+      //     const coneMesh = new THREE.Mesh(coneGeometry, material);
+      //     const cylinderMesh = new THREE.Mesh(cylinderGeometry, material);
 
-      //   const cylinderMesh = new THREE.Mesh(cylinderGeometry, material);
-      //   cylinderMesh.position.set(0, 0.7, 0);
-      //   cylinderMesh.rotation.set(
-      //     child.rotation.x,
-      //     child.rotation.y,
-      //     child.rotation.z + Math.PI / 2
-      //   );
-      //   cylinderMesh.scale.set(0.9, 0.9, 0.9);
-      //   child.add(cylinderMesh);
-      // }
+      //     coneMesh.position.set(0, 0, 0);
+      //     coneMesh.rotation.set(
+      //       child.rotation.x,
+      //       child.rotation.y,
+      //       child.rotation.z
+      //     );
+      //     cylinderMesh.position.set(0, 0, 0);
+      //     cylinderMesh.rotation.set(
+      //       child.rotation.x,
+      //       child.rotation.y,
+      //       child.rotation.z
+      //     );
+
+      //     if (otherAxis[index] === "x") {
+      //       coneMesh.position.setX(distanceFromSurface);
+      //       coneMesh.rotation.x =
+      //         child.rotation.x + Math.PI / 2 - (multiplier * Math.PI) / 2;
+      //       cylinderMesh.position.setX(distanceFromSurface);
+      //     }
+      //     if (otherAxis[index] === "y") {
+      //       coneMesh.position.setY(distanceFromSurface);
+      //       coneMesh.rotation.y =
+      //         child.rotation.y + Math.PI / 2 - (multiplier * Math.PI) / 2;
+      //       cylinderMesh.position.setY(distanceFromSurface);
+      //     }
+      //     if (otherAxis[index] === "z") {
+      //       coneMesh.position.setZ(distanceFromSurface);
+      //       coneMesh.rotation.z =
+      //         child.rotation.z + Math.PI / 2 - (multiplier * Math.PI) / 2;
+      //       cylinderMesh.position.setZ(distanceFromSurface);
+      //     }
+
+      //     if (otherAxis[1 - index] === "x") {
+      //       coneMesh.position.setX(1 * multiplier);
+      //     }
+      //     if (otherAxis[1 - index] === "y") {
+      //       coneMesh.position.setY(1 * multiplier);
+      //     }
+      //     if (otherAxis[1 - index] === "z") {
+      //       coneMesh.position.setZ(1 * multiplier);
+      //     }
+
+      //     coneMesh.scale.set(0.9, 0.9, 0.9);
+      //     child.add(coneMesh);
+
+      //     cylinderMesh.scale.set(0.9, 0.9, 0.9);
+      //     child.add(cylinderMesh);
+      //   }
+      // });
+
     }
   });
 };
