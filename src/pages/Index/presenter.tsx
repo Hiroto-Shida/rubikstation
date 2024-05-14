@@ -1,6 +1,6 @@
-import { createContext, useEffect, useState } from "react";
-import { ScrambleText } from "../../components/scrambleText/ScrambleText/container";
-import { Timer } from "../../components/timer/Timer/container";
+import { createContext, useEffect, useState } from "react"
+import { ScrambleText } from "../../components/scrambleText/ScrambleText/container"
+import { Timer } from "../../components/timer/Timer/container"
 
 export type RunningState = {
   isStay: boolean
@@ -11,44 +11,40 @@ export type RunningState = {
 const initialRunningState: RunningState = {
   isStay: true,
   isStarted: false,
-  isPause: false
+  isPause: false,
 }
 
-export const RunningStateContext = createContext<RunningState>(initialRunningState)
+export const RunningStateContext =
+  createContext<RunningState>(initialRunningState)
 
 export const IndexPagePresenter = () => {
-  const [runningState, setRunningState] = useState<RunningState>(initialRunningState);
+  const [runningState, setRunningState] =
+    useState<RunningState>(initialRunningState)
 
   useEffect(() => {
     const handleKeyboard = (e: KeyboardEvent) => {
-
-      if (e.code === 'Space') {
+      if (e.code === "Space") {
         if (runningState.isStay) {
-          setRunningState({isStay: false, isStarted: true, isPause: false})
-          console.log("press start")
+          setRunningState({ isStay: false, isStarted: true, isPause: false })
           return
         }
         if (runningState.isStarted) {
-          console.log("press pause")
-          setRunningState({isStay: false, isStarted: false, isPause: true})
+          setRunningState({ isStay: false, isStarted: false, isPause: true })
           return
         }
         if (runningState.isPause) {
-            console.log("press stay")
-            setRunningState({isStay: true, isStarted: false, isPause: false})
-            return
-          }
+          setRunningState({ isStay: true, isStarted: false, isPause: false })
+          return
         }
-    };
+      }
+    }
 
-    document.addEventListener('keydown', handleKeyboard);
+    document.addEventListener("keydown", handleKeyboard)
 
     return () => {
-      document.removeEventListener('keydown', handleKeyboard);
-    };
-  }, [runningState]);
-
-  console.log("IndexPagePresenter rendering")
+      document.removeEventListener("keydown", handleKeyboard)
+    }
+  }, [runningState])
 
   return (
     <>
@@ -57,5 +53,5 @@ export const IndexPagePresenter = () => {
         <ScrambleText />
       </RunningStateContext.Provider>
     </>
-  );
-};
+  )
+}
