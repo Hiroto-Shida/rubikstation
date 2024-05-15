@@ -62,12 +62,12 @@ export const LayoutPresenter = ({ children }: Props) => {
       <List>
         <ListSubheader>メイン</ListSubheader>
         <Divider />
-        <AppListItem to="/" primaryText="トップ" icon={<HomeIcon />} />
-        <AppListItem to="/rubic-model" primaryText="モデル" icon={<Apps />} />
+        <AppListItem to={"/"} primaryText="トップ" icon={<HomeIcon />} />
+        <AppListItem to={"/rubic-model"} primaryText="モデル" icon={<Apps />} />
         <ListSubheader>その他</ListSubheader>
         <Divider />
         <AppListItem
-          to="/xxx"
+          to={"/xxx"}
           primaryText="404テスト"
           icon={<BugReportIcon />}
         />
