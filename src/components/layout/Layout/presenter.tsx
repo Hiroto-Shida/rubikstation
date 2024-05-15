@@ -45,7 +45,16 @@ export const LayoutPresenter = ({ children }: Props) => {
     icon: ReactElement
   }) => (
     <>
-      <ListItem component={Link} to={to} disablePadding>
+      <ListItem
+        component={Link}
+        to={to}
+        disablePadding
+        onClick={() =>
+          console.log(
+            `VITE_BASE_URL = ${import.meta.env.VITE_BASE_URL} in layout`
+          )
+        }
+      >
         <ListItemButton>
           <ListItemIcon>{icon}</ListItemIcon>
           <ListItemText primary={primaryText} />
@@ -62,12 +71,20 @@ export const LayoutPresenter = ({ children }: Props) => {
       <List>
         <ListSubheader>メイン</ListSubheader>
         <Divider />
-        <AppListItem to={`/`} primaryText="トップ" icon={<HomeIcon />} />
-        <AppListItem to={`/rubic-model`} primaryText="モデル" icon={<Apps />} />
+        <AppListItem
+          to={`${import.meta.env.VITE_BASE_URL}`}
+          primaryText="トップ"
+          icon={<HomeIcon />}
+        />
+        <AppListItem
+          to={`${import.meta.env.VITE_BASE_URL}/rubic-model`}
+          primaryText="モデル - 1"
+          icon={<Apps />}
+        />
         <ListSubheader>その他</ListSubheader>
         <Divider />
         <AppListItem
-          to={`/xxx`}
+          to={`${import.meta.env.VITE_BASE_URL}/xxx`}
           primaryText="404テスト"
           icon={<BugReportIcon />}
         />
