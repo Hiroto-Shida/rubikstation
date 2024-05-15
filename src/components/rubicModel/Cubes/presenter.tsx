@@ -126,7 +126,7 @@ const addArrow = (
             arrowGroup.rotation.x = Math.PI
           }
           if (originAxis[childPos.indexOf(0)] == "z") {
-            arrowGroup.rotation.x += Math.PI / 2
+            arrowGroup.rotation.x -= Math.PI / 2
           }
         }
 
