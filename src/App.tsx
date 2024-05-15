@@ -9,15 +9,9 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path={import.meta.env.VITE_BASE_URL} element={<IndexPage />} />
-        <Route
-          path={`${import.meta.env.VITE_BASE_URL}/rubic-model`}
-          element={<RubicModelPage />}
-        />
-        <Route
-          path={`${import.meta.env.VITE_BASE_URL}/*`}
-          element={<NotFoundPage />}
-        />
+        <Route path={"/"} element={<IndexPage />} />
+        <Route path={`/rubic-model/`} element={<RubicModelPage />} />
+        <Route path={`/*`} element={<NotFoundPage />} />
       </Routes>
     </div>
   );
