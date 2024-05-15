@@ -1,8 +1,8 @@
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { StrictMode } from "react";
-import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
-import App from "./App";
+import { createTheme, ThemeProvider } from "@mui/material/styles"
+import { StrictMode } from "react"
+import ReactDOM from "react-dom/client"
+import { BrowserRouter } from "react-router-dom"
+import App from "./App"
 // import "./index.scss";
 
 const theme = createTheme({
@@ -20,15 +20,15 @@ const theme = createTheme({
       contrastText: "#000",
     },
   },
-});
+})
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ThemeProvider theme={theme}>
-      <BrowserRouter>
+      <BrowserRouter basename={`${import.meta.env.VITE_BASE_URL}`}>
         <App />
       </BrowserRouter>
     </ThemeProvider>
   </StrictMode>
-);
+)
