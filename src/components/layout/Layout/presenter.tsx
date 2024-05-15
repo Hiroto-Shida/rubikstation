@@ -78,7 +78,7 @@ export const LayoutPresenter = ({ children }: Props) => {
         />
         <AppListItem
           to={`${import.meta.env.VITE_BASE_URL}/rubic-model`}
-          primaryText="モデル - 1"
+          primaryText="モデル - 2"
           icon={<Apps />}
         />
         <ListSubheader>その他</ListSubheader>
