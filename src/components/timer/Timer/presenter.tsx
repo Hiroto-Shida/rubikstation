@@ -4,7 +4,7 @@ import { RunningStateContext } from "../../../pages/Index/presenter";
 
 export const TimerPresenter = () => {
   const [time, setTime] = useState<number>(0);
-  const intervalRef = useRef(0);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const runningState = useContext(RunningStateContext);
 
@@ -15,11 +15,11 @@ export const TimerPresenter = () => {
   }
 
   function handlePause() {
-    clearInterval(intervalRef.current);
+    intervalRef.current && clearInterval(intervalRef.current);
   }
 
   function handleReset() {
-    clearInterval(intervalRef.current);
+    intervalRef.current && clearInterval(intervalRef.current);
     setTime(0);
   }
 
