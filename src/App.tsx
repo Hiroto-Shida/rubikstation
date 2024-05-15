@@ -5,7 +5,7 @@ import { NotFoundPage } from "./pages/NotFound/container";
 import { RubicModelPage } from "./pages/RubicModel/container";
 
 function App() {
-  console.log(import.meta.env.VITE_BASE_URL);
+  console.log(`VITE_BASE_URL = ${import.meta.env.VITE_BASE_URL}`);
   return (
     <div className="App">
       <Routes>
