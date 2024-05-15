@@ -1,6 +1,6 @@
 # ルービックキューブタイマー
 
-https://hiroto-shida.github.io/
+https://hiroto-shida.github.io/rubic-timer/
 
 ## 機能
 
