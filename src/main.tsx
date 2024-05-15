@@ -26,7 +26,7 @@ const theme = createTheme({
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ThemeProvider theme={theme}>
-      <BrowserRouter basename={import.meta.env.VITE_BASE_URL}>
+      <BrowserRouter>
         <App />
       </BrowserRouter>
     </ThemeProvider>

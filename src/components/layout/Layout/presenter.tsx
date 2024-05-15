@@ -1,7 +1,7 @@
-import BugReportIcon from "@mui/icons-material/BugReport"
-import HomeIcon from "@mui/icons-material/Home"
-import Apps from "@mui/icons-material/Apps"
-import MenuIcon from "@mui/icons-material/Menu"
+import BugReportIcon from "@mui/icons-material/BugReport";
+import HomeIcon from "@mui/icons-material/Home";
+import Apps from "@mui/icons-material/Apps";
+import MenuIcon from "@mui/icons-material/Menu";
 
 import {
   AppBar,
@@ -18,31 +18,31 @@ import {
   ListSubheader,
   Toolbar,
   Typography,
-} from "@mui/material"
-import { ReactElement, ReactNode, useState } from "react"
-import { Link } from "react-router-dom"
+} from "@mui/material";
+import { ReactElement, ReactNode, useState } from "react";
+import { Link } from "react-router-dom";
 
 type Props = {
-  children: ReactNode
-}
+  children: ReactNode;
+};
 
-const drawerWidth = 240
+const drawerWidth = 240;
 
 export const LayoutPresenter = ({ children }: Props) => {
-  const [mobileOpen, setMobileOpen] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen)
-  }
+    setMobileOpen(!mobileOpen);
+  };
 
   const AppListItem = ({
     to,
     primaryText,
     icon,
   }: {
-    to: string
-    primaryText: string
-    icon: ReactElement
+    to: string;
+    primaryText: string;
+    icon: ReactElement;
   }) => (
     <>
       <ListItem component={Link} to={to} disablePadding>
@@ -53,7 +53,7 @@ export const LayoutPresenter = ({ children }: Props) => {
       </ListItem>
       <Divider />
     </>
-  )
+  );
 
   const drawer = (
     <Box component="div">
@@ -62,18 +62,26 @@ export const LayoutPresenter = ({ children }: Props) => {
       <List>
         <ListSubheader>メイン</ListSubheader>
         <Divider />
-        <AppListItem to="/" primaryText="トップ" icon={<HomeIcon />} />
-        <AppListItem to="/rubic-model" primaryText="モデル" icon={<Apps />} />
+        <AppListItem
+          to={`${import.meta.env.VITE_BASE_URL}`}
+          primaryText="トップ"
+          icon={<HomeIcon />}
+        />
+        <AppListItem
+          to={`${import.meta.env.VITE_BASE_URL}/rubic-model`}
+          primaryText="モデル"
+          icon={<Apps />}
+        />
         <ListSubheader>その他</ListSubheader>
         <Divider />
         <AppListItem
-          to="/xxx"
+          to={`${import.meta.env.VITE_BASE_URL}/xxx`}
           primaryText="404テスト"
           icon={<BugReportIcon />}
         />
       </List>
     </Box>
-  )
+  );
 
   return (
     <Box component="div" style={{ display: "flex" }}>
@@ -150,5 +158,5 @@ export const LayoutPresenter = ({ children }: Props) => {
         <Box component="div">{children}</Box>
       </Box>
     </Box>
-  )
-}
+  );
+};
