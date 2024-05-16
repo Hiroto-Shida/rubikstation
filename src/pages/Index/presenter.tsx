@@ -1,6 +1,7 @@
-import { createContext, useEffect, useRef, useState } from "react"
+import { createContext, useEffect, useState } from "react"
 import { ScrambleText } from "../../components/scrambleText/ScrambleText/container"
 import { Timer } from "../../components/timer/Timer/container"
+import { useKeyEvent } from "../../hooks/useKeyEvent"
 
 export type RunningState = {
   isStay: boolean
@@ -21,60 +22,51 @@ export const IndexPagePresenter = () => {
   const [runningState, setRunningState] =
     useState<RunningState>(initialRunningState)
 
-  const keyPressedTime = useRef(0)
+  const { isKeyDownSpaceStart, isKeyUpSpaceHeldAndReleased } = useKeyEvent()
 
   useEffect(() => {
-    const handleKeyboard = (e: KeyboardEvent) => {
-      if (e.code === "Space") {
-        if (keyPressedTime.current === 0) {
-          keyPressedTime.current = performance.now()
-
-          if (runningState.isStarted) {
-            setRunningState({
-              isStay: false,
-              isStarted: false,
-              isPause: true,
-            })
-            return
-          }
-          if (runningState.isPause) {
-            setRunningState({
-              isStay: true,
-              isStarted: false,
-              isPause: false,
-            })
-            return
-          }
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (isKeyDownSpaceStart(e)) {
+        if (runningState.isStarted) {
+          setRunningState({
+            isStay: false,
+            isStarted: false,
+            isPause: true,
+          })
+          return
+        }
+        if (runningState.isPause) {
+          setRunningState({
+            isStay: true,
+            isStarted: false,
+            isPause: false,
+          })
+          return
         }
       }
     }
 
-    const handleKeyUpKeyboard = (e: KeyboardEvent) => {
-      if (e.code === "Space") {
-        // 一定時間のキー入力後、離した時にタイマースタート
-        if (
-          runningState.isStay &&
-          performance.now() - keyPressedTime.current > 500
-        ) {
+    const handleKeyUp = (e: KeyboardEvent) => {
+      if (isKeyUpSpaceHeldAndReleased(e)) {
+        if (runningState.isStay) {
           setRunningState({
             isStay: false,
             isStarted: true,
             isPause: false,
           })
         }
-        keyPressedTime.current = 0
         return
       }
     }
 
-    document.addEventListener("keydown", handleKeyboard)
-    document.addEventListener("keyup", handleKeyUpKeyboard)
+    document.addEventListener("keydown", handleKeyDown)
+    document.addEventListener("keyup", handleKeyUp)
 
     return () => {
-      document.removeEventListener("keydown", handleKeyboard)
-      document.removeEventListener("keyup", handleKeyUpKeyboard)
+      document.removeEventListener("keydown", handleKeyDown)
+      document.removeEventListener("keyup", handleKeyUp)
     }
-  }, [runningState])
+  }, [isKeyDownSpaceStart, isKeyUpSpaceHeldAndReleased, runningState])
 
   return (
     <>
