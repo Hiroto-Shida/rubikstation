@@ -12,7 +12,7 @@ export const TimerPresenter = ({ time }: Props) => {
   return (
     <>
       <Typography variant="h4">
-        {minutes}:{seconds}.{milliseconds}
+        {minutes}:{seconds}:{milliseconds}
       </Typography>
     </>
   )
