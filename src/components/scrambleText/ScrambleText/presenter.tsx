@@ -1,7 +1,7 @@
 import { Grid, Typography } from "@mui/material"
 import { useContext, useEffect, useState } from "react"
-import { RunningStateContext } from "../../../pages/Index/presenter"
 import { RubicModel } from "../../rubicModel/RubicModel/container"
+import { TimerStateContext } from "../../../providers/TimerStateProvider"
 
 // 記号のリストと、「'そのまま'、'2回転'、'逆回転'」のオプションリスト
 const MOVE_LIST: string[] = ["U", "F", "R", "D", "B", "L"]
@@ -48,17 +48,17 @@ const generateScrambleText = (): string[][] => {
 export const ScrambleTextPresenter = () => {
   const [multiTextList, setMultiTextList] = useState<string[][]>([[]])
 
-  const runningState = useContext(RunningStateContext)
+  const timerState = useContext(TimerStateContext)
 
   useEffect(() => {
-    if (runningState.isStay) {
+    if (timerState.isStay) {
       setMultiTextList(generateScrambleText())
     } else {
       setMultiTextList([[]])
     }
-  }, [runningState])
+  }, [timerState])
 
-  if (runningState.isStarted) {
+  if (timerState.isStarted) {
     return (
       <>
         <Typography variant="h4">Press Space</Typography>
@@ -66,11 +66,11 @@ export const ScrambleTextPresenter = () => {
     )
   }
 
-  if (runningState.isPause) {
+  if (timerState.isPause) {
     return <></>
   }
 
-  if (runningState.isStay) {
+  if (timerState.isStay) {
     return (
       <>
         {multiTextList[0].length ? (
