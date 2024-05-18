@@ -1,7 +1,7 @@
 import { CubesPresenter } from "./presenter";
 
 type Props = {
-  moveChar: string;
+  moveChar?: string;
 };
 
 export const Cubes = ({ moveChar }: Props) => {

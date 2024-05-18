@@ -1,11 +1,11 @@
-import { Grid, Typography } from "@mui/material"
-import { RubicModel } from "../../rubicModel/RubicModel/container"
-import { TimerState } from "../../../providers/TimerStateProvider"
+import { Grid, Typography } from "@mui/material";
+import { RubicModel } from "../../rubicModel/RubicModel/container";
+import { TimerState } from "../../../providers/TimerStateProvider";
 
 type Props = {
-  timerState: TimerState
-  multiTextList: string[][]
-}
+  timerState: TimerState;
+  multiTextList: string[][];
+};
 
 export const ScrambleTextPresenter = ({ timerState, multiTextList }: Props) => {
   if (timerState.isStarted) {
@@ -13,11 +13,11 @@ export const ScrambleTextPresenter = ({ timerState, multiTextList }: Props) => {
       <>
         <Typography variant="h4">Press Space</Typography>
       </>
-    )
+    );
   }
 
   if (timerState.isPause) {
-    return <></>
+    return <></>;
   }
 
   if (timerState.isStay) {
@@ -33,7 +33,12 @@ export const ScrambleTextPresenter = ({ timerState, multiTextList }: Props) => {
             <Grid container>
               {multiTextList.map((childList) =>
                 childList.map((moveName, index) => (
-                  <RubicModel key={index} moveChar={moveName} />
+                  <RubicModel
+                    key={index}
+                    moveChar={moveName}
+                    axis={false}
+                    cameraControls={false}
+                  />
                 ))
               )}
             </Grid>
@@ -42,6 +47,6 @@ export const ScrambleTextPresenter = ({ timerState, multiTextList }: Props) => {
           <Typography variant="h4">Press Space</Typography>
         )}
       </>
-    )
+    );
   }
-}
+};
