@@ -1,15 +1,14 @@
 import { ScrambleTextPresenter } from "./presenter";
-import { TimerState } from "../../../providers/TimerStateProvider";
 
 type Props = {
-  timerState: TimerState;
+  isDisplay: boolean;
   multiTextList: string[][];
 };
 
-export const ScrambleText = ({ timerState, multiTextList }: Props) => {
+export const ScrambleText = ({ isDisplay, multiTextList }: Props) => {
   return (
     <ScrambleTextPresenter
-      timerState={timerState}
+      isDisplay={isDisplay}
       multiTextList={multiTextList}
     />
   );

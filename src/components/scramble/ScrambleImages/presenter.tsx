@@ -1,40 +1,30 @@
 import { Grid } from "@mui/material";
 import { RubicModel } from "../../rubicModel/RubicModel/container";
-import { TimerState } from "../../../providers/TimerStateProvider";
 
 type Props = {
-  timerState: TimerState;
+  isDisplay: boolean;
   multiTextList: string[][];
 };
 
 export const ScrambleImagesPresenter = ({
-  timerState,
+  isDisplay,
   multiTextList,
 }: Props) => {
-  if (timerState.isStarted) {
-    return <></>;
-  }
-
-  if (timerState.isPause) {
-    return <></>;
-  }
-
-  if (timerState.isStay) {
-    return (
-      multiTextList[0].length && (
-        <Grid container>
-          {multiTextList.map((childList) =>
-            childList.map((moveName, index) => (
-              <RubicModel
-                key={index}
-                moveChar={moveName}
-                axis={false}
-                cameraControls={false}
-              />
-            ))
-          )}
-        </Grid>
-      )
-    );
-  }
+  return (
+    isDisplay &&
+    multiTextList[0].length && (
+      <Grid container>
+        {multiTextList.map((childList) =>
+          childList.map((moveName, index) => (
+            <RubicModel
+              key={index}
+              moveChar={moveName}
+              axis={false}
+              cameraControls={false}
+            />
+          ))
+        )}
+      </Grid>
+    )
+  );
 };

@@ -1,51 +1,21 @@
 import { Typography } from "@mui/material";
-import { TimerState } from "../../../providers/TimerStateProvider";
 
 type Props = {
-  timerState: TimerState;
+  isDisplay: boolean;
   multiTextList: string[][];
 };
 
-export const ScrambleTextPresenter = ({ timerState, multiTextList }: Props) => {
-  if (timerState.isStarted) {
-    return (
+export const ScrambleTextPresenter = ({ isDisplay, multiTextList }: Props) => {
+  return (
+    isDisplay &&
+    multiTextList[0].length && (
       <>
-        <Typography variant="h4">Press Space</Typography>
+        {multiTextList.map((childList, index) => (
+          <Typography variant="h4" key={index}>
+            {childList.join(" ")}
+          </Typography>
+        ))}
       </>
-    );
-  }
-
-  if (timerState.isPause) {
-    return <></>;
-  }
-
-  if (timerState.isStay) {
-    return (
-      <>
-        {multiTextList[0].length ? (
-          <>
-            {multiTextList.map((childList, index) => (
-              <Typography variant="h4" key={index}>
-                {childList.join(" ")}
-              </Typography>
-            ))}
-            {/* <Grid container>
-              {multiTextList.map((childList) =>
-                childList.map((moveName, index) => (
-                  <RubicModel
-                    key={index}
-                    moveChar={moveName}
-                    axis={false}
-                    cameraControls={false}
-                  />
-                ))
-              )}
-            </Grid> */}
-          </>
-        ) : (
-          <Typography variant="h4">Press Space</Typography>
-        )}
-      </>
-    );
-  }
+    )
+  );
 };

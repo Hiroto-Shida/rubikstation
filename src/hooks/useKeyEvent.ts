@@ -3,17 +3,9 @@ import { useRef } from "react";
 export const useKeyEvent = () => {
   const keyPressedTime = useRef(0);
 
-  // spaceキー押したか
-  const isKeyIsSpace = (e: KeyboardEvent) => {
-    if (e.code === "Space") {
-      return true;
-    }
-    return false;
-  };
-
   // spaceキーを押し始めたか
-  const isKeyDownSpaceStart = () => {
-    if (keyPressedTime.current === 0) {
+  const isKeyDownSpaceStart = (e: KeyboardEvent) => {
+    if (e.code === "Space" && keyPressedTime.current === 0) {
       keyPressedTime.current = performance.now();
       return true;
     }
@@ -21,16 +13,20 @@ export const useKeyEvent = () => {
   };
 
   // spaceキー入力中でかつ、spaceキーを一定時間おしてるかどうか
-  const isCanStartByKeyUpSpace = () => {
-    if (performance.now() - keyPressedTime.current > 500) {
+  const isCanStartByKeyUpSpace = (e: KeyboardEvent) => {
+    if (
+      e.code === "Space" &&
+      keyPressedTime.current !== 0 &&
+      performance.now() - keyPressedTime.current > 500
+    ) {
       return true;
     }
     return false;
   };
 
   // 一定時間のspaceキー入力があったかどうか
-  const isKeyUpSpaceHeldAndReleased = () => {
-    if (isCanStartByKeyUpSpace()) {
+  const isKeyUpSpaceHeldAndReleased = (e: KeyboardEvent) => {
+    if (isCanStartByKeyUpSpace(e)) {
       keyPressedTime.current = 0;
       return true;
     }
@@ -39,8 +35,8 @@ export const useKeyEvent = () => {
   };
 
   return {
-    isKeyIsSpace,
     isKeyDownSpaceStart,
+    isCanStartByKeyUpSpace,
     isKeyUpSpaceHeldAndReleased,
   } as const;
 };

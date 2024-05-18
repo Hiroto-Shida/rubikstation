@@ -50,12 +50,12 @@ export const Scramble = () => {
   const timerState = useContext(TimerStateContext);
 
   useEffect(() => {
-    if (timerState.isStay) {
+    if (!timerState.isStarted) {
       setMultiTextList(generateScrambleText());
     } else {
       setMultiTextList([[]]);
     }
-  }, [timerState.isStay]);
+  }, [timerState.isStarted]);
 
   return (
     <ScramblePresenter timerState={timerState} multiTextList={multiTextList} />

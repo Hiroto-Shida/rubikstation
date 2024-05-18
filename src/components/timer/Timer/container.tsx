@@ -25,15 +25,12 @@ export const Timer = () => {
 
   useEffect(() => {
     if (timerState.isStarted) {
-      handleStart();
-    }
-    if (timerState.isPause) {
-      handlePause();
-    }
-    if (timerState.isStay) {
       handleReset();
+      handleStart();
+      return;
     }
-  }, [timerState]);
+    handlePause();
+  }, [timerState.isStarted]);
 
   return (
     <TimerPresenter

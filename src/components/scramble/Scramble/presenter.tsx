@@ -8,10 +8,12 @@ type Props = {
 };
 
 export const ScramblePresenter = ({ timerState, multiTextList }: Props) => {
+  const isDisplay: boolean =
+    !timerState.isStarted && !timerState.startingState.isCanStart;
   return (
     <>
-      <ScrambleText timerState={timerState} multiTextList={multiTextList} />
-      <ScrambleImages timerState={timerState} multiTextList={multiTextList} />
+      <ScrambleText isDisplay={isDisplay} multiTextList={multiTextList} />
+      <ScrambleImages isDisplay={isDisplay} multiTextList={multiTextList} />
     </>
   );
 };

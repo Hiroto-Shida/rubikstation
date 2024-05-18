@@ -14,7 +14,7 @@ export const TimerPresenter = ({ time, timerStateStartingState }: Props) => {
   return (
     <>
       <Typography
-        variant="h4"
+        variant="h2"
         color={
           timerStateStartingState.isKeyDownSpace
             ? timerStateStartingState.isCanStart
