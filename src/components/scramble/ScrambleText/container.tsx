@@ -2,14 +2,11 @@ import { ScrambleTextPresenter } from "./presenter";
 
 type Props = {
   isDisplay: boolean;
-  multiTextList: string[][];
+  scrambleList: string[];
 };
 
-export const ScrambleText = ({ isDisplay, multiTextList }: Props) => {
+export const ScrambleText = ({ isDisplay, scrambleList }: Props) => {
   return (
-    <ScrambleTextPresenter
-      isDisplay={isDisplay}
-      multiTextList={multiTextList}
-    />
+    <ScrambleTextPresenter isDisplay={isDisplay} scrambleList={scrambleList} />
   );
 };

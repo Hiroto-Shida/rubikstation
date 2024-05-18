@@ -11,13 +11,15 @@ export const RubicModelPresenter = ({
   moveChar,
   axis = true,
   cameraControls = true,
+  status,
   canvasStyle = { width: "150px", height: "150px" },
+  canvasCamera = { position: [3, 2.8, 3] },
 }: Props) => {
   const regexMoveChar = /.2/;
   return (
     <>
       <Canvas
-        camera={{ position: [3, 2.8, 3] }}
+        camera={canvasCamera}
         onCreated={({ gl }) => {
           gl.setClearColor(new THREE.Color("#bdbdbd"));
         }}
@@ -26,7 +28,7 @@ export const RubicModelPresenter = ({
       >
         <ambientLight intensity={1.5} />
         <pointLight position={[10, 10, 10]} />
-        <Cubes moveChar={moveChar} />
+        <Cubes moveChar={moveChar} status={status} />
 
         {moveChar && regexMoveChar.test(moveChar) && (
           <Html

@@ -3,27 +3,22 @@ import { RubicModel } from "../../rubicModel/RubicModel/container";
 
 type Props = {
   isDisplay: boolean;
-  multiTextList: string[][];
+  scrambleList: string[];
 };
 
-export const ScrambleImagesPresenter = ({
-  isDisplay,
-  multiTextList,
-}: Props) => {
+export const ScrambleImagesPresenter = ({ isDisplay, scrambleList }: Props) => {
   return (
     isDisplay &&
-    multiTextList[0].length && (
+    scrambleList.length && (
       <Grid container>
-        {multiTextList.map((childList) =>
-          childList.map((moveName, index) => (
-            <RubicModel
-              key={index}
-              moveChar={moveName}
-              axis={false}
-              cameraControls={false}
-            />
-          ))
-        )}
+        {scrambleList.map((moveChar, index) => (
+          <RubicModel
+            key={index}
+            moveChar={moveChar}
+            axis={false}
+            cameraControls={false}
+          />
+        ))}
       </Grid>
     )
   );

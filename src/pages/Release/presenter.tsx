@@ -38,6 +38,7 @@ export const ReleasePagePresenter = () => {
           タイマーがスタートするとき(スペースキーを押した時)の挙動を変更
         </StyledListItemText>
         <StyledListItemText>リリース情報ページを追加</StyledListItemText>
+        <StyledListItemText>6面までの簡単手順ページを追加</StyledListItemText>
       </List>
 
       <StyledVersionTitle>[1.0.3] - 2024-05-16</StyledVersionTitle>

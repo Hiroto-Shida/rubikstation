@@ -6,9 +6,10 @@ import { useRotateCube } from "../../../hooks/useRotateCube";
 
 type Props = {
   moveChar?: string;
+  status?: string;
 };
 
-export const Cubes = ({ moveChar }: Props) => {
+export const Cubes = ({ moveChar, status }: Props) => {
   const { rotate } = useRotateCube();
 
   const cubeGroupRef = useRef<THREE.Group>(null!);
@@ -36,6 +37,7 @@ export const Cubes = ({ moveChar }: Props) => {
     <CubesPresenter
       cubeGroupRef={cubeGroupRef}
       rotationGroupRef={rotationGroupRef}
+      status={status}
     />
   );
 };
