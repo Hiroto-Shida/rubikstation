@@ -1,7 +1,7 @@
-import BugReportIcon from "@mui/icons-material/BugReport"
-import HomeIcon from "@mui/icons-material/Home"
-import Apps from "@mui/icons-material/Apps"
-import MenuIcon from "@mui/icons-material/Menu"
+import HomeIcon from "@mui/icons-material/Home";
+import Apps from "@mui/icons-material/Apps";
+import NewReleasesIcon from "@mui/icons-material/NewReleases";
+import MenuIcon from "@mui/icons-material/Menu";
 
 import {
   AppBar,
@@ -18,31 +18,31 @@ import {
   ListSubheader,
   Toolbar,
   Typography,
-} from "@mui/material"
-import { ReactElement, ReactNode, useState } from "react"
-import { Link } from "react-router-dom"
+} from "@mui/material";
+import { ReactElement, ReactNode, useState } from "react";
+import { Link } from "react-router-dom";
 
 type Props = {
-  children: ReactNode
-}
+  children: ReactNode;
+};
 
-const drawerWidth = 240
+const drawerWidth = 240;
 
 export const LayoutPresenter = ({ children }: Props) => {
-  const [mobileOpen, setMobileOpen] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen)
-  }
+    setMobileOpen(!mobileOpen);
+  };
 
   const AppListItem = ({
     to,
     primaryText,
     icon,
   }: {
-    to: string
-    primaryText: string
-    icon: ReactElement
+    to: string;
+    primaryText: string;
+    icon: ReactElement;
   }) => (
     <>
       <ListItem component={Link} to={to} disablePadding>
@@ -53,7 +53,7 @@ export const LayoutPresenter = ({ children }: Props) => {
       </ListItem>
       <Divider />
     </>
-  )
+  );
 
   const drawer = (
     <Box component="div">
@@ -67,13 +67,13 @@ export const LayoutPresenter = ({ children }: Props) => {
         <ListSubheader>その他</ListSubheader>
         <Divider />
         <AppListItem
-          to={"/xxx"}
-          primaryText="404テスト"
-          icon={<BugReportIcon />}
+          to={"/release"}
+          primaryText="リリース情報"
+          icon={<NewReleasesIcon />}
         />
       </List>
     </Box>
-  )
+  );
 
   return (
     <Box component="div" style={{ display: "flex" }}>
@@ -150,5 +150,5 @@ export const LayoutPresenter = ({ children }: Props) => {
         <Box component="div">{children}</Box>
       </Box>
     </Box>
-  )
-}
+  );
+};
