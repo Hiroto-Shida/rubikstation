@@ -1,9 +1,41 @@
+import * as THREE from "three";
 import { CubesPresenter } from "./presenter";
+import { ROTATE_DIRECTION } from "../rotateDirection";
+import { useEffect, useRef } from "react";
+import { useRotateCube } from "../../../hooks/useRotateCube";
 
 type Props = {
-  moveChar: string;
+  moveChar?: string;
 };
 
 export const Cubes = ({ moveChar }: Props) => {
-  return <CubesPresenter moveChar={moveChar} />;
+  const { rotate } = useRotateCube();
+
+  const cubeGroupRef = useRef<THREE.Group>(null!);
+  const rotationGroupRef = useRef<THREE.Group>(null!);
+
+  useEffect(() => {
+    if (cubeGroupRef.current && rotationGroupRef.current && moveChar) {
+      const regexMoveChar = /2/;
+      const removedTwoMoveChar = moveChar.replace(regexMoveChar, "");
+      if (ROTATE_DIRECTION[removedTwoMoveChar]) {
+        rotate(
+          cubeGroupRef.current,
+          rotationGroupRef.current,
+          ROTATE_DIRECTION[removedTwoMoveChar][0],
+          ROTATE_DIRECTION[removedTwoMoveChar][1],
+          ROTATE_DIRECTION[removedTwoMoveChar][2]
+        );
+      } else {
+        console.log(`回転記号 ${moveChar} は存在しません`);
+      }
+    }
+  }, [moveChar, rotate]);
+
+  return (
+    <CubesPresenter
+      cubeGroupRef={cubeGroupRef}
+      rotationGroupRef={rotationGroupRef}
+    />
+  );
 };

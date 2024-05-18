@@ -1,29 +1,34 @@
-import { Canvas } from "@react-three/fiber"
-import { CameraControls, Html } from "@react-three/drei"
-import * as THREE from "three"
-import { Cubes } from "../Cubes/container"
+import { Canvas } from "@react-three/fiber";
+import { CameraControls, Html } from "@react-three/drei";
+import * as THREE from "three";
+import { Cubes } from "../Cubes/container";
+import { ComponentProps } from "react";
+import { RubicModel } from "./container";
 
-type Props = {
-  moveChar: string
-}
+type Props = ComponentProps<typeof RubicModel>;
 
-export const RubicModelPresenter = ({ moveChar }: Props) => {
-  const regexMoveChar = /.2/
+export const RubicModelPresenter = ({
+  moveChar,
+  axis = true,
+  cameraControls = true,
+  canvasStyle = { width: "150px", height: "150px" },
+}: Props) => {
+  const regexMoveChar = /.2/;
   return (
     <>
       <Canvas
         camera={{ position: [3, 2.8, 3] }}
         onCreated={({ gl }) => {
-          gl.setClearColor(new THREE.Color("#bdbdbd"))
+          gl.setClearColor(new THREE.Color("#bdbdbd"));
         }}
         gl={{ antialias: true }}
-        style={{ width: "150px", height: "150px" }}
+        style={canvasStyle}
       >
         <ambientLight intensity={1.5} />
         <pointLight position={[10, 10, 10]} />
         <Cubes moveChar={moveChar} />
 
-        {regexMoveChar.test(moveChar) && (
+        {moveChar && regexMoveChar.test(moveChar) && (
           <Html
             as="div"
             position={[2, 2.7, 2]}
@@ -38,10 +43,10 @@ export const RubicModelPresenter = ({ moveChar }: Props) => {
           </Html>
         )}
 
-        <CameraControls />
+        {cameraControls && <CameraControls />}
         {/* X:red, Y:green, Z:blue. args:長さ */}
-        {/* <axesHelper args={[5]} /> */}
+        {axis && <axesHelper args={[5]} />}
       </Canvas>
     </>
-  )
-}
+  );
+};
