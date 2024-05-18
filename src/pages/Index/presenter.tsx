@@ -1,11 +1,11 @@
-import { ScrambleText } from "../../components/scrambleText/ScrambleText/container"
-import { Timer } from "../../components/timer/Timer/container"
+import { Scramble } from "../../components/scramble/Scramble/container";
+import { Timer } from "../../components/timer/Timer/container";
 
 export const IndexPagePresenter = () => {
   return (
     <>
       <Timer />
-      <ScrambleText />
+      <Scramble />
     </>
-  )
-}
+  );
+};

@@ -1,5 +1,4 @@
-import { Grid, Typography } from "@mui/material";
-import { RubicModel } from "../../rubicModel/RubicModel/container";
+import { Typography } from "@mui/material";
 import { TimerState } from "../../../providers/TimerStateProvider";
 
 type Props = {
@@ -30,7 +29,7 @@ export const ScrambleTextPresenter = ({ timerState, multiTextList }: Props) => {
                 {childList.join(" ")}
               </Typography>
             ))}
-            <Grid container>
+            {/* <Grid container>
               {multiTextList.map((childList) =>
                 childList.map((moveName, index) => (
                   <RubicModel
@@ -41,7 +40,7 @@ export const ScrambleTextPresenter = ({ timerState, multiTextList }: Props) => {
                   />
                 ))
               )}
-            </Grid>
+            </Grid> */}
           </>
         ) : (
           <Typography variant="h4">Press Space</Typography>
