@@ -1,39 +1,43 @@
-import { useContext, useEffect, useRef, useState } from "react"
-import { TimerPresenter } from "./presenter"
-import { TimerStateContext } from "../../../providers/TimerStateProvider"
+import { useContext, useEffect, useRef, useState } from "react";
+import { TimerPresenter } from "./presenter";
+import { TimerStateContext } from "../../../providers/TimerStateProvider";
 
 export const Timer = () => {
-  const [time, setTime] = useState<number>(0)
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const [time, setTime] = useState<number>(0);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const timerState = useContext(TimerStateContext)
+  const timerState = useContext(TimerStateContext);
 
   function handleStart() {
     intervalRef.current = setInterval(() => {
-      setTime((prevTime) => prevTime + 10)
-    }, 10)
+      setTime((prevTime) => prevTime + 10);
+    }, 10);
   }
 
   function handlePause() {
-    intervalRef.current && clearInterval(intervalRef.current)
+    intervalRef.current && clearInterval(intervalRef.current);
   }
 
   function handleReset() {
-    intervalRef.current && clearInterval(intervalRef.current)
-    setTime(0)
+    intervalRef.current && clearInterval(intervalRef.current);
+    setTime(0);
   }
 
   useEffect(() => {
+    if (timerState.startingState.isCanStart) {
+      handleReset();
+    }
     if (timerState.isStarted) {
-      handleStart()
+      handleStart();
+      return;
     }
-    if (timerState.isPause) {
-      handlePause()
-    }
-    if (timerState.isStay) {
-      handleReset()
-    }
-  }, [timerState])
+    handlePause();
+  }, [timerState.isStarted, timerState.startingState.isCanStart]);
 
-  return <TimerPresenter time={time} />
-}
+  return (
+    <TimerPresenter
+      time={time}
+      timerStateStartingState={timerState.startingState}
+    />
+  );
+};
