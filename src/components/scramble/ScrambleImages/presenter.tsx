@@ -1,29 +1,28 @@
-import { Grid } from "@mui/material";
+import { Grid, Stack, Typography } from "@mui/material";
 import { RubicModel } from "../../rubicModel/RubicModel/container";
 
 type Props = {
   isDisplay: boolean;
-  multiTextList: string[][];
+  scrambleList: string[];
 };
 
-export const ScrambleImagesPresenter = ({
-  isDisplay,
-  multiTextList,
-}: Props) => {
+export const ScrambleImagesPresenter = ({ isDisplay, scrambleList }: Props) => {
   return (
     isDisplay &&
-    multiTextList[0].length && (
+    scrambleList.length && (
       <Grid container>
-        {multiTextList.map((childList) =>
-          childList.map((moveName, index) => (
+        {scrambleList.map((moveChar, index) => (
+          <Stack key={index}>
             <RubicModel
-              key={index}
-              moveChar={moveName}
+              moveChar={moveChar}
               axis={false}
               cameraControls={false}
             />
-          ))
-        )}
+            <Typography variant="h6" sx={{ mt: -0.5, mb: 1 }}>
+              {moveChar}
+            </Typography>
+          </Stack>
+        ))}
       </Grid>
     )
   );

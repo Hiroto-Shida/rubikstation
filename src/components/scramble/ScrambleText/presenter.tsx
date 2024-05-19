@@ -2,20 +2,14 @@ import { Typography } from "@mui/material";
 
 type Props = {
   isDisplay: boolean;
-  multiTextList: string[][];
+  scrambleList: string[];
 };
 
-export const ScrambleTextPresenter = ({ isDisplay, multiTextList }: Props) => {
+export const ScrambleTextPresenter = ({ isDisplay, scrambleList }: Props) => {
   return (
     isDisplay &&
-    multiTextList[0].length && (
-      <>
-        {multiTextList.map((childList, index) => (
-          <Typography variant="h4" key={index}>
-            {childList.join(" ")}
-          </Typography>
-        ))}
-      </>
+    scrambleList.length && (
+      <Typography variant="h4">{scrambleList.join(" ")}</Typography>
     )
   );
 };

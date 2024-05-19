@@ -11,7 +11,7 @@ const MIN_MOVE = 10;
 const MAX_MOVE = 14;
 
 // 横に表示する最大 文字and画像 数
-const ROW_MAX_LEGTH = 7;
+// const ROW_MAX_LEGTH = 7;
 
 // min 以上 max 以下 の範囲のランダム整数を取得
 const getRandomArbitrary = (min: number, max: number): number => {
@@ -24,7 +24,7 @@ const getRandomValueFromList = (targetList: string[]): string => {
 };
 
 // スクランブルの記号リスト(ROW_MAX_LEGTH区切りの2次元配列)
-const generateScrambleText = (): string[][] => {
+const generateScrambleText = (): string[] => {
   const scrambleSize = getRandomArbitrary(MIN_MOVE, MAX_MOVE);
   const textList: string[] = [];
 
@@ -37,27 +37,27 @@ const generateScrambleText = (): string[][] => {
     textList.push(originChar + optionChar);
   }
 
-  const tmpMultiTextList: string[][] = [];
-  for (let index = 0; index < textList.length; index = index + ROW_MAX_LEGTH) {
-    tmpMultiTextList.push(textList.slice(index, index + ROW_MAX_LEGTH));
-  }
-  return tmpMultiTextList;
+  // const tmpMultiTextList: string[][] = [];
+  // for (let index = 0; index < textList.length; index = index + ROW_MAX_LEGTH) {
+  //   tmpMultiTextList.push(textList.slice(index, index + ROW_MAX_LEGTH));
+  // }
+  return textList;
 };
 
 export const Scramble = () => {
-  const [multiTextList, setMultiTextList] = useState<string[][]>([[]]);
+  const [scrambleList, setScrambleList] = useState<string[]>([]);
 
   const timerState = useContext(TimerStateContext);
 
   useEffect(() => {
     if (!timerState.isStarted) {
-      setMultiTextList(generateScrambleText());
+      setScrambleList(generateScrambleText());
     } else {
-      setMultiTextList([[]]);
+      setScrambleList([]);
     }
   }, [timerState.isStarted]);
 
   return (
-    <ScramblePresenter timerState={timerState} multiTextList={multiTextList} />
+    <ScramblePresenter timerState={timerState} scrambleList={scrambleList} />
   );
 };

@@ -1,5 +1,6 @@
 import HomeIcon from "@mui/icons-material/Home";
 import Apps from "@mui/icons-material/Apps";
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import NewReleasesIcon from "@mui/icons-material/NewReleases";
 import MenuIcon from "@mui/icons-material/Menu";
 
@@ -64,6 +65,11 @@ export const LayoutPresenter = ({ children }: Props) => {
         <Divider />
         <AppListItem to={"/"} primaryText="トップ" icon={<HomeIcon />} />
         <AppListItem to={"/rubic-model"} primaryText="モデル" icon={<Apps />} />
+        <AppListItem
+          to={"/procedure"}
+          primaryText="6面までの手順"
+          icon={<AppRegistrationIcon />}
+        />
         <ListSubheader>その他</ListSubheader>
         <Divider />
         <AppListItem

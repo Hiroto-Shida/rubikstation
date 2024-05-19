@@ -2,14 +2,14 @@ import { ScrambleImagesPresenter } from "./presenter";
 
 type Props = {
   isDisplay: boolean;
-  multiTextList: string[][];
+  scrambleList: string[];
 };
 
-export const ScrambleImages = ({ isDisplay, multiTextList }: Props) => {
+export const ScrambleImages = ({ isDisplay, scrambleList }: Props) => {
   return (
     <ScrambleImagesPresenter
       isDisplay={isDisplay}
-      multiTextList={multiTextList}
+      scrambleList={scrambleList}
     />
   );
 };
