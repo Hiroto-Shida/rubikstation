@@ -6,7 +6,8 @@ import {
   F2L_RIGHT_SURFACE_COLORS,
   F2L_SURFACE_COLORS,
 } from "../surfaceColors";
-import { MutableRefObject, useEffect, useRef } from "react";
+import { MutableRefObject, useEffect, useMemo, useRef } from "react";
+import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
 
 const Cube = ({
   position,
@@ -32,6 +33,7 @@ const Cube = ({
     if (cubeRef.current) {
       const boxGeometry = cubeRef.current.geometry;
       const edgesGeometry = new THREE.EdgesGeometry(boxGeometry);
+
       if (edgesRef.current) {
         edgesRef.current.geometry = edgesGeometry;
         edgesRef.current.computeLineDistances();
@@ -39,10 +41,13 @@ const Cube = ({
     }
   }, []);
 
+  const roundedBoxGeometry = useMemo(() => {
+    return new RoundedBoxGeometry(1, 1, 1, 1, 0.1);
+  }, []);
+
   return (
     <>
-      <mesh position={position} ref={cubeRef}>
-        <boxGeometry args={[0.9, 0.9, 0.9]} />
+      <mesh position={position} ref={cubeRef} geometry={roundedBoxGeometry}>
         {colorList.map((value, index) => (
           <meshBasicMaterial
             key={index}
@@ -53,10 +58,11 @@ const Cube = ({
       </mesh>
       <lineSegments position={position} ref={edgesRef}>
         <lineDashedMaterial
-          color={"#ffffff"}
+          color={"#393939"}
           dashSize={1}
           gapSize={0.1}
-          linewidth={0.1}
+          linewidth={1}
+          scale={1.2}
         />
       </lineSegments>
     </>
