@@ -73,6 +73,7 @@ type Props = {
   cubeGroupRef: MutableRefObject<THREE.Group<THREE.Object3DEventMap>>;
   rotationGroupRef: MutableRefObject<THREE.Group<THREE.Object3DEventMap>>;
   status?: string;
+  cubesPosition: THREE.Vector3;
 };
 
 const model = (status: string, z: number, y: number, x: number) => {
@@ -94,10 +95,11 @@ export const CubesPresenter = ({
   cubeGroupRef,
   rotationGroupRef,
   status = "default",
+  cubesPosition = new THREE.Vector3(0, 0, 0),
 }: Props) => {
   return (
     <>
-      <group ref={cubeGroupRef}>
+      <group ref={cubeGroupRef} position={cubesPosition}>
         {[...Array(3).keys()].map((x) =>
           [...Array(3).keys()].map((y) =>
             [...Array(3).keys()].map((z) => (

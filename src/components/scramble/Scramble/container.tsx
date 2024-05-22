@@ -51,7 +51,7 @@ export const Scramble = () => {
 
   useEffect(() => {
     if (!timerState.isStarted) {
-      setScrambleList(generateScrambleText());
+      setScrambleList(generateScrambleText().slice(0, 4));
     } else {
       setScrambleList([]);
     }

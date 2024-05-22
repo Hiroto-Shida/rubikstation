@@ -23,6 +23,7 @@ export const useRotateCube = () => {
   const attachToRotationGroup = (
     cubeGroupRef: THREE.Group,
     rotationGroupRef: THREE.Group,
+    cubeGroupPosition: number[],
     axis: Axis,
     limit: Limit
   ) => {
@@ -34,6 +35,11 @@ export const useRotateCube = () => {
       })
       .forEach(function (c) {
         rotationGroupRef.attach(c);
+        rotationGroupRef.position.set(
+          cubeGroupPosition[0],
+          cubeGroupPosition[1],
+          cubeGroupPosition[2]
+        );
       });
   };
 
@@ -166,12 +172,19 @@ export const useRotateCube = () => {
     (
       cubeGroupRef: THREE.Group,
       rotationGroupRef: THREE.Group,
+      cubeGroupPosition: number[],
       axis: Axis,
       limit: Limit,
       multiplier: Multiplier
     ) => {
       resetCubeGroup(cubeGroupRef, rotationGroupRef);
-      attachToRotationGroup(cubeGroupRef, rotationGroupRef, axis, limit);
+      attachToRotationGroup(
+        cubeGroupRef,
+        rotationGroupRef,
+        cubeGroupPosition,
+        axis,
+        limit
+      );
       rotateGroup(rotationGroupRef, axis, multiplier);
       addArrow(rotationGroupRef, axis, limit, multiplier);
     },
