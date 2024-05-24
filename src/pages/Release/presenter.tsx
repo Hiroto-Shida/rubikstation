@@ -32,6 +32,16 @@ export const ReleasePagePresenter = () => {
       </Typography>
       <Divider sx={{ mb: 2 }} />
 
+      <StyledVersionTitle>[1.1.2] - 2024-05-24</StyledVersionTitle>
+      <List>
+        <StyledListItemText>
+          スクランブル手順を一部修正(直行する回転記号のみが連続するように変更)
+        </StyledListItemText>
+        <StyledListItemText>
+          スクランブルの表示イメージを修正
+        </StyledListItemText>
+      </List>
+
       <StyledVersionTitle>[1.1.1] - 2024-05-20</StyledVersionTitle>
       <List>
         <StyledListItemText>手順ページの一部追加</StyledListItemText>
