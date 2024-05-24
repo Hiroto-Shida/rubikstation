@@ -8,8 +8,6 @@ type Props = {
 export const ScrambleTextPresenter = ({ isDisplay, scrambleList }: Props) => {
   return (
     isDisplay &&
-    scrambleList.length && (
-      <Typography variant="h4">{scrambleList.join(" ")}</Typography>
-    )
+    scrambleList.length && <Typography variant="h4">{scrambleList.join(" ")}</Typography>
   );
 };

@@ -1,66 +1,50 @@
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
-import {
-  CameraControls,
-  OrthographicCamera,
-  PerspectiveCamera,
-  useFBO,
-} from "@react-three/drei";
 import { Cubes } from "../../rubicModel/Cubes/container";
-import { useEffect, useRef } from "react";
+import React from "react";
+import { Html } from "@react-three/drei";
 
-const Scene = ({
-  camera1Ref,
-  camera2Ref,
+const MoveText = ({
+  moveChar,
+  cubeGroupPosition,
 }: {
-  camera1Ref: React.MutableRefObject<THREE.PerspectiveCamera | null>;
-  camera2Ref: React.MutableRefObject<THREE.PerspectiveCamera | null>;
+  moveChar: string;
+  cubeGroupPosition: [number, number, number];
 }) => {
-  const fbo1 = useFBO(1024, 1024);
-  const fbo2 = useFBO(1024, 1024);
-  const { scene, gl, size } = useThree();
-
-  useEffect(() => {
-    const aspect = size.width / size.height;
-    if (camera1Ref.current) {
-      camera1Ref.current.aspect = aspect;
-      camera1Ref.current.updateProjectionMatrix();
-      camera1Ref.current.position.set(2, 3, 4);
-      camera1Ref.current.lookAt(0, 0, 0);
-    }
-    if (camera2Ref.current) {
-      camera2Ref.current.aspect = aspect;
-      camera2Ref.current.updateProjectionMatrix();
-      camera2Ref.current.position.set(-2, 2, 2);
-      camera2Ref.current.lookAt(0, 0, 0);
-    }
-
-    // Render to FBOs
-    gl.setRenderTarget(fbo1);
-    gl.render(scene, camera1Ref.current!);
-
-    gl.setRenderTarget(fbo2);
-    gl.render(scene, camera2Ref.current!);
-
-    gl.setRenderTarget(null);
-  }, [scene, gl, fbo1, fbo2, camera1Ref, camera2Ref, size.width, size.height]);
+  const regexMoveChar = /.2/;
+  const shadowColor = regexMoveChar.test(moveChar) ? "#cc0000" : "#000000";
 
   return (
     <>
-      <PerspectiveCamera
-        ref={camera1Ref}
-        // fov={50}
-        // aspect={size.width / size.height}
-      />
-      <PerspectiveCamera ref={camera2Ref} />
-      <mesh position={[0, 0, 3]}>
-        <planeGeometry args={[10, 10]} />
-        <meshBasicMaterial map={fbo1.texture} />
-      </mesh>
-      <mesh position={[5, 2, 0]}>
-        <planeGeometry args={[2, 2]} />
-        <meshBasicMaterial map={fbo2.texture} />
-      </mesh>
+      {regexMoveChar.test(moveChar) && (
+        <Html
+          as="div"
+          position={
+            new THREE.Vector3(cubeGroupPosition[0], cubeGroupPosition[1] + 1, cubeGroupPosition[2])
+          }
+          style={{
+            color: "#ffffff",
+            fontSize: "10px",
+            textShadow: `2px 2px 0 ${shadowColor}, -2px -2px 0 ${shadowColor}, -2px 2px 0 ${shadowColor}, 2px -2px 0 ${shadowColor}`,
+            transform: "translate(-50%, -50%)",
+          }}
+        >
+          <h1>180°</h1>
+        </Html>
+      )}
+      <Html
+        as="div"
+        position={
+          new THREE.Vector3(cubeGroupPosition[0], cubeGroupPosition[1] - 3.3, cubeGroupPosition[2])
+        }
+        style={{
+          color: "#ffffff",
+          textShadow: `2px 2px 0 ${shadowColor}, -2px -2px 0 ${shadowColor}, -2px 2px 0 ${shadowColor}, 2px -2px 0 ${shadowColor}`,
+          transform: "translate(-50%, -50%)",
+        }}
+      >
+        <h1>{moveChar}</h1>
+      </Html>
     </>
   );
 };
@@ -71,11 +55,12 @@ type Props = {
 };
 
 export const ScrambleModelsPresenter = ({ isDisplay, scrambleList }: Props) => {
-  const axis = true;
-  // const cameraControls = true;
-
-  // const camera1Ref = useRef<THREE.PerspectiveCamera>(null);
-  // const camera2Ref = useRef<THREE.PerspectiveCamera>(null);
+  const maxCubeInWidth = 7;
+  const maxCubeInHeight = Math.ceil(scrambleList.length / maxCubeInWidth);
+  const distanceWidth = 6;
+  const distanceHeight = 8;
+  const oneCubeNeedCanvasWidth = 120; // zoom=20,distance=6の時は120がちょうど良い
+  const oneCubeNeedCanvasHeight = 170; // zoom=20,distance=6の時は120がちょうど良い
 
   return (
     isDisplay &&
@@ -84,49 +69,32 @@ export const ScrambleModelsPresenter = ({ isDisplay, scrambleList }: Props) => {
         <Canvas
           orthographic
           camera={{
-            // left: 1,
             zoom: 20,
-            position: [0, 4, 10],
-            // view: {
-            //   enabled: true,
-            //   fullWidth: 100,
-            //   fullHeight: 100,
-            //   offsetX: 10,
-            //   offsetY: 0,
-            //   width: 100,
-            //   height: 100,
-            // },
+            position: [0, 0, 10],
           }}
           onCreated={({ gl }) => {
             gl.setClearColor(new THREE.Color("#bdbdbd"));
           }}
           gl={{ antialias: true }}
-          // style={{ width: "150px", height: "150px" }}
+          style={{
+            width: `${oneCubeNeedCanvasWidth * maxCubeInWidth}px`,
+            height: `${oneCubeNeedCanvasHeight * maxCubeInHeight}px`,
+          }}
         >
-          {/* <ambientLight intensity={1.5} /> */}
-          {/* <pointLight position={[10, 10, 10]} /> */}
-          {scrambleList.map((moveChar, index) => (
-            <Cubes
-              moveChar={moveChar}
-              key={index}
-              position={[index * 6, 0, 0]}
-            />
-          ))}
-          {/* {cameraControls && <CameraControls />} */}
-          {/* <OrthographicCamera
-            makeDefault
-            zoom={1}
-            top={200}
-            bottom={-200}
-            left={200}
-            right={-200}
-            near={1}
-            far={100}
-            position={[0, 0, 10]}
-          /> */}
-          {/* <Scene camera1Ref={camera1Ref} camera2Ref={camera2Ref} /> */}
-          {/* X:red, Y:green, Z:blue. args:長さ */}
-          {axis && <axesHelper args={[5]} />}
+          {scrambleList.map((moveChar, index) => {
+            const y =
+              -Math.floor(index / maxCubeInWidth) * distanceHeight +
+              ((maxCubeInHeight - 1) * distanceHeight) / 2;
+            const x =
+              Math.floor(index % maxCubeInWidth) * distanceWidth -
+              ((maxCubeInWidth - 1) * distanceWidth) / 2;
+            return (
+              <React.Fragment key={index}>
+                <Cubes moveChar={moveChar} cubeGroupPosition={[x, y, 0]} />
+                <MoveText moveChar={moveChar} cubeGroupPosition={[x, y, 0]} />
+              </React.Fragment>
+            );
+          })}
         </Canvas>
       </>
     )

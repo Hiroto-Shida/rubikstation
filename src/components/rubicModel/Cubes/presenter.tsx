@@ -49,31 +49,14 @@ const Cube = ({
     <>
       <mesh position={position} ref={cubeRef} geometry={roundedBoxGeometry}>
         {colorList.map((value, index) => (
-          <meshBasicMaterial
-            key={index}
-            attach={`material-${index}`}
-            color={colorsDic[value]}
-          />
+          <meshBasicMaterial key={index} attach={`material-${index}`} color={colorsDic[value]} />
         ))}
       </mesh>
       <lineSegments position={position} ref={edgesRef}>
-        <lineDashedMaterial
-          color={"#393939"}
-          dashSize={1}
-          gapSize={0.1}
-          linewidth={1}
-          scale={1.2}
-        />
+        <lineDashedMaterial color={"#393939"} gapSize={0.1} />
       </lineSegments>
     </>
   );
-};
-
-type Props = {
-  cubeGroupRef: MutableRefObject<THREE.Group<THREE.Object3DEventMap>>;
-  rotationGroupRef: MutableRefObject<THREE.Group<THREE.Object3DEventMap>>;
-  status?: string;
-  cubesPosition: THREE.Vector3;
 };
 
 const model = (status: string, z: number, y: number, x: number) => {
@@ -89,6 +72,13 @@ const model = (status: string, z: number, y: number, x: number) => {
     default:
       return DEFAULT_SURFACE_COLORS[0];
   }
+};
+
+type Props = {
+  cubeGroupRef: MutableRefObject<THREE.Group<THREE.Object3DEventMap>>;
+  rotationGroupRef: MutableRefObject<THREE.Group<THREE.Object3DEventMap>>;
+  status?: string;
+  cubesPosition: THREE.Vector3;
 };
 
 export const CubesPresenter = ({

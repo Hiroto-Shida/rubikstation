@@ -3,21 +3,14 @@ import { CubesPresenter } from "./presenter";
 import { ROTATE_DIRECTION } from "../rotateDirection";
 import { useEffect, useRef } from "react";
 import { useRotateCube } from "../../../hooks/useRotateCube";
-// import { CameraControls } from "@react-three/drei";
 
 type Props = {
   moveChar?: string;
   status?: string;
-  position?: number[];
-  // cameraControlRef: React.MutableRefObject<CameraControls | null>;
+  cubeGroupPosition?: number[];
 };
 
-export const Cubes = ({
-  moveChar,
-  status,
-  position = [0, 0, 0],
-}: // cameraControlRef,
-Props) => {
+export const Cubes = ({ moveChar, status, cubeGroupPosition = [0, 0, 0] }: Props) => {
   const { rotate } = useRotateCube();
 
   const cubeGroupRef = useRef<THREE.Group>(null!);
@@ -31,7 +24,7 @@ Props) => {
         rotate(
           cubeGroupRef.current,
           rotationGroupRef.current,
-          position,
+          cubeGroupPosition,
           ROTATE_DIRECTION[removedTwoMoveChar][0],
           ROTATE_DIRECTION[removedTwoMoveChar][1],
           ROTATE_DIRECTION[removedTwoMoveChar][2]
@@ -39,23 +32,18 @@ Props) => {
       } else {
         console.log(`回転記号 ${moveChar} は存在しません`);
       }
+      cubeGroupRef.current.rotation.set(Math.PI / 5, -Math.PI / 4, 0);
     }
-    // if (cameraControlRef.current) {
-    //   console.log(`cameraRef setting ${cameraControlRef.current.azimuthAngle}`);
-    //   cubeGroupRef.current.rotation.set(
-    //     0,
-    //     cameraControlRef.current.azimuthAngle,
-    //     0
-    //   );
-    // }
-  }, [moveChar, position, rotate]);
+  }, [moveChar, cubeGroupPosition, rotate]);
 
   return (
     <CubesPresenter
       cubeGroupRef={cubeGroupRef}
       rotationGroupRef={rotationGroupRef}
       status={status}
-      cubesPosition={new THREE.Vector3(position[0], position[1], position[2])}
+      cubesPosition={
+        new THREE.Vector3(cubeGroupPosition[0], cubeGroupPosition[1], cubeGroupPosition[2])
+      }
     />
   );
 };

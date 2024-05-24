@@ -29,18 +29,24 @@ const generateScrambleText = (): string[] => {
   const textList: string[] = [];
 
   let originChar = ""; // ランダムに取り出した値かつ、直前値として格納
+  const disContinuousMoveMap = {
+    F: "B",
+    B: "F",
+    R: "L",
+    L: "R",
+    U: "D",
+    D: "U",
+  };
   for (let index = 0; index < scrambleSize; index++) {
     originChar = getRandomValueFromList(
-      MOVE_LIST.filter((value) => value !== originChar)
+      MOVE_LIST.filter((value) => {
+        const regexMoveChar = `/[${originChar}.*]/`;
+        return !value.match(regexMoveChar);
+      })
     ); // 直前の記号以外からランダムに取得
     const optionChar = getRandomValueFromList(OPTION_MOVE_LIST);
     textList.push(originChar + optionChar);
   }
-
-  // const tmpMultiTextList: string[][] = [];
-  // for (let index = 0; index < textList.length; index = index + ROW_MAX_LEGTH) {
-  //   tmpMultiTextList.push(textList.slice(index, index + ROW_MAX_LEGTH));
-  // }
   return textList;
 };
 
@@ -51,13 +57,11 @@ export const Scramble = () => {
 
   useEffect(() => {
     if (!timerState.isStarted) {
-      setScrambleList(generateScrambleText().slice(0, 4));
+      setScrambleList(generateScrambleText());
     } else {
       setScrambleList([]);
     }
   }, [timerState.isStarted]);
 
-  return (
-    <ScramblePresenter timerState={timerState} scrambleList={scrambleList} />
-  );
+  return <ScramblePresenter timerState={timerState} scrambleList={scrambleList} />;
 };
