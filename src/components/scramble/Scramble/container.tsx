@@ -29,18 +29,32 @@ const generateScrambleText = (): string[] => {
   const textList: string[] = [];
 
   let originChar = ""; // ランダムに取り出した値かつ、直前値として格納
+  const disContinuousMoveMap: { [key: string]: string } = {
+    F: "B",
+    B: "F",
+    R: "L",
+    L: "R",
+    U: "D",
+    D: "U",
+  };
   for (let index = 0; index < scrambleSize; index++) {
     originChar = getRandomValueFromList(
-      MOVE_LIST.filter((value) => value !== originChar)
+      MOVE_LIST.filter((value) => {
+        const removeOptionPreMoveChar = originChar.match(/[F|B|R|L|U|D]/);
+        const removeOptionNowMoveChar = value.match(/[F|B|R|L|U|D]/);
+        if (removeOptionPreMoveChar && removeOptionNowMoveChar) {
+          const preMove = removeOptionPreMoveChar[0];
+          const nowMove = removeOptionNowMoveChar[0];
+          return (
+            preMove !== nowMove && disContinuousMoveMap[preMove] !== nowMove
+          );
+        }
+        return true;
+      })
     ); // 直前の記号以外からランダムに取得
     const optionChar = getRandomValueFromList(OPTION_MOVE_LIST);
     textList.push(originChar + optionChar);
   }
-
-  // const tmpMultiTextList: string[][] = [];
-  // for (let index = 0; index < textList.length; index = index + ROW_MAX_LEGTH) {
-  //   tmpMultiTextList.push(textList.slice(index, index + ROW_MAX_LEGTH));
-  // }
   return textList;
 };
 

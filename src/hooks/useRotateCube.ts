@@ -1,20 +1,13 @@
 import * as THREE from "three";
 import { useCallback } from "react";
-import {
-  Axis,
-  Limit,
-  Multiplier,
-} from "../components/rubicModel/rotateDirection";
+import { Axis, Limit, Multiplier } from "../components/rubicModel/rotateDirection";
 
 export const useRotateCube = () => {
-  const resetCubeGroup = (
-    cubeGroupRef: THREE.Group,
-    rotationGroupRef: THREE.Group
-  ) => {
+  const resetCubeGroup = (cubeGroupRef: THREE.Group, rotationGroupRef: THREE.Group) => {
     rotationGroupRef.children
       .slice()
       .reverse()
-      .forEach(function (c) {
+      .forEach((c) => {
         cubeGroupRef.attach(c);
       });
     rotationGroupRef.quaternion.set(0, 0, 0, 1);
@@ -23,25 +16,36 @@ export const useRotateCube = () => {
   const attachToRotationGroup = (
     cubeGroupRef: THREE.Group,
     rotationGroupRef: THREE.Group,
+    cubeGroupPosition: number[],
     axis: Axis,
     limit: Limit
   ) => {
     cubeGroupRef.children
       .slice()
       .reverse()
-      .filter(function (c) {
-        return limit < 0 ? c.position[axis] < limit : c.position[axis] > limit;
+      .filter((c: THREE.Object3D<THREE.Object3DEventMap>) => {
+        const isRotateCube = limit < 0 ? c.position[axis] < limit : c.position[axis] > limit;
+        if (!isRotateCube && (c as THREE.Mesh).isMesh && (c as THREE.Mesh).material) {
+          const mesh = c as THREE.Mesh;
+          if (Array.isArray(mesh.material)) {
+            mesh.material.forEach((material) =>
+              (material as THREE.MeshBasicMaterial).color.set("#777777")
+            );
+          }
+        }
+        return isRotateCube;
       })
-      .forEach(function (c) {
+      .forEach((c) => {
+        rotationGroupRef.position.set(
+          cubeGroupPosition[0],
+          cubeGroupPosition[1],
+          cubeGroupPosition[2]
+        );
         rotationGroupRef.attach(c);
       });
   };
 
-  const rotateGroup = (
-    rotationGroupRef: THREE.Group,
-    axis: Axis,
-    multiplier: Multiplier
-  ) => {
+  const rotateGroup = (rotationGroupRef: THREE.Group, axis: Axis, multiplier: Multiplier) => {
     rotationGroupRef.rotation[axis] += (Math.PI / 6) * multiplier;
   };
 
@@ -55,12 +59,7 @@ export const useRotateCube = () => {
     rotationGroupRef.children.forEach((child) => {
       if (child instanceof THREE.Mesh) {
         const coneGeometry = new THREE.ConeGeometry(0.4, 1, 10);
-        const cylinderGeometry = new THREE.CylinderGeometry(
-          0.15,
-          0.15,
-          2.3,
-          10
-        );
+        const cylinderGeometry = new THREE.CylinderGeometry(0.15, 0.15, 2.3, 10);
 
         const meshMaterial = new THREE.MeshStandardMaterial({
           color: "#000000",
@@ -94,11 +93,7 @@ export const useRotateCube = () => {
 
         const originAxis = ["x", "y", "z"];
 
-        const otherAxis = originAxis.filter((axis) => axis !== rotateAxis) as (
-          | "x"
-          | "y"
-          | "z"
-        )[];
+        const otherAxis = originAxis.filter((axis) => axis !== rotateAxis) as ("x" | "y" | "z")[];
 
         // 矢印をつける対象のCubeの場合、isTargetAddArrow = true
         let isTargetAddArrow;
@@ -166,14 +161,15 @@ export const useRotateCube = () => {
     (
       cubeGroupRef: THREE.Group,
       rotationGroupRef: THREE.Group,
+      cubeGroupPosition: number[],
       axis: Axis,
       limit: Limit,
       multiplier: Multiplier
     ) => {
-      resetCubeGroup(cubeGroupRef, rotationGroupRef);
-      attachToRotationGroup(cubeGroupRef, rotationGroupRef, axis, limit);
+      attachToRotationGroup(cubeGroupRef, rotationGroupRef, cubeGroupPosition, axis, limit);
       rotateGroup(rotationGroupRef, axis, multiplier);
       addArrow(rotationGroupRef, axis, limit, multiplier);
+      resetCubeGroup(cubeGroupRef, rotationGroupRef);
     },
     []
   );
