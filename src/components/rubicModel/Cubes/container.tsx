@@ -1,30 +1,62 @@
 import * as THREE from "three";
 import { CubesPresenter } from "./presenter";
 import { ROTATE_DIRECTION } from "../rotateDirection";
-import { useEffect, useRef } from "react";
+import { MutableRefObject, useCallback, useEffect, useRef } from "react";
 import { useRotateCube } from "../../../hooks/useRotateCube";
+import { useFrame } from "@react-three/fiber";
+import { useCubePosition } from "../../../hooks/useCubePosition";
 
 type Props = {
   moveChar?: string;
   status?: string;
-  cubeGroupPosition?: number[];
+  canvasWidth: MutableRefObject<number>;
+  cubesNum: number;
+  index: number;
 };
 
-export const Cubes = ({ moveChar, status, cubeGroupPosition = [0, 0, 0] }: Props) => {
+// const oneCubeNeedCanvasWidth = 120; // zoom=20,distance=6の時は120がちょうど良い
+// const oneCubeNeedCanvasHeight = 170; // zoom=20,distance=6の時は120がちょうど良い
+// const distanceWidth = 6; // cube間のx軸間隔
+// const distanceHeight = 8; // cube間のy軸間隔
+
+export const Cubes = ({ moveChar, status, canvasWidth, cubesNum, index }: Props) => {
   const { rotate } = useRotateCube();
+  const { getCubeGroupPosition, updateCubesPosition } = useCubePosition();
 
   const cubeGroupRef = useRef<THREE.Group>(null!);
   const rotationGroupRef = useRef<THREE.Group>(null!);
+  const moveTextRef = useRef<THREE.Group>(null!);
+
+  const prevCanvasWidth = useRef<number>(0);
+
+  // リサイズ時(canvasWidth.currentが変化した時)に各キューブの位置を再調整
+  useFrame(() => {
+    if (
+      prevCanvasWidth.current != canvasWidth.current &&
+      cubeGroupRef.current &&
+      moveTextRef.current
+    ) {
+      updateCubesPosition(
+        cubeGroupRef.current,
+        moveTextRef.current,
+        index,
+        cubesNum,
+        canvasWidth.current
+      );
+      prevCanvasWidth.current = canvasWidth.current;
+    }
+  });
 
   useEffect(() => {
-    if (cubeGroupRef.current && rotationGroupRef.current && moveChar) {
+    if (cubeGroupRef.current && canvasWidth.current && moveChar) {
       const regexMoveChar = /2/;
       const removedTwoMoveChar = moveChar.replace(regexMoveChar, "");
+      const cubePos = getCubeGroupPosition(index, cubesNum, canvasWidth.current);
       if (ROTATE_DIRECTION[removedTwoMoveChar]) {
         rotate(
           cubeGroupRef.current,
           rotationGroupRef.current,
-          cubeGroupPosition,
+          cubePos,
           ROTATE_DIRECTION[removedTwoMoveChar][0],
           ROTATE_DIRECTION[removedTwoMoveChar][1],
           ROTATE_DIRECTION[removedTwoMoveChar][2]
@@ -34,16 +66,15 @@ export const Cubes = ({ moveChar, status, cubeGroupPosition = [0, 0, 0] }: Props
       }
       cubeGroupRef.current.rotation.set(Math.PI / 5, -Math.PI / 4, 0);
     }
-  }, [moveChar, cubeGroupPosition, rotate]);
+  }, [canvasWidth, cubesNum, getCubeGroupPosition, index, moveChar, rotate]);
 
   return (
     <CubesPresenter
       cubeGroupRef={cubeGroupRef}
+      moveTextRef={moveTextRef}
+      moveChar={moveChar}
       rotationGroupRef={rotationGroupRef}
       status={status}
-      cubesPosition={
-        new THREE.Vector3(cubeGroupPosition[0], cubeGroupPosition[1], cubeGroupPosition[2])
-      }
     />
   );
 };

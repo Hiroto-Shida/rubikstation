@@ -20,16 +20,17 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { ReactElement, ReactNode, useState } from "react";
+import { ReactElement, ReactNode, RefObject, useState } from "react";
 import { Link } from "react-router-dom";
 
 type Props = {
   children: ReactNode;
+  contentRef: RefObject<HTMLElement>;
 };
 
 const drawerWidth = 240;
 
-export const LayoutPresenter = ({ children }: Props) => {
+export const LayoutPresenter = ({ children, contentRef }: Props) => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
@@ -65,18 +66,10 @@ export const LayoutPresenter = ({ children }: Props) => {
         <Divider />
         <AppListItem to={"/"} primaryText="トップ" icon={<HomeIcon />} />
         <AppListItem to={"/rubic-model"} primaryText="モデル" icon={<Apps />} />
-        <AppListItem
-          to={"/procedure"}
-          primaryText="6面までの手順"
-          icon={<AppRegistrationIcon />}
-        />
+        <AppListItem to={"/procedure"} primaryText="6面までの手順" icon={<AppRegistrationIcon />} />
         <ListSubheader>その他</ListSubheader>
         <Divider />
-        <AppListItem
-          to={"/release"}
-          primaryText="リリース情報"
-          icon={<NewReleasesIcon />}
-        />
+        <AppListItem to={"/release"} primaryText="リリース情報" icon={<NewReleasesIcon />} />
       </List>
     </Box>
   );
@@ -107,10 +100,7 @@ export const LayoutPresenter = ({ children }: Props) => {
         </Toolbar>
       </AppBar>
 
-      <Box
-        component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-      >
+      <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}>
         <Drawer
           container={window?.document?.body}
           variant="temporary"
@@ -145,6 +135,7 @@ export const LayoutPresenter = ({ children }: Props) => {
       </Box>
 
       <Box
+        ref={contentRef}
         component="main"
         sx={{
           flexGrow: 1,

@@ -8,6 +8,7 @@ import {
 } from "../surfaceColors";
 import { MutableRefObject, useEffect, useMemo, useRef } from "react";
 import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
+import { Html } from "@react-three/drei";
 
 const Cube = ({
   position,
@@ -59,6 +60,54 @@ const Cube = ({
   );
 };
 
+type MoveTextProps = {
+  moveTextRef: MutableRefObject<THREE.Group<THREE.Object3DEventMap>>;
+  moveChar: string;
+};
+
+const MoveText = ({ moveTextRef, moveChar }: MoveTextProps) => {
+  const regexMoveChar = /.2/;
+  const shadowColor = regexMoveChar.test(moveChar) ? "#cc0000" : "#000000";
+
+  return (
+    <>
+      {regexMoveChar.test(moveChar) && (
+        <group ref={moveTextRef}>
+          <Html
+            as="div"
+            // position={
+            //   new THREE.Vector3(cubeGroupPosition[0], cubeGroupPosition[1] + 1, cubeGroupPosition[2])
+            // }
+            style={{
+              color: "#ffffff",
+              fontSize: "10px",
+              textShadow: `2px 2px 0 ${shadowColor}, -2px -2px 0 ${shadowColor}, -2px 2px 0 ${shadowColor}, 2px -2px 0 ${shadowColor}`,
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            <h1>180°</h1>
+          </Html>
+          {/* <Text>180°</Text> */}
+        </group>
+      )}
+      {/* <Html
+        ref={move180Ref}
+        as="div"
+        // position={
+        //   new THREE.Vector3(cubeGroupPosition[0], cubeGroupPosition[1] - 3.3, cubeGroupPosition[2])
+        // }
+        style={{
+          color: "#ffffff",
+          textShadow: `2px 2px 0 ${shadowColor}, -2px -2px 0 ${shadowColor}, -2px 2px 0 ${shadowColor}, 2px -2px 0 ${shadowColor}`,
+          transform: "translate(-50%, -50%)",
+        }}
+      >
+        <h1>{moveChar}</h1>
+      </Html> */}
+    </>
+  );
+};
+
 const model = (status: string, z: number, y: number, x: number) => {
   switch (status) {
     case "F1L":
@@ -76,20 +125,22 @@ const model = (status: string, z: number, y: number, x: number) => {
 
 type Props = {
   cubeGroupRef: MutableRefObject<THREE.Group<THREE.Object3DEventMap>>;
+  moveTextRef: MutableRefObject<THREE.Group<THREE.Object3DEventMap>>;
+  moveChar?: string;
   rotationGroupRef: MutableRefObject<THREE.Group<THREE.Object3DEventMap>>;
   status?: string;
-  cubesPosition: THREE.Vector3;
 };
 
 export const CubesPresenter = ({
   cubeGroupRef,
+  moveTextRef,
+  moveChar,
   rotationGroupRef,
   status = "default",
-  cubesPosition = new THREE.Vector3(0, 0, 0),
 }: Props) => {
   return (
     <>
-      <group ref={cubeGroupRef} position={cubesPosition}>
+      <group ref={cubeGroupRef}>
         {[...Array(3).keys()].map((x) =>
           [...Array(3).keys()].map((y) =>
             [...Array(3).keys()].map((z) => (
@@ -102,6 +153,7 @@ export const CubesPresenter = ({
           )
         )}
       </group>
+      {moveChar && <MoveText moveTextRef={moveTextRef} moveChar={moveChar} />}
       <group ref={rotationGroupRef}></group>
     </>
   );
