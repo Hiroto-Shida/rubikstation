@@ -1,8 +1,8 @@
 import * as THREE from "three";
 import { useCallback } from "react";
 
-const oneCubeNeedCanvasWidth = 120; // zoom=20,distance=6の時は120がちょうど良い
-const oneCubeNeedCanvasHeight = 170; // zoom=20,distance=6の時は120がちょうど良い
+export const oneCubeNeedCanvasWidth = 120; // zoom=20,distance=6の時は120がちょうど良い
+export const oneCubeNeedCanvasHeight = 170; // zoom=20,distance=6の時は120がちょうど良い
 const distanceWidth = 6; // cube間のx軸間隔
 const distanceHeight = 8; // cube間のy軸間隔
 
@@ -31,7 +31,6 @@ export const useCubePosition = () => {
       canvasWidth: number
     ) => {
       const cubePos = getCubeGroupPosition(index, cubesNum, canvasWidth);
-      console.log(`${index}: cubePos = ${cubePos}`);
       cubeGoupRef.position.set(cubePos[0], cubePos[1], cubePos[2]);
       moveTextRef.position.set(cubePos[0], cubePos[1], cubePos[2]);
     },

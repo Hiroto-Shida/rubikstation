@@ -45,9 +45,7 @@ const generateScrambleText = (): string[] => {
         if (removeOptionPreMoveChar && removeOptionNowMoveChar) {
           const preMove = removeOptionPreMoveChar[0];
           const nowMove = removeOptionNowMoveChar[0];
-          return (
-            preMove !== nowMove && disContinuousMoveMap[preMove] !== nowMove
-          );
+          return preMove !== nowMove && disContinuousMoveMap[preMove] !== nowMove;
         }
         return true;
       })
@@ -71,7 +69,5 @@ export const Scramble = () => {
     }
   }, [timerState.isStarted]);
 
-  return (
-    <ScramblePresenter timerState={timerState} scrambleList={scrambleList} />
-  );
+  return <ScramblePresenter timerState={timerState} scrambleList={scrambleList} />;
 };

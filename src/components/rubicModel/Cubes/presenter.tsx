@@ -50,11 +50,7 @@ const Cube = ({
     <>
       <mesh position={position} ref={cubeRef} geometry={roundedBoxGeometry}>
         {colorList.map((value, index) => (
-          <meshBasicMaterial
-            key={index}
-            attach={`material-${index}`}
-            color={colorsDic[value]}
-          />
+          <meshBasicMaterial key={index} attach={`material-${index}`} color={colorsDic[value]} />
         ))}
       </mesh>
       <lineSegments position={position} ref={edgesRef}>
@@ -65,22 +61,19 @@ const Cube = ({
 };
 
 type MoveTextProps = {
-  moveTextRef: MutableRefObject<THREE.Group<THREE.Object3DEventMap>>;
   moveChar: string;
 };
 
-const MoveText = ({ moveTextRef, moveChar }: MoveTextProps) => {
+const MoveText = ({ moveChar }: MoveTextProps) => {
   const regexMoveChar = /.2/;
   const shadowColor = regexMoveChar.test(moveChar) ? "#cc0000" : "#000000";
 
   return (
     <>
-      {/* {regexMoveChar.test(moveChar) && (
+      {regexMoveChar.test(moveChar) && (
         <Html
           as="div"
-          // position={
-          //   new THREE.Vector3(cubeGroupPosition[0], cubeGroupPosition[1] + 1, cubeGroupPosition[2])
-          // }
+          position={new THREE.Vector3(0, 1, 0)}
           style={{
             color: "#ffffff",
             fontSize: "10px",
@@ -90,12 +83,10 @@ const MoveText = ({ moveTextRef, moveChar }: MoveTextProps) => {
         >
           <h1>180°</h1>
         </Html>
-      )} */}
+      )}
       <Html
         as="div"
-        // position={
-        //   new THREE.Vector3(cubeGroupPosition[0], cubeGroupPosition[1] - 3.3, cubeGroupPosition[2])
-        // }
+        position={new THREE.Vector3(0, -3.3, 0)}
         style={{
           color: "#ffffff",
           textShadow: `2px 2px 0 ${shadowColor}, -2px -2px 0 ${shadowColor}, -2px 2px 0 ${shadowColor}, 2px -2px 0 ${shadowColor}`,
@@ -155,7 +146,7 @@ export const CubesPresenter = ({
       </group>
       {moveChar && (
         <group ref={moveTextRef}>
-          <MoveText moveTextRef={moveTextRef} moveChar={moveChar} />
+          <MoveText moveChar={moveChar} />
         </group>
       )}
       <group ref={rotationGroupRef}></group>

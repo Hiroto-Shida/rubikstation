@@ -20,17 +20,16 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { ReactElement, ReactNode, RefObject, useState } from "react";
+import { ReactElement, ReactNode, useState } from "react";
 import { Link } from "react-router-dom";
 
 type Props = {
   children: ReactNode;
-  contentRef: RefObject<HTMLElement>;
 };
 
 const drawerWidth = 240;
 
-export const LayoutPresenter = ({ children, contentRef }: Props) => {
+export const LayoutPresenter = ({ children }: Props) => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
@@ -135,7 +134,6 @@ export const LayoutPresenter = ({ children, contentRef }: Props) => {
       </Box>
 
       <Box
-        ref={contentRef}
         component="main"
         sx={{
           flexGrow: 1,
