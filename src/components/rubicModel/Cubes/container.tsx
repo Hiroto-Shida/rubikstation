@@ -19,7 +19,13 @@ type Props = {
 // const distanceWidth = 6; // cube間のx軸間隔
 // const distanceHeight = 8; // cube間のy軸間隔
 
-export const Cubes = ({ moveChar, status, canvasWidth, cubesNum, index }: Props) => {
+export const Cubes = ({
+  moveChar,
+  status,
+  canvasWidth,
+  cubesNum,
+  index,
+}: Props) => {
   const { rotate } = useRotateCube();
   const { getCubeGroupPosition, updateCubesPosition } = useCubePosition();
 
@@ -28,13 +34,15 @@ export const Cubes = ({ moveChar, status, canvasWidth, cubesNum, index }: Props)
   const moveTextRef = useRef<THREE.Group>(null!);
 
   const prevCanvasWidth = useRef<number>(0);
+  const isSetupCompletion = useRef<boolean>(false);
 
   // リサイズ時(canvasWidth.currentが変化した時)に各キューブの位置を再調整
   useFrame(() => {
     if (
       prevCanvasWidth.current != canvasWidth.current &&
       cubeGroupRef.current &&
-      moveTextRef.current
+      moveTextRef.current &&
+      isSetupCompletion.current
     ) {
       updateCubesPosition(
         cubeGroupRef.current,
@@ -51,7 +59,11 @@ export const Cubes = ({ moveChar, status, canvasWidth, cubesNum, index }: Props)
     if (cubeGroupRef.current && canvasWidth.current && moveChar) {
       const regexMoveChar = /2/;
       const removedTwoMoveChar = moveChar.replace(regexMoveChar, "");
-      const cubePos = getCubeGroupPosition(index, cubesNum, canvasWidth.current);
+      const cubePos = getCubeGroupPosition(
+        index,
+        cubesNum,
+        canvasWidth.current
+      );
       if (ROTATE_DIRECTION[removedTwoMoveChar]) {
         rotate(
           cubeGroupRef.current,
@@ -65,6 +77,7 @@ export const Cubes = ({ moveChar, status, canvasWidth, cubesNum, index }: Props)
         console.log(`回転記号 ${moveChar} は存在しません`);
       }
       cubeGroupRef.current.rotation.set(Math.PI / 5, -Math.PI / 4, 0);
+      isSetupCompletion.current = true; // セットアップ完了
     }
   }, [canvasWidth, cubesNum, getCubeGroupPosition, index, moveChar, rotate]);
 

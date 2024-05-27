@@ -50,7 +50,11 @@ const Cube = ({
     <>
       <mesh position={position} ref={cubeRef} geometry={roundedBoxGeometry}>
         {colorList.map((value, index) => (
-          <meshBasicMaterial key={index} attach={`material-${index}`} color={colorsDic[value]} />
+          <meshBasicMaterial
+            key={index}
+            attach={`material-${index}`}
+            color={colorsDic[value]}
+          />
         ))}
       </mesh>
       <lineSegments position={position} ref={edgesRef}>
@@ -71,27 +75,23 @@ const MoveText = ({ moveTextRef, moveChar }: MoveTextProps) => {
 
   return (
     <>
-      {regexMoveChar.test(moveChar) && (
-        <group ref={moveTextRef}>
-          <Html
-            as="div"
-            // position={
-            //   new THREE.Vector3(cubeGroupPosition[0], cubeGroupPosition[1] + 1, cubeGroupPosition[2])
-            // }
-            style={{
-              color: "#ffffff",
-              fontSize: "10px",
-              textShadow: `2px 2px 0 ${shadowColor}, -2px -2px 0 ${shadowColor}, -2px 2px 0 ${shadowColor}, 2px -2px 0 ${shadowColor}`,
-              transform: "translate(-50%, -50%)",
-            }}
-          >
-            <h1>180°</h1>
-          </Html>
-          {/* <Text>180°</Text> */}
-        </group>
-      )}
-      {/* <Html
-        ref={move180Ref}
+      {/* {regexMoveChar.test(moveChar) && (
+        <Html
+          as="div"
+          // position={
+          //   new THREE.Vector3(cubeGroupPosition[0], cubeGroupPosition[1] + 1, cubeGroupPosition[2])
+          // }
+          style={{
+            color: "#ffffff",
+            fontSize: "10px",
+            textShadow: `2px 2px 0 ${shadowColor}, -2px -2px 0 ${shadowColor}, -2px 2px 0 ${shadowColor}, 2px -2px 0 ${shadowColor}`,
+            transform: "translate(-50%, -50%)",
+          }}
+        >
+          <h1>180°</h1>
+        </Html>
+      )} */}
+      <Html
         as="div"
         // position={
         //   new THREE.Vector3(cubeGroupPosition[0], cubeGroupPosition[1] - 3.3, cubeGroupPosition[2])
@@ -103,7 +103,7 @@ const MoveText = ({ moveTextRef, moveChar }: MoveTextProps) => {
         }}
       >
         <h1>{moveChar}</h1>
-      </Html> */}
+      </Html>
     </>
   );
 };
@@ -153,7 +153,11 @@ export const CubesPresenter = ({
           )
         )}
       </group>
-      {moveChar && <MoveText moveTextRef={moveTextRef} moveChar={moveChar} />}
+      {moveChar && (
+        <group ref={moveTextRef}>
+          <MoveText moveTextRef={moveTextRef} moveChar={moveChar} />
+        </group>
+      )}
       <group ref={rotationGroupRef}></group>
     </>
   );

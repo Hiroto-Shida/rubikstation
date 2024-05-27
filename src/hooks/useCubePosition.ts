@@ -31,6 +31,7 @@ export const useCubePosition = () => {
       canvasWidth: number
     ) => {
       const cubePos = getCubeGroupPosition(index, cubesNum, canvasWidth);
+      console.log(`${index}: cubePos = ${cubePos}`);
       cubeGoupRef.position.set(cubePos[0], cubePos[1], cubePos[2]);
       moveTextRef.position.set(cubePos[0], cubePos[1], cubePos[2]);
     },
