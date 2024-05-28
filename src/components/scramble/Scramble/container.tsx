@@ -1,6 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { ScramblePresenter } from "./presenter";
 import { TimerStateContext } from "../../../providers/TimerStateProvider";
+import { useCookies } from "react-cookie";
 
 // 記号のリストと、「'そのまま'、'2回転'、'逆回転'」のオプションリスト
 const MOVE_LIST: string[] = ["U", "F", "R", "D", "B", "L"];
@@ -56,18 +57,48 @@ const generateScrambleText = (): string[] => {
   return textList;
 };
 
+type CookieTimeRecord = {
+  scramble: string;
+  time: string;
+}[];
+
 export const Scramble = () => {
   const [scrambleList, setScrambleList] = useState<string[]>([]);
 
   const timerState = useContext(TimerStateContext);
+  const [cookies, setCookie, removeCookie] = useCookies();
+
+  // TODO cookieSetting関数の無限ループを止めて、cookie処理を実装
+  const cookieSetting = useCallback(() => {
+    console.log("cookieSetting");
+    const scrambleText = scrambleList.toString();
+
+    const time_record_list: CookieTimeRecord = cookies["time_record"];
+    if (
+      Array.isArray(time_record_list) &&
+      time_record_list[0].scramble &&
+      time_record_list[0].time
+    ) {
+      // console.log(cookies["time_record"]);
+      // console.log(cookies["time_record"].slice(-1)[0]);
+      time_record_list.push({ scramble: scrambleText, time: "00:00:00" });
+      setCookie("time_record", time_record_list);
+    } else {
+      setCookie("time_record", [{ scramble: scrambleText, time: "00:00:00" }]);
+    }
+  }, [cookies, setCookie]);
 
   useEffect(() => {
     if (!timerState.isStarted) {
       setScrambleList(generateScrambleText());
+      console.log("setscrambleList");
     } else {
-      setScrambleList([]);
+      // console.log(scrambleList);
+      console.log("cookies");
+      cookieSetting();
+      // setScrambleList([]);
     }
-  }, [timerState.isStarted]);
+  }, [cookieSetting, cookies, setCookie, timerState.isStarted]);
 
   return <ScramblePresenter timerState={timerState} scrambleList={scrambleList} />;
 };
