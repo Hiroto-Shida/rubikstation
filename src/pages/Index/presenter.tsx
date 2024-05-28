@@ -5,14 +5,7 @@ import { Timer } from "../../components/timer/Timer/container";
 export const IndexPagePresenter = () => {
   return (
     <>
-      <Box
-        component="div"
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+      <Box component="div">
         <Stack sx={{ alignItems: "center" }}>
           <Timer />
           <Scramble />
