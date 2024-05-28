@@ -32,6 +32,13 @@ export const ReleasePagePresenter = () => {
       </Typography>
       <Divider sx={{ mb: 2 }} />
 
+      <StyledVersionTitle>[1.1.3] - 2024-05-28</StyledVersionTitle>
+      <List>
+        <StyledListItemText>
+          スクランブル手順のモデル画像のレスポンシブ対応
+        </StyledListItemText>
+      </List>
+
       <StyledVersionTitle>[1.1.2] - 2024-05-24</StyledVersionTitle>
       <List>
         <StyledListItemText>

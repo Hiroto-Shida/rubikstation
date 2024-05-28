@@ -14,9 +14,11 @@ const marginTopStyle = (theme: Theme) => ({
 });
 
 export const ScramblePresenter = ({ timerState, scrambleList }: Props) => {
-  const isDisplay: boolean = !timerState.isStarted && !timerState.startingState.isCanStart;
+  const isDisplay: boolean =
+    !timerState.isStarted && !timerState.startingState.isCanStart;
   return (
-    isDisplay && (
+    isDisplay &&
+    scrambleList.length > 1 && (
       <>
         <Box component="div" sx={(theme) => marginTopStyle(theme)} />
         <ScrambleText scrambleList={scrambleList} />
