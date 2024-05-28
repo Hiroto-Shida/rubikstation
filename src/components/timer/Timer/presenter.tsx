@@ -1,12 +1,12 @@
 import { Typography } from "@mui/material";
-import { StartingState } from "../../../providers/TimerStateProvider";
+import { TimerState } from "../../../providers/TimerStateProvider";
 
 type Props = {
   time: number;
-  timerStateStartingState: StartingState;
+  timerState: TimerState;
 };
 
-export const TimerPresenter = ({ time, timerStateStartingState }: Props) => {
+export const TimerPresenter = ({ time, timerState }: Props) => {
   const milliseconds = `0${(time % 1000) / 10}`.slice(-2);
   const seconds = `0${Math.floor(time / 1000) % 60}`.slice(-2);
   const minutes = `0${Math.floor(time / 60000) % 60}`.slice(-2);
@@ -14,10 +14,10 @@ export const TimerPresenter = ({ time, timerStateStartingState }: Props) => {
   return (
     <>
       <Typography
-        variant="h2"
+        variant={timerState.isStarted || timerState.startingState.isCanStart ? "h1" : "h2"}
         color={
-          timerStateStartingState.isKeyDownSpace
-            ? timerStateStartingState.isCanStart
+          timerState.startingState.isKeyDownSpace
+            ? timerState.startingState.isCanStart
               ? "success.main"
               : "error.main"
             : "textPrimary"

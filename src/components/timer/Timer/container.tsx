@@ -34,10 +34,5 @@ export const Timer = () => {
     handlePause();
   }, [timerState.isStarted, timerState.startingState.isCanStart]);
 
-  return (
-    <TimerPresenter
-      time={time}
-      timerStateStartingState={timerState.startingState}
-    />
-  );
+  return <TimerPresenter time={time} timerState={timerState} />;
 };
