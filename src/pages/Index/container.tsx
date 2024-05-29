@@ -11,7 +11,7 @@ export const IndexPage = () => {
     if (time_record_txt) {
       const time_record_list = time_record_txt.split(",");
       const no_null_record_list = time_record_list.filter((txt) => {
-        return !txt.match(/(scramble:.*)-time:(null|00:00:00)/);
+        return !txt.match(/(scramble:.*)-time:(null|0)/);
       });
       if (no_null_record_list.length > 12) {
         Cookies.set(
