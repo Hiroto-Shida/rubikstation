@@ -20,12 +20,11 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { ReactElement, ReactNode, useState } from "react";
+import { ComponentProps, ReactElement, useState } from "react";
 import { Link } from "react-router-dom";
+import { Layout } from "./container";
 
-type Props = {
-  children: ReactNode;
-};
+type Props = ComponentProps<typeof Layout>;
 
 const drawerWidth = 240;
 
@@ -137,12 +136,18 @@ export const LayoutPresenter = ({ children }: Props) => {
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
         }}
       >
         <Toolbar />
-        <Box component="div">{children}</Box>
+        <Box
+          component="div"
+          sx={{
+            height: `calc(100vh - ${64 + 64}px)`, // AppBarとToolBarの分を引く
+          }}
+        >
+          {children}
+        </Box>
       </Box>
     </Box>
   );

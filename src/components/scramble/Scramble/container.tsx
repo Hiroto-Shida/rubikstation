@@ -1,6 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { ScramblePresenter } from "./presenter";
 import { TimerStateContext } from "../../../providers/TimerStateProvider";
+import Cookies from "js-cookie";
 
 // 記号のリストと、「'そのまま'、'2回転'、'逆回転'」のオプションリスト
 const MOVE_LIST: string[] = ["U", "F", "R", "D", "B", "L"];
@@ -56,10 +57,26 @@ const generateScrambleText = (): string[] => {
   return textList;
 };
 
+export type CookieTimeRecord = {
+  scramble: string;
+  time: string | null;
+}[];
+
 export const Scramble = () => {
   const [scrambleList, setScrambleList] = useState<string[]>([]);
 
   const timerState = useContext(TimerStateContext);
+
+  const cookieSetting = useCallback((scrambleText: string) => {
+    const time_record_txt = Cookies.get("time_record");
+    if (time_record_txt) {
+      const time_record_list = time_record_txt.split(",");
+      time_record_list.push(`scramble:${scrambleText}-time:null`);
+      Cookies.set("time_record", time_record_list.join());
+    } else {
+      Cookies.set("time_record", `scramble:${scrambleText}-time:null`);
+    }
+  }, []);
 
   useEffect(() => {
     if (!timerState.isStarted) {
@@ -67,7 +84,13 @@ export const Scramble = () => {
     } else {
       setScrambleList([]);
     }
-  }, [timerState.isStarted]);
+  }, [cookieSetting, timerState.isStarted]);
+
+  useEffect(() => {
+    return () => {
+      scrambleList.length > 1 && cookieSetting(scrambleList.join(" "));
+    };
+  }, [cookieSetting, scrambleList]);
 
   return <ScramblePresenter timerState={timerState} scrambleList={scrambleList} />;
 };

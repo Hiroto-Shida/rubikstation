@@ -32,6 +32,14 @@ export const ReleasePagePresenter = () => {
       </Typography>
       <Divider sx={{ mb: 2 }} />
 
+      <StyledVersionTitle>[1.2.0] - 2024-05-30</StyledVersionTitle>
+      <List>
+        <StyledListItemText>
+          5回平均(AO5)と12回平均(AO12)時間の表示機能の追加
+        </StyledListItemText>
+        <StyledListItemText>Cookieに直近12回の記録を保存</StyledListItemText>
+      </List>
+
       <StyledVersionTitle>[1.1.3] - 2024-05-28</StyledVersionTitle>
       <List>
         <StyledListItemText>

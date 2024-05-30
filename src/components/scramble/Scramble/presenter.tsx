@@ -3,6 +3,7 @@ import { TimerState } from "../../../providers/TimerStateProvider";
 import { ScrambleText } from "../ScrambleText/container";
 import { Theme } from "@mui/material/styles";
 import { ScrambleModels } from "../ScrambleModels/container";
+import React from "react";
 
 type Props = {
   timerState: TimerState;
@@ -13,9 +14,8 @@ const marginTopStyle = (theme: Theme) => ({
   marginTop: theme.spacing(2),
 });
 
-export const ScramblePresenter = ({ timerState, scrambleList }: Props) => {
-  const isDisplay: boolean =
-    !timerState.isStarted && !timerState.startingState.isCanStart;
+export const ScramblePresenter = React.memo(({ timerState, scrambleList }: Props) => {
+  const isDisplay: boolean = !timerState.isStarted && !timerState.startingState.isCanStart;
   return (
     isDisplay &&
     scrambleList.length > 1 && (
@@ -27,4 +27,4 @@ export const ScramblePresenter = ({ timerState, scrambleList }: Props) => {
       </>
     )
   );
-};
+});
