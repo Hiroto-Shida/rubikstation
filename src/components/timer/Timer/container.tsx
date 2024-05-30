@@ -26,13 +26,15 @@ export const Timer = () => {
       const last_record_txt = time_record_list[time_record_list.length - 1];
       const reg = last_record_txt.match(/(scramble:.*)-time:null/);
       if (reg) {
-        // const milliseconds = `0${(timeRef.current % 1000) / 10}`.slice(-2);
-        // const seconds = `0${Math.floor(timeRef.current / 1000) % 60}`.slice(-2);
-        // const minutes = `0${Math.floor(timeRef.current / 60000) % 60}`.slice(-2);
-        time_record_list[time_record_list.length - 1] = `${reg[1]}-time:${timeRef.current}`;
+        time_record_list[
+          time_record_list.length - 1
+        ] = `${reg[1]}-time:${timeRef.current}`;
 
         if (time_record_list.length > 12) {
-          Cookies.set("time_record", time_record_list.slice(time_record_list.length - 12).join());
+          Cookies.set(
+            "time_record",
+            time_record_list.slice(time_record_list.length - 12).join()
+          );
         } else {
           Cookies.set("time_record", time_record_list.join());
         }
