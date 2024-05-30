@@ -1,6 +1,6 @@
-import React from "react"
-import { Box } from "@mui/material"
-import { RubicModel } from "../../components/rubicModel/RubicModel/container"
+import React from "react";
+import { Box } from "@mui/material";
+import { RubicModel } from "../../components/rubicModel/RubicModel/container";
 
 export const RubicModelPagePresenter: React.FC = () => {
   return (
@@ -11,8 +11,8 @@ export const RubicModelPagePresenter: React.FC = () => {
         justifyContent="center"
         alignItems="center"
       >
-        <RubicModel moveChar={""} />
+        <RubicModel canvasStyle={{ width: "400px", height: "400px" }} />
       </Box>
     </>
-  )
-}
+  );
+};

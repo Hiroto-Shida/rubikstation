@@ -4,7 +4,7 @@ import { NotFoundPagePresenter } from "./presenter";
 export const NotFoundPage = () => {
   return (
     <Layout>
-      <NotFoundPagePresenter />;
+      <NotFoundPagePresenter />
     </Layout>
-  )
+  );
 };

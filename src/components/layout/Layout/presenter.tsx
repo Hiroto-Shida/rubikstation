@@ -1,7 +1,8 @@
-import BugReportIcon from "@mui/icons-material/BugReport"
-import HomeIcon from "@mui/icons-material/Home"
-import Apps from "@mui/icons-material/Apps"
-import MenuIcon from "@mui/icons-material/Menu"
+import HomeIcon from "@mui/icons-material/Home";
+import Apps from "@mui/icons-material/Apps";
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+import NewReleasesIcon from "@mui/icons-material/NewReleases";
+import MenuIcon from "@mui/icons-material/Menu";
 
 import {
   AppBar,
@@ -18,31 +19,30 @@ import {
   ListSubheader,
   Toolbar,
   Typography,
-} from "@mui/material"
-import { ReactElement, ReactNode, useState } from "react"
-import { Link } from "react-router-dom"
+} from "@mui/material";
+import { ComponentProps, ReactElement, useState } from "react";
+import { Link } from "react-router-dom";
+import { Layout } from "./container";
 
-type Props = {
-  children: ReactNode
-}
+type Props = ComponentProps<typeof Layout>;
 
-const drawerWidth = 240
+const drawerWidth = 240;
 
 export const LayoutPresenter = ({ children }: Props) => {
-  const [mobileOpen, setMobileOpen] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen)
-  }
+    setMobileOpen(!mobileOpen);
+  };
 
   const AppListItem = ({
     to,
     primaryText,
     icon,
   }: {
-    to: string
-    primaryText: string
-    icon: ReactElement
+    to: string;
+    primaryText: string;
+    icon: ReactElement;
   }) => (
     <>
       <ListItem component={Link} to={to} disablePadding>
@@ -53,7 +53,7 @@ export const LayoutPresenter = ({ children }: Props) => {
       </ListItem>
       <Divider />
     </>
-  )
+  );
 
   const drawer = (
     <Box component="div">
@@ -64,16 +64,13 @@ export const LayoutPresenter = ({ children }: Props) => {
         <Divider />
         <AppListItem to={"/"} primaryText="トップ" icon={<HomeIcon />} />
         <AppListItem to={"/rubic-model"} primaryText="モデル" icon={<Apps />} />
+        <AppListItem to={"/procedure"} primaryText="6面までの手順" icon={<AppRegistrationIcon />} />
         <ListSubheader>その他</ListSubheader>
         <Divider />
-        <AppListItem
-          to={"/xxx"}
-          primaryText="404テスト"
-          icon={<BugReportIcon />}
-        />
+        <AppListItem to={"/release"} primaryText="リリース情報" icon={<NewReleasesIcon />} />
       </List>
     </Box>
-  )
+  );
 
   return (
     <Box component="div" style={{ display: "flex" }}>
@@ -101,10 +98,7 @@ export const LayoutPresenter = ({ children }: Props) => {
         </Toolbar>
       </AppBar>
 
-      <Box
-        component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-      >
+      <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}>
         <Drawer
           container={window?.document?.body}
           variant="temporary"
@@ -142,13 +136,19 @@ export const LayoutPresenter = ({ children }: Props) => {
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
         }}
       >
         <Toolbar />
-        <Box component="div">{children}</Box>
+        <Box
+          component="div"
+          sx={{
+            height: `calc(100vh - ${64 + 64}px)`, // AppBarとToolBarの分を引く
+          }}
+        >
+          {children}
+        </Box>
       </Box>
     </Box>
-  )
-}
+  );
+};
