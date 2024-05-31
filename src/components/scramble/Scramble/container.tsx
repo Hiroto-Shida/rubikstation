@@ -46,7 +46,9 @@ const generateScrambleText = (): string[] => {
         if (removeOptionPreMoveChar && removeOptionNowMoveChar) {
           const preMove = removeOptionPreMoveChar[0];
           const nowMove = removeOptionNowMoveChar[0];
-          return preMove !== nowMove && disContinuousMoveMap[preMove] !== nowMove;
+          return (
+            preMove !== nowMove && disContinuousMoveMap[preMove] !== nowMove
+          );
         }
         return true;
       })
@@ -71,7 +73,7 @@ export const Scramble = () => {
     const time_record_txt = Cookies.get("time_record");
     if (time_record_txt) {
       const time_record_list = time_record_txt.split(",");
-      time_record_list.push(`scramble:${scrambleText}-time:null`);
+      time_record_list.unshift(`scramble:${scrambleText}-time:null`);
       Cookies.set("time_record", time_record_list.join());
     } else {
       Cookies.set("time_record", `scramble:${scrambleText}-time:null`);
@@ -92,5 +94,7 @@ export const Scramble = () => {
     };
   }, [cookieSetting, scrambleList]);
 
-  return <ScramblePresenter timerState={timerState} scrambleList={scrambleList} />;
+  return (
+    <ScramblePresenter timerState={timerState} scrambleList={scrambleList} />
+  );
 };

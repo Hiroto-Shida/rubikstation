@@ -32,6 +32,13 @@ export const ReleasePagePresenter = () => {
       </Typography>
       <Divider sx={{ mb: 2 }} />
 
+      <StyledVersionTitle>[1.3.0] - 2024-05-31</StyledVersionTitle>
+      <List>
+        <StyledListItemText>
+          直近12回のタイムとスクランブルを表示する機能を追加
+        </StyledListItemText>
+      </List>
+
       <StyledVersionTitle>[1.2.0] - 2024-05-30</StyledVersionTitle>
       <List>
         <StyledListItemText>
