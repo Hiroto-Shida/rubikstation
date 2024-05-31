@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 
 export const Timer = () => {
   const [time, setTime] = useState<number>(0);
+  const [isNewRecord, setIsNewRecord] = useState<boolean>(false);
   const timeRef = useRef<number>(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -16,6 +17,27 @@ export const Timer = () => {
       timeRef.current += 10;
     }, 10);
   }
+
+  const checkNewRecord = useCallback((timeRecordList: string[]) => {
+    const timeList: number[] = [];
+    timeRecordList.forEach((recordText) => {
+      const matchRecord = recordText.match(/^scramble:.*-time:([0-9]+)$/);
+      if (matchRecord && matchRecord[1]) {
+        return timeList.push(Number(matchRecord[1]));
+      }
+    });
+
+    if (timeList.length !== 0) {
+      const aryMin = (a: number, b: number) => Math.min(a, b);
+      const fastestTimeIndex = timeList.indexOf(timeList.reduce(aryMin));
+
+      if (fastestTimeIndex === 0) {
+        setIsNewRecord(true);
+      } else {
+        setIsNewRecord(false);
+      }
+    }
+  }, []);
 
   const handlePause = useCallback(() => {
     intervalRef.current && clearInterval(intervalRef.current);
@@ -32,6 +54,7 @@ export const Timer = () => {
         } else {
           Cookies.set("time_record", time_record_list.join());
         }
+        checkNewRecord(time_record_list);
       }
     }
   }, []);
@@ -53,5 +76,11 @@ export const Timer = () => {
     timeRef.current !== 0 && handlePause();
   }, [handlePause, timerState.isStarted, timerState.startingState.isCanStart]);
 
-  return <TimerPresenter time={time} timerState={timerState} />;
+  return (
+    <TimerPresenter
+      time={time}
+      timerState={timerState}
+      isNewRecord={isNewRecord}
+    />
+  );
 };
