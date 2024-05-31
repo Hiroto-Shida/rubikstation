@@ -18,14 +18,20 @@ const Transition = React.forwardRef(function Transition(
 
 type Props = {
   timerState: TimerState;
-  ao5: number;
-  ao12: number;
   recordList: RecordType[];
   handleDeleteRecord: (index: number) => void;
 };
 
+const culcAvgTime = (timeList: number[], avgNum: number) => {
+  let ao = 0;
+  timeList.slice(0, avgNum).forEach((time) => {
+    ao += time;
+  });
+  return ao;
+};
+
 export const RecordPresenter = React.memo(
-  ({ timerState, ao5, ao12, recordList, handleDeleteRecord }: Props) => {
+  ({ timerState, recordList, handleDeleteRecord }: Props) => {
     const [isOpenRecord, setIsOpenRecord] = useState<boolean>(false);
 
     const handleClickOpenRecord = () => {
@@ -37,10 +43,19 @@ export const RecordPresenter = React.memo(
     };
 
     let fastestTimeIndex: number | null = null;
+    let ao5: number | null = null;
+    let ao12: number | null = null;
     if (recordList.length !== 0) {
       const aryMin = (a: number, b: number) => Math.min(a, b);
       const timeList = recordList.map((record) => record.time);
       fastestTimeIndex = timeList.indexOf(timeList.reduce(aryMin));
+
+      if (timeList.length >= 5) {
+        ao5 = culcAvgTime(timeList, 5);
+      }
+      if (timeList.length >= 12) {
+        ao12 = culcAvgTime(timeList, 12);
+      }
     }
 
     const isDisplay: boolean =
@@ -54,7 +69,7 @@ export const RecordPresenter = React.memo(
             sx={{ display: "flex", justifyContent: "center" }}
           >
             <VCenterTypography variant="h6">
-              AO5: {ao5 === 0 ? "-" : convertToTimerText(ao5)}
+              AO5: {ao5 ? convertToTimerText(ao5) : "-"}
             </VCenterTypography>
             <VCenterTypography
               variant="h6"
@@ -62,7 +77,7 @@ export const RecordPresenter = React.memo(
                 ml: theme.spacing(3),
               })}
             >
-              AO12: {ao12 === 0 ? "-" : convertToTimerText(ao12)}
+              AO12: {ao12 ? convertToTimerText(ao12) : "-"}
             </VCenterTypography>
             <Button
               variant="outlined"
