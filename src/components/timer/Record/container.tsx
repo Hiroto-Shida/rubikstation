@@ -11,8 +11,8 @@ export type RecordType = {
 export const Record = () => {
   const timerState = useContext(TimerStateContext);
   const [recordList, setRecordList] = useState<RecordType[]>([]);
-  const [ao5, setAo5] = useState<number>(0);
-  const [ao12, setAo12] = useState<number>(0);
+
+  console.log("rendering Record");
 
   const handleDeleteRecord = (index: number) => {
     setRecordList((prevRecordList) => {
@@ -41,20 +41,6 @@ export const Record = () => {
         }
       });
 
-      let sum_5 = 0;
-      let sum_12 = 0;
-      if (tmpRecordList.length >= 5) {
-        tmpRecordList.slice(0, 5).forEach((record) => {
-          sum_5 += record.time ? record.time : 0;
-        });
-      }
-      if (tmpRecordList.length >= 12) {
-        tmpRecordList.slice(0, 12).forEach((record) => {
-          sum_12 += record.time ? record.time : 0;
-        });
-      }
-      setAo5(sum_5 / 5);
-      setAo12(sum_12 / 12);
       setRecordList(tmpRecordList);
     }
   }, [timerState.isStarted]);
@@ -62,8 +48,6 @@ export const Record = () => {
   return (
     <RecordPresenter
       timerState={timerState}
-      ao5={ao5}
-      ao12={ao12}
       recordList={recordList}
       handleDeleteRecord={handleDeleteRecord}
     />
