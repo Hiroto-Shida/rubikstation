@@ -50,7 +50,11 @@ const Cube = ({
     <>
       <mesh position={position} ref={cubeRef} geometry={roundedBoxGeometry}>
         {colorList.map((value, index) => (
-          <meshBasicMaterial key={index} attach={`material-${index}`} color={colorsDic[value]} />
+          <meshBasicMaterial
+            key={index}
+            attach={`material-${index}`}
+            color={colorsDic[value]}
+          />
         ))}
       </mesh>
       <lineSegments position={position} ref={edgesRef}>
@@ -79,7 +83,9 @@ const MoveText = ({ moveChar }: MoveTextProps) => {
             fontSize: "10px",
             textShadow: `2px 2px 0 ${shadowColor}, -2px -2px 0 ${shadowColor}, -2px 2px 0 ${shadowColor}, 2px -2px 0 ${shadowColor}`,
             transform: "translate(-50%, -50%)",
+            // zIndex: 0,
           }}
+          // zIndexRange={[16777271, 0]}
         >
           <h1>180°</h1>
         </Html>
