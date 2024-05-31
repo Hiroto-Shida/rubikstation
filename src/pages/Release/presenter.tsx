@@ -37,6 +37,9 @@ export const ReleasePagePresenter = () => {
         <StyledListItemText>
           直近12回のタイムとスクランブルを表示する機能を追加
         </StyledListItemText>
+        <StyledListItemText>
+          新記録が出た時にタイムの上にNew Recordと表示する機能を追加
+        </StyledListItemText>
       </List>
 
       <StyledVersionTitle>[1.2.0] - 2024-05-30</StyledVersionTitle>

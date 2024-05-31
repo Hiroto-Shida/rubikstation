@@ -12,8 +12,6 @@ export const Record = () => {
   const timerState = useContext(TimerStateContext);
   const [recordList, setRecordList] = useState<RecordType[]>([]);
 
-  console.log("rendering Record");
-
   const handleDeleteRecord = (index: number) => {
     setRecordList((prevRecordList) => {
       Cookies.set(
