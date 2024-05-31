@@ -4,6 +4,8 @@ import { ComponentProps, ReactNode } from "react";
 import { Theme } from "@mui/material/styles";
 import F2L_LEFT from "/F2L_LEFT.png";
 import F2L_RIGHT from "/F2L_RIGHT.png";
+import { Step1 } from "../../components/procedure/Step1/container";
+import { Step2 } from "../../components/procedure/Step2/container";
 
 const marginTopStyle = (theme: Theme) => ({
   marginTop: theme.spacing(4),
@@ -41,13 +43,19 @@ const BodyTypography = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export const ProcedurePagePresenter = () => {
+type Props = {
+  step: string | undefined;
+};
+
+export const ProcedurePagePresenter = ({ step }: Props) => {
   return (
     <>
       <Typography variant="h4" align="left">
         6面までの手順
       </Typography>
-      <Divider sx={{ mb: 4 }} />
+      {step === "step1" && <Step1 />}
+      {step === "step2" && <Step2 />}
+      {/* <Divider sx={{ mb: 4 }} />
       <TitleTypography>1. まずは完全一面を揃えよう！(完成系)</TitleTypography>
       <StyledRubicModel status="F1L" />
       <BodyTypography>↑マウスで動かせるよ</BodyTypography>
@@ -55,15 +63,10 @@ export const ProcedurePagePresenter = () => {
       <TitleTypography>2. 完全ニ面を揃えよう！(完成系)</TitleTypography>
       <StyledRubicModel status="F2L" />
 
-      <Box
-        component="div"
-        display="flex"
-        justifyContent="left"
-        alignItems="left"
-      >
+      <Box component="div" display="flex" justifyContent="left" alignItems="left">
         <img src={F2L_LEFT} style={{ width: "500px" }} alt="F2L_LEFT"></img>
         <img src={F2L_RIGHT} style={{ width: "500px" }} alt="F2L_RIGHT"></img>
-      </Box>
+      </Box> */}
 
       {/* <BodyTypography>2.1 パターン1</BodyTypography>
       <StyledRubicModel

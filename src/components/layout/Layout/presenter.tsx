@@ -21,7 +21,7 @@ import {
   Typography,
 } from "@mui/material";
 import { ComponentProps, ReactElement, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Layout } from "./container";
 
 type Props = ComponentProps<typeof Layout>;
@@ -30,6 +30,7 @@ const drawerWidth = 240;
 
 export const LayoutPresenter = ({ children }: Props) => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = useLocation().pathname;
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -42,13 +43,20 @@ export const LayoutPresenter = ({ children }: Props) => {
   }: {
     to: string;
     primaryText: string;
-    icon: ReactElement;
+    icon?: ReactElement;
   }) => (
     <>
       <ListItem component={Link} to={to} disablePadding>
-        <ListItemButton>
+        <ListItemButton
+          sx={(theme) => ({
+            p: `${theme.spacing(2)} ${theme.spacing(1)}`,
+            backgroundColor: to === pathname ? "#e2f5ff" : "ffffff",
+          })}
+        >
           <ListItemIcon>{icon}</ListItemIcon>
-          <ListItemText primary={primaryText} />
+          <Typography sx={{ fontWeight: to === pathname ? "500" : "normal" }}>
+            {primaryText}
+          </Typography>
         </ListItemButton>
       </ListItem>
       <Divider />
@@ -65,6 +73,12 @@ export const LayoutPresenter = ({ children }: Props) => {
         <AppListItem to={"/"} primaryText="トップ" icon={<HomeIcon />} />
         <AppListItem to={"/rubic-model"} primaryText="モデル" icon={<Apps />} />
         <AppListItem to={"/procedure"} primaryText="6面までの手順" icon={<AppRegistrationIcon />} />
+        {pathname.includes(`/procedure`) && (
+          <>
+            <AppListItem to={"/procedure/step1"} primaryText="ステップ1" />
+            <AppListItem to={"/procedure/step2"} primaryText="ステップ2" />
+          </>
+        )}
         <ListSubheader>その他</ListSubheader>
         <Divider />
         <AppListItem to={"/release"} primaryText="リリース情報" icon={<NewReleasesIcon />} />
