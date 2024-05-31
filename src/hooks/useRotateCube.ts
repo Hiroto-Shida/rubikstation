@@ -18,14 +18,20 @@ export const useRotateCube = () => {
     rotationGroupRef: THREE.Group,
     cubeGroupPosition: number[],
     axis: Axis,
-    limit: Limit
+    limit: Limit,
+    isHighlightRotateGroup: boolean
   ) => {
     cubeGroupRef.children
       .slice()
       .reverse()
       .filter((c: THREE.Object3D<THREE.Object3DEventMap>) => {
         const isRotateCube = limit < 0 ? c.position[axis] < limit : c.position[axis] > limit;
-        if (!isRotateCube && (c as THREE.Mesh).isMesh && (c as THREE.Mesh).material) {
+        if (
+          isHighlightRotateGroup &&
+          !isRotateCube &&
+          (c as THREE.Mesh).isMesh &&
+          (c as THREE.Mesh).material
+        ) {
           const mesh = c as THREE.Mesh;
           if (Array.isArray(mesh.material)) {
             mesh.material.forEach((material) =>
@@ -45,8 +51,22 @@ export const useRotateCube = () => {
       });
   };
 
-  const rotateGroup = (rotationGroupRef: THREE.Group, axis: Axis, multiplier: Multiplier) => {
-    rotationGroupRef.rotation[axis] += (Math.PI / 6) * multiplier;
+  const rotateGroup = (
+    rotationGroupRef: THREE.Group,
+    axis: Axis,
+    multiplier: Multiplier,
+    isMoveMaximum: boolean
+  ) => {
+    if (isMoveMaximum) {
+      rotationGroupRef.rotation[axis] += (Math.PI / 2) * multiplier;
+    } else {
+      rotationGroupRef.rotation[axis] += (Math.PI / 6) * multiplier;
+    }
+    rotationGroupRef.position.set(
+      Math.round(rotationGroupRef.position.x),
+      Math.round(rotationGroupRef.position.y),
+      Math.round(rotationGroupRef.position.z)
+    );
   };
 
   const addArrow = (
@@ -58,6 +78,7 @@ export const useRotateCube = () => {
     let countIndex = 0;
     rotationGroupRef.children.forEach((child) => {
       if (child instanceof THREE.Mesh) {
+        child.quaternion.set(0, 0, 0, 1);
         const coneGeometry = new THREE.ConeGeometry(0.4, 1, 10);
         const cylinderGeometry = new THREE.CylinderGeometry(0.15, 0.15, 2.3, 10);
 
@@ -89,7 +110,7 @@ export const useRotateCube = () => {
 
         const distanceFromSurface = 0.7;
 
-        const childPos = child.position.toArray();
+        const childPos = child.position.toArray().map((pos) => Math.round(pos));
 
         const originAxis = ["x", "y", "z"];
 
@@ -164,11 +185,20 @@ export const useRotateCube = () => {
       cubeGroupPosition: number[],
       axis: Axis,
       limit: Limit,
-      multiplier: Multiplier
+      multiplier: Multiplier,
+      isMoveMaximum: boolean,
+      isHighlightRotateGroup: boolean
     ) => {
-      attachToRotationGroup(cubeGroupRef, rotationGroupRef, cubeGroupPosition, axis, limit);
-      rotateGroup(rotationGroupRef, axis, multiplier);
-      addArrow(rotationGroupRef, axis, limit, multiplier);
+      attachToRotationGroup(
+        cubeGroupRef,
+        rotationGroupRef,
+        cubeGroupPosition,
+        axis,
+        limit,
+        isHighlightRotateGroup
+      );
+      !isMoveMaximum && addArrow(rotationGroupRef, axis, limit, multiplier);
+      rotateGroup(rotationGroupRef, axis, multiplier, isMoveMaximum);
       resetCubeGroup(cubeGroupRef, rotationGroupRef);
     },
     []

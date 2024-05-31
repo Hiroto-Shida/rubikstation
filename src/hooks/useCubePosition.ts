@@ -9,7 +9,7 @@ const distanceHeight = 8; // cube間のy軸間隔
 export const useCubePosition = () => {
   const getCubeGroupPosition = useCallback(
     (index: number, cubesNum: number, canvasWidth: number) => {
-      const maxCubeInWidth = Math.floor(canvasWidth / oneCubeNeedCanvasWidth);
+      const maxCubeInWidth = Math.min(Math.floor(canvasWidth / oneCubeNeedCanvasWidth), cubesNum);
       const maxCubeInHeight = Math.ceil(cubesNum / maxCubeInWidth);
       const y =
         -Math.floor(index / maxCubeInWidth) * distanceHeight +

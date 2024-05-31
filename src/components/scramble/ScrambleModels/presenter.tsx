@@ -3,12 +3,14 @@ import * as THREE from "three";
 import { Cubes } from "../../rubicModel/Cubes/container";
 import React, { useRef } from "react";
 import { useResize } from "../../../hooks/useResize";
+import { CameraControls } from "@react-three/drei";
 
 type Props = {
   scrambleList: string[];
+  isKeepRotate: boolean;
 };
 
-export const ScrambleModelsPresenter = ({ scrambleList }: Props) => {
+export const ScrambleModelsPresenter = ({ scrambleList, isKeepRotate }: Props) => {
   const canvasDivRef = useRef<HTMLDivElement>(null);
   const canvasWindowSize = useResize(canvasDivRef, scrambleList.length);
 
@@ -25,18 +27,33 @@ export const ScrambleModelsPresenter = ({ scrambleList }: Props) => {
         }}
         gl={{ antialias: true }}
       >
-        {scrambleList.map((moveChar, index) => {
-          return (
-            <React.Fragment key={index}>
-              <Cubes
-                moveChar={moveChar}
-                canvasWindowSize={canvasWindowSize}
-                cubesNum={scrambleList.length}
-                index={index}
-              />
-            </React.Fragment>
-          );
-        })}
+        {isKeepRotate
+          ? scrambleList.map((_, index) => {
+              return (
+                <React.Fragment key={index}>
+                  <Cubes
+                    moveCharList={scrambleList.slice(0, index + 1)}
+                    canvasWindowSize={canvasWindowSize}
+                    cubesNum={scrambleList.length}
+                    index={index}
+                    isHighlightRotateGroup={!isKeepRotate}
+                  />
+                </React.Fragment>
+              );
+            })
+          : scrambleList.map((moveChar, index) => {
+              return (
+                <React.Fragment key={index}>
+                  <Cubes
+                    moveCharList={[moveChar]}
+                    canvasWindowSize={canvasWindowSize}
+                    cubesNum={scrambleList.length}
+                    index={index}
+                    isHighlightRotateGroup={!isKeepRotate}
+                  />
+                </React.Fragment>
+              );
+            })}
       </Canvas>
     </div>
   );

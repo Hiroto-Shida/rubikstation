@@ -8,14 +8,22 @@ import { useCubePosition } from "../../../hooks/useCubePosition";
 import { CanvasWindowSize } from "../../../hooks/useResize";
 
 type Props = {
-  moveChar?: string;
+  moveCharList: string[];
   status?: string;
   canvasWindowSize?: MutableRefObject<CanvasWindowSize>;
   cubesNum?: number;
   index?: number;
+  isHighlightRotateGroup: boolean;
 };
 
-export const Cubes = ({ moveChar, status, canvasWindowSize, cubesNum = 1, index = 0 }: Props) => {
+export const Cubes = ({
+  moveCharList,
+  status,
+  canvasWindowSize,
+  cubesNum = 1,
+  index = 0,
+  isHighlightRotateGroup,
+}: Props) => {
   const { rotate } = useRotateCube();
   const { getCubeGroupPosition, updateCubesPosition } = useCubePosition();
 
@@ -47,29 +55,38 @@ export const Cubes = ({ moveChar, status, canvasWindowSize, cubesNum = 1, index 
   });
 
   useEffect(() => {
-    if (cubeGroupRef.current && canvasWindowSize && canvasWindowSize.current && moveChar) {
-      const regexMoveChar = /2/;
-      const removedTwoMoveChar = moveChar.replace(regexMoveChar, "");
-      const cubePos = getCubeGroupPosition(index, cubesNum, canvasWindowSize.current.width);
-      updateCubesPosition(
-        cubeGroupRef.current,
-        moveTextRef.current,
-        index,
-        cubesNum,
-        canvasWindowSize.current.width
-      );
-      if (ROTATE_DIRECTION[removedTwoMoveChar]) {
-        rotate(
+    if (
+      cubeGroupRef.current &&
+      canvasWindowSize &&
+      canvasWindowSize.current &&
+      moveCharList.length > 0
+    ) {
+      moveCharList.forEach((moveChar, movingIndex) => {
+        const regexMoveChar = /2/;
+        const removedTwoMoveChar = moveChar.replace(regexMoveChar, "");
+        const cubePos = getCubeGroupPosition(index, cubesNum, canvasWindowSize.current.width);
+        updateCubesPosition(
           cubeGroupRef.current,
-          rotationGroupRef.current,
-          cubePos,
-          ROTATE_DIRECTION[removedTwoMoveChar][0],
-          ROTATE_DIRECTION[removedTwoMoveChar][1],
-          ROTATE_DIRECTION[removedTwoMoveChar][2]
+          moveTextRef.current,
+          index,
+          cubesNum,
+          canvasWindowSize.current.width
         );
-      } else {
-        console.log(`回転記号 ${moveChar} は存在しません`);
-      }
+        if (ROTATE_DIRECTION[removedTwoMoveChar]) {
+          rotate(
+            cubeGroupRef.current,
+            rotationGroupRef.current,
+            cubePos,
+            ROTATE_DIRECTION[removedTwoMoveChar][0],
+            ROTATE_DIRECTION[removedTwoMoveChar][1],
+            ROTATE_DIRECTION[removedTwoMoveChar][2],
+            movingIndex !== moveCharList.length - 1,
+            isHighlightRotateGroup
+          );
+        } else {
+          console.log(`回転記号 ${moveChar} は存在しません`);
+        }
+      });
       cubeGroupRef.current.rotation.set(Math.PI / 5, -Math.PI / 4, 0);
       isSetupCompletion.current = true; // セットアップ完了
     }
@@ -78,7 +95,8 @@ export const Cubes = ({ moveChar, status, canvasWindowSize, cubesNum = 1, index 
     cubesNum,
     getCubeGroupPosition,
     index,
-    moveChar,
+    isHighlightRotateGroup,
+    moveCharList,
     rotate,
     updateCubesPosition,
   ]);
@@ -87,7 +105,7 @@ export const Cubes = ({ moveChar, status, canvasWindowSize, cubesNum = 1, index 
     <CubesPresenter
       cubeGroupRef={cubeGroupRef}
       moveTextRef={moveTextRef}
-      moveChar={moveChar}
+      moveChar={moveCharList[moveCharList.length - 1]}
       rotationGroupRef={rotationGroupRef}
       status={status}
     />
