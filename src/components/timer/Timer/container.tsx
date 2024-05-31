@@ -23,18 +23,12 @@ export const Timer = () => {
     const time_record_txt = Cookies.get("time_record");
     if (time_record_txt) {
       const time_record_list = time_record_txt.split(",");
-      const last_record_txt = time_record_list[time_record_list.length - 1];
+      const last_record_txt = time_record_list[0];
       const reg = last_record_txt.match(/(scramble:.*)-time:null/);
       if (reg) {
-        time_record_list[
-          time_record_list.length - 1
-        ] = `${reg[1]}-time:${timeRef.current}`;
-
+        time_record_list[0] = `${reg[1]}-time:${timeRef.current}`;
         if (time_record_list.length > 12) {
-          Cookies.set(
-            "time_record",
-            time_record_list.slice(time_record_list.length - 12).join()
-          );
+          Cookies.set("time_record", time_record_list.slice(0, 12).join());
         } else {
           Cookies.set("time_record", time_record_list.join());
         }

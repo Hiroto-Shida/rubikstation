@@ -15,16 +15,15 @@ export const Record = () => {
   const [ao12, setAo12] = useState<number>(0);
 
   const handleDeleteRecord = (index: number) => {
-    console.log(`delete ${index}`);
     setRecordList((prevRecordList) => {
       Cookies.set(
         "time_record",
         prevRecordList
-          .filter((record, i) => i !== index)
+          .filter((_, i) => i !== index)
           .map((record) => `scramble:${record.scramble}-time:${record.time}`)
           .join()
       );
-      return prevRecordList.filter((record, i) => i !== index);
+      return prevRecordList.filter((_, i) => i !== index);
     });
   };
 
@@ -35,19 +34,22 @@ export const Record = () => {
       cookie_time_record.split(",").forEach((txt) => {
         const matchTime = txt.match(/^scramble:(.*)-time:([0-9]+)$/);
         if (matchTime && matchTime[1] && matchTime[2]) {
-          tmpRecordList.push({ scramble: matchTime[1], time: Number(matchTime[2]) });
+          tmpRecordList.push({
+            scramble: matchTime[1],
+            time: Number(matchTime[2]),
+          });
         }
       });
 
       let sum_5 = 0;
       let sum_12 = 0;
       if (tmpRecordList.length >= 5) {
-        tmpRecordList.slice(tmpRecordList.length - 5).forEach((record) => {
+        tmpRecordList.slice(0, 5).forEach((record) => {
           sum_5 += record.time ? record.time : 0;
         });
       }
       if (tmpRecordList.length >= 12) {
-        tmpRecordList.slice(tmpRecordList.length - 12).forEach((record) => {
+        tmpRecordList.slice(0, 12).forEach((record) => {
           sum_12 += record.time ? record.time : 0;
         });
       }
