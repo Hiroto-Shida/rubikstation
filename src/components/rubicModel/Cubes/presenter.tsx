@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import {
+  BLACK,
   CROSS_SURFACE_COLORS,
   DEFAULT_SURFACE_COLORS,
   F1L_SURFACE_COLORS,
@@ -106,17 +107,25 @@ const MoveText = ({ moveChar }: MoveTextProps) => {
 };
 
 const model = (status: string, z: number, y: number, x: number) => {
+  const colorList = (colorDic: { [key: number]: string[] }) => {
+    if (z + y * 3 + x * 9 in colorDic) {
+      return colorDic[z + y * 3 + x * 9];
+    } else {
+      return BLACK;
+    }
+  };
+
   switch (status) {
     case "CROSS":
-      return CROSS_SURFACE_COLORS[z + y * 3 + x * 9];
+      return colorList(CROSS_SURFACE_COLORS);
     case "F1L":
-      return F1L_SURFACE_COLORS[z + y * 3 + x * 9];
+      return colorList(F1L_SURFACE_COLORS);
     case "F2L":
-      return F2L_SURFACE_COLORS[z + y * 3 + x * 9];
+      return colorList(F2L_SURFACE_COLORS);
     case "F2L_LEFT":
-      return F2L_LEFT_SURFACE_COLORS[z + y * 3 + x * 9];
+      return colorList(F2L_LEFT_SURFACE_COLORS);
     case "F2L_RIGHT":
-      return F2L_RIGHT_SURFACE_COLORS[z + y * 3 + x * 9];
+      return colorList(F2L_RIGHT_SURFACE_COLORS);
     default:
       return DEFAULT_SURFACE_COLORS[0];
   }

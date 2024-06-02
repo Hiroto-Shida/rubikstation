@@ -138,7 +138,6 @@ export const useRotateCube = () => {
         }
 
         if (isTargetAddArrow) {
-          console.log(`${childPos[0]}, ${childPos[1]}, ${childPos[2]}`);
           if (originAxis[childPos.indexOf(0)] === "x") {
             arrowGroup.position.set(
               childPos[0] * 2,
