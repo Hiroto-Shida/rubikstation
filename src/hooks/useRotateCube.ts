@@ -54,10 +54,12 @@ export const useRotateCube = () => {
     rotationGroupRef: THREE.Group,
     axis: Axis,
     multiplier: Multiplier,
+    isMoveTwice: boolean,
     isMoveMaximum: boolean
   ) => {
     if (isMoveMaximum) {
-      rotationGroupRef.rotation[axis] += (Math.PI / 2) * multiplier;
+      const rotateAngle = isMoveTwice ? Math.PI : Math.PI / 2;
+      rotationGroupRef.rotation[axis] += rotateAngle * multiplier;
     } else {
       rotationGroupRef.rotation[axis] += (Math.PI / 6) * multiplier;
     }
@@ -86,31 +88,35 @@ export const useRotateCube = () => {
         const coneGeometry = new THREE.ConeGeometry(0.4, 1, 10);
         const cylinderGeometry = new THREE.CylinderGeometry(0.15, 0.15, 2.3, 10);
 
+        const meshColor = "#6bcacd";
+        const lineColor = "#000000";
         const meshMaterial = new THREE.MeshStandardMaterial({
-          color: "#000000",
-          emissive: "#000000",
+          color: meshColor,
+          emissive: meshColor,
         });
         const lineMaterial = new THREE.MeshStandardMaterial({
-          color: "#ff0000",
-          emissive: "#ff0000",
+          color: lineColor,
+          emissive: lineColor,
         });
 
         const arrowGroup = new THREE.Group();
 
         const coneMesh = new THREE.Mesh(coneGeometry, meshMaterial);
-
         const coneWireframe = new THREE.WireframeGeometry(coneGeometry);
         const coneLine = new THREE.LineSegments(coneWireframe, lineMaterial);
-
         coneMesh.position.setY(1);
         coneLine.position.setY(1);
 
         const cylinderMesh = new THREE.Mesh(cylinderGeometry, meshMaterial);
+        const cylinderWireframe = new THREE.WireframeGeometry(cylinderGeometry);
+        const cylinderLine = new THREE.LineSegments(cylinderWireframe, lineMaterial);
         cylinderMesh.position.setY(-0.2);
+        cylinderLine.position.setY(-0.2);
 
         arrowGroup.add(coneMesh);
         arrowGroup.add(coneLine);
         arrowGroup.add(cylinderMesh);
+        arrowGroup.add(cylinderLine);
 
         const distanceFromSurface = 1 * Math.sign(limit);
 
@@ -205,12 +211,17 @@ export const useRotateCube = () => {
       cubeGroupRef: THREE.Group,
       rotationGroupRef: THREE.Group,
       cubeGroupPosition: number[],
-      axis: Axis,
-      limit: Limit,
-      multiplier: Multiplier,
+      // axis: Axis,
+      // limit: Limit,
+      // multiplier: Multiplier,
+      rotateDirection: [Axis, Limit, Multiplier],
+      isMoveTwice: boolean,
       isMoveMaximum: boolean,
       isHighlightRotateGroup: boolean
     ) => {
+      const axis = rotateDirection[0];
+      const limit = rotateDirection[1];
+      const multiplier = rotateDirection[2];
       attachToRotationGroup(
         cubeGroupRef,
         rotationGroupRef,
@@ -220,7 +231,7 @@ export const useRotateCube = () => {
         isHighlightRotateGroup
       );
       !isMoveMaximum && addArrow(cubeGroupRef, rotationGroupRef, axis, limit, multiplier);
-      rotateGroup(rotationGroupRef, axis, multiplier, isMoveMaximum);
+      rotateGroup(rotationGroupRef, axis, multiplier, isMoveTwice, isMoveMaximum);
       resetCubeGroup(cubeGroupRef, rotationGroupRef);
     },
     []

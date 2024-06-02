@@ -8,9 +8,17 @@ type Props = {
   status?: string;
   canvasStyle?: Pick<ComponentProps<typeof Canvas>, "style">["style"];
   canvasCamera?: Pick<ComponentProps<typeof Canvas>, "camera">["camera"];
+  isRotate?: boolean; // 回転アニメーションをいれるか
 };
 
-export const RubicModel = ({ axis, cameraControls, status, canvasStyle, canvasCamera }: Props) => {
+export const RubicModel = ({
+  axis,
+  cameraControls,
+  status,
+  canvasStyle,
+  canvasCamera,
+  isRotate,
+}: Props) => {
   return (
     <RubicModelPresenter
       axis={axis}
@@ -18,6 +26,7 @@ export const RubicModel = ({ axis, cameraControls, status, canvasStyle, canvasCa
       status={status}
       canvasStyle={canvasStyle}
       canvasCamera={canvasCamera}
+      isRotate={isRotate}
     />
   );
 };

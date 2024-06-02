@@ -1,16 +1,13 @@
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
 import { Cubes } from "../../rubicModel/Cubes/container";
-import React, { useRef } from "react";
+import React, { ComponentProps, useRef } from "react";
 import { useResize } from "../../../hooks/useResize";
-import { CameraControls } from "@react-three/drei";
+import { ScrambleModels } from "./container";
 
-type Props = {
-  scrambleList: string[];
-  isKeepRotate: boolean;
-};
+type Props = ComponentProps<typeof ScrambleModels>;
 
-export const ScrambleModelsPresenter = ({ scrambleList, isKeepRotate }: Props) => {
+export const ScrambleModelsPresenter = ({ status, scrambleList, isKeepRotate }: Props) => {
   const canvasDivRef = useRef<HTMLDivElement>(null);
   const canvasWindowSize = useResize(canvasDivRef, scrambleList.length);
 
@@ -32,6 +29,7 @@ export const ScrambleModelsPresenter = ({ scrambleList, isKeepRotate }: Props) =
               return (
                 <React.Fragment key={index}>
                   <Cubes
+                    status={status}
                     moveCharList={scrambleList.slice(0, index + 1)}
                     canvasWindowSize={canvasWindowSize}
                     cubesNum={scrambleList.length}
@@ -54,7 +52,6 @@ export const ScrambleModelsPresenter = ({ scrambleList, isKeepRotate }: Props) =
                 </React.Fragment>
               );
             })}
-        <CameraControls />
       </Canvas>
     </div>
   );

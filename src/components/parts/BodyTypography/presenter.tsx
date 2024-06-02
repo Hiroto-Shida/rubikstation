@@ -7,7 +7,7 @@ type Props = ComponentProps<typeof BodyTypography>;
 export const BodyTypographyPresenter = ({ children }: Props) => {
   return (
     <>
-      <Typography variant="body1" align="left">
+      <Typography variant="body1" align="left" sx={{ fontSize: "18px" }}>
         {children}
       </Typography>
     </>

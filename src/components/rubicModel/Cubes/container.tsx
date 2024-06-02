@@ -14,6 +14,7 @@ type Props = {
   cubesNum?: number;
   index?: number;
   isHighlightRotateGroup?: boolean;
+  isRotate?: boolean;
 };
 
 export const Cubes = ({
@@ -23,6 +24,7 @@ export const Cubes = ({
   cubesNum = 1,
   index = 0,
   isHighlightRotateGroup = false,
+  isRotate = false,
 }: Props) => {
   const { rotate } = useRotateCube();
   const { getCubeGroupPosition, updateCubesPosition } = useCubePosition();
@@ -54,7 +56,7 @@ export const Cubes = ({
       );
       prevCanvasWidth.current = canvasWindowSize.current.width;
     }
-    if (!moveCharList && cubeGroupRef.current) {
+    if (!moveCharList && cubeGroupRef.current && isRotate) {
       cubeGroupRef.current.rotation.y += 0.02;
     }
   });
@@ -83,9 +85,8 @@ export const Cubes = ({
             cubeGroupRef.current,
             rotationGroupRef.current,
             cubePos,
-            ROTATE_DIRECTION[removedTwoMoveChar][0],
-            ROTATE_DIRECTION[removedTwoMoveChar][1],
-            ROTATE_DIRECTION[removedTwoMoveChar][2],
+            ROTATE_DIRECTION[removedTwoMoveChar],
+            moveChar.match(/2/) ? true : false,
             movingIndex !== moveCharList.length - 1,
             isHighlightRotateGroup
           );

@@ -1,13 +1,5 @@
 import * as THREE from "three";
-import {
-  BLACK,
-  CROSS_SURFACE_COLORS,
-  DEFAULT_SURFACE_COLORS,
-  F1L_SURFACE_COLORS,
-  F2L_LEFT_SURFACE_COLORS,
-  F2L_RIGHT_SURFACE_COLORS,
-  F2L_SURFACE_COLORS,
-} from "../surfaceColors";
+import { BLACK, DEFAULT, surfaceColorList } from "../surfaceColors";
 import { MutableRefObject, useEffect, useMemo, useRef } from "react";
 import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
 import { Html } from "@react-three/drei";
@@ -107,28 +99,17 @@ const MoveText = ({ moveChar }: MoveTextProps) => {
 };
 
 const model = (status: string, z: number, y: number, x: number) => {
-  const colorList = (colorDic: { [key: number]: string[] }) => {
-    if (z + y * 3 + x * 9 in colorDic) {
-      return colorDic[z + y * 3 + x * 9];
-    } else {
-      return BLACK;
-    }
-  };
-
-  switch (status) {
-    case "CROSS":
-      return colorList(CROSS_SURFACE_COLORS);
-    case "F1L":
-      return colorList(F1L_SURFACE_COLORS);
-    case "F2L":
-      return colorList(F2L_SURFACE_COLORS);
-    case "F2L_LEFT":
-      return colorList(F2L_LEFT_SURFACE_COLORS);
-    case "F2L_RIGHT":
-      return colorList(F2L_RIGHT_SURFACE_COLORS);
-    default:
-      return DEFAULT_SURFACE_COLORS[0];
+  const colorDic: { [key: number]: string[] | undefined } | undefined = surfaceColorList(status);
+  if (!colorDic) {
+    return DEFAULT;
   }
+  if (z + y * 3 + x * 9 in colorDic) {
+    const colorList = colorDic[z + y * 3 + x * 9];
+    if (colorList) {
+      return colorList;
+    }
+  }
+  return BLACK;
 };
 
 type Props = {
