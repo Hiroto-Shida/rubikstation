@@ -36,7 +36,7 @@ export const ScrambleModelsPresenter = ({ scrambleList, isKeepRotate }: Props) =
                     canvasWindowSize={canvasWindowSize}
                     cubesNum={scrambleList.length}
                     index={index}
-                    isHighlightRotateGroup={!isKeepRotate}
+                    // isHighlightRotateGroup={!isKeepRotate}
                   />
                 </React.Fragment>
               );
@@ -49,11 +49,12 @@ export const ScrambleModelsPresenter = ({ scrambleList, isKeepRotate }: Props) =
                     canvasWindowSize={canvasWindowSize}
                     cubesNum={scrambleList.length}
                     index={index}
-                    isHighlightRotateGroup={!isKeepRotate}
+                    isHighlightRotateGroup={true}
                   />
                 </React.Fragment>
               );
             })}
+        <CameraControls />
       </Canvas>
     </div>
   );

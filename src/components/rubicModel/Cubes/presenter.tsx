@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import {
+  CROSS_SURFACE_COLORS,
   DEFAULT_SURFACE_COLORS,
   F1L_SURFACE_COLORS,
   F2L_LEFT_SURFACE_COLORS,
@@ -29,6 +30,7 @@ const Cube = ({
 
   const cubeRef = useRef<THREE.Mesh>(null);
   const edgesRef = useRef<THREE.LineSegments>(null);
+  // const oneCubeGroupRef = useRef<THREE.Group>(null)
 
   useEffect(() => {
     if (cubeRef.current) {
@@ -48,18 +50,16 @@ const Cube = ({
 
   return (
     <>
-      <mesh position={position} ref={cubeRef} geometry={roundedBoxGeometry}>
-        {colorList.map((value, index) => (
-          <meshBasicMaterial
-            key={index}
-            attach={`material-${index}`}
-            color={colorsDic[value]}
-          />
-        ))}
-      </mesh>
-      <lineSegments position={position} ref={edgesRef}>
-        <lineDashedMaterial color={"#393939"} gapSize={0.1} />
-      </lineSegments>
+      <group position={position}>
+        <mesh ref={cubeRef} geometry={roundedBoxGeometry}>
+          {colorList.map((value, index) => (
+            <meshBasicMaterial key={index} attach={`material-${index}`} color={colorsDic[value]} />
+          ))}
+        </mesh>
+        <lineSegments ref={edgesRef}>
+          <lineDashedMaterial color={"#393939"} gapSize={0.1} />
+        </lineSegments>
+      </group>
     </>
   );
 };
@@ -107,6 +107,8 @@ const MoveText = ({ moveChar }: MoveTextProps) => {
 
 const model = (status: string, z: number, y: number, x: number) => {
   switch (status) {
+    case "CROSS":
+      return CROSS_SURFACE_COLORS[z + y * 3 + x * 9];
     case "F1L":
       return F1L_SURFACE_COLORS[z + y * 3 + x * 9];
     case "F2L":

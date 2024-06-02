@@ -8,7 +8,6 @@ import { RubicModel } from "./container";
 type Props = ComponentProps<typeof RubicModel>;
 
 export const RubicModelPresenter = ({
-  moveChar,
   axis = true,
   cameraControls = true,
   status,
@@ -18,16 +17,14 @@ export const RubicModelPresenter = ({
   return (
     <>
       <Canvas
-        camera={canvasCamera}
+        camera={{ position: canvasCamera.position, zoom: 0.7 }}
         onCreated={({ gl }) => {
           gl.setClearColor(new THREE.Color("#bdbdbd"));
         }}
         gl={{ antialias: true }}
         style={canvasStyle}
       >
-        <ambientLight intensity={1.5} />
-        <pointLight position={[10, 10, 10]} />
-        <Cubes moveChar={moveChar} status={status} />
+        <Cubes status={status} />
 
         {cameraControls && <CameraControls />}
         {/* X:red, Y:green, Z:blue. args:長さ */}

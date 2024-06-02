@@ -24,25 +24,6 @@ const StyledRubicModel = ({
   );
 };
 
-const TitleTypography = ({ children }: { children: ReactNode }) => {
-  return (
-    <>
-      <Box component="div" sx={(theme) => marginTopStyle(theme)} />
-      <Typography variant="h6" align="left">
-        {children}
-      </Typography>
-    </>
-  );
-};
-
-const BodyTypography = ({ children }: { children: ReactNode }) => {
-  return (
-    <Typography variant="body1" align="left">
-      {children}
-    </Typography>
-  );
-};
-
 type Props = {
   step: string | undefined;
 };

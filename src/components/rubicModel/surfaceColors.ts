@@ -2,6 +2,36 @@ export const DEFAULT_SURFACE_COLORS: { [key: number]: string[] } = {
   0: ["red", "orange", "yellow", "white", "blue", "green"],
 };
 
+export const CROSS_SURFACE_COLORS: { [key: number]: string[] } = {
+  0: ["black", "black", "black", "black", "black", "black"],
+  1: ["red", "orange", "yellow", "white", "blue", "green"],
+  2: ["black", "black", "black", "black", "black", "black"],
+  3: ["black", "black", "black", "black", "black", "black"],
+  4: ["red", "orange", "yellow", "white", "blue", "green"],
+  5: ["black", "black", "black", "black", "black", "black"],
+  6: ["black", "black", "black", "black", "black", "black"],
+  7: ["black", "black", "black", "black", "black", "black"],
+  8: ["black", "black", "black", "black", "black", "black"],
+  9: ["red", "orange", "yellow", "white", "blue", "green"],
+  10: ["red", "orange", "yellow", "white", "blue", "green"],
+  11: ["red", "orange", "yellow", "white", "blue", "green"],
+  12: ["red", "orange", "yellow", "white", "blue", "green"],
+  13: ["black", "black", "black", "black", "black", "black"],
+  14: ["red", "orange", "yellow", "white", "blue", "green"],
+  15: ["black", "black", "black", "black", "black", "black"],
+  16: ["red", "orange", "yellow", "white", "blue", "green"],
+  17: ["black", "black", "black", "black", "black", "black"],
+  18: ["black", "black", "black", "black", "black", "black"],
+  19: ["red", "orange", "yellow", "white", "blue", "green"],
+  20: ["black", "black", "black", "black", "black", "black"],
+  21: ["black", "black", "black", "black", "black", "black"],
+  22: ["red", "orange", "yellow", "white", "blue", "green"],
+  23: ["black", "black", "black", "black", "black", "black"],
+  24: ["black", "black", "black", "black", "black", "black"],
+  25: ["black", "black", "black", "black", "black", "black"],
+  26: ["black", "black", "black", "black", "black", "black"],
+};
+
 export const F1L_SURFACE_COLORS: { [key: number]: string[] } = {
   0: ["red", "orange", "yellow", "white", "blue", "green"],
   1: ["red", "orange", "yellow", "white", "blue", "green"],

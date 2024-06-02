@@ -8,12 +8,12 @@ import { useCubePosition } from "../../../hooks/useCubePosition";
 import { CanvasWindowSize } from "../../../hooks/useResize";
 
 type Props = {
-  moveCharList: string[];
+  moveCharList?: string[];
   status?: string;
   canvasWindowSize?: MutableRefObject<CanvasWindowSize>;
   cubesNum?: number;
   index?: number;
-  isHighlightRotateGroup: boolean;
+  isHighlightRotateGroup?: boolean;
 };
 
 export const Cubes = ({
@@ -22,7 +22,7 @@ export const Cubes = ({
   canvasWindowSize,
   cubesNum = 1,
   index = 0,
-  isHighlightRotateGroup,
+  isHighlightRotateGroup = false,
 }: Props) => {
   const { rotate } = useRotateCube();
   const { getCubeGroupPosition, updateCubesPosition } = useCubePosition();
@@ -37,6 +37,8 @@ export const Cubes = ({
   // リサイズ時(canvasWidth.currentが変化した時)に各キューブの位置を再調整
   useFrame(() => {
     if (
+      moveCharList &&
+      moveCharList.length > 0 &&
       canvasWindowSize &&
       prevCanvasWidth.current != canvasWindowSize.current.width &&
       cubeGroupRef.current &&
@@ -52,6 +54,9 @@ export const Cubes = ({
       );
       prevCanvasWidth.current = canvasWindowSize.current.width;
     }
+    if (!moveCharList && cubeGroupRef.current) {
+      cubeGroupRef.current.rotation.y += 0.02;
+    }
   });
 
   useEffect(() => {
@@ -59,6 +64,7 @@ export const Cubes = ({
       cubeGroupRef.current &&
       canvasWindowSize &&
       canvasWindowSize.current &&
+      moveCharList &&
       moveCharList.length > 0
     ) {
       moveCharList.forEach((moveChar, movingIndex) => {
@@ -83,8 +89,6 @@ export const Cubes = ({
             movingIndex !== moveCharList.length - 1,
             isHighlightRotateGroup
           );
-        } else {
-          console.log(`回転記号 ${moveChar} は存在しません`);
         }
       });
       cubeGroupRef.current.rotation.set(Math.PI / 5, -Math.PI / 4, 0);
@@ -105,7 +109,9 @@ export const Cubes = ({
     <CubesPresenter
       cubeGroupRef={cubeGroupRef}
       moveTextRef={moveTextRef}
-      moveChar={moveCharList[moveCharList.length - 1]}
+      moveChar={
+        moveCharList && moveCharList.length > 0 ? moveCharList[moveCharList.length - 1] : undefined
+      }
       rotationGroupRef={rotationGroupRef}
       status={status}
     />
