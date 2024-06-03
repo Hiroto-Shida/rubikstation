@@ -75,8 +75,8 @@ export const LayoutPresenter = ({ children }: Props) => {
         <AppListItem to={"/procedure"} primaryText="6面までの手順" icon={<AppRegistrationIcon />} />
         {pathname.includes(`/procedure`) && (
           <>
-            <AppListItem to={"/procedure/step1"} primaryText="ステップ1" />
-            <AppListItem to={"/procedure/step2"} primaryText="ステップ2" />
+            <AppListItem to={"/procedure/1"} primaryText="ステップ1" />
+            <AppListItem to={"/procedure/2"} primaryText="ステップ2" />
           </>
         )}
         <ListSubheader>その他</ListSubheader>

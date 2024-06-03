@@ -15,31 +15,75 @@ export const surfaceColorList = (
         22: ["orange", "black", "black", "black", "black", "black"],
         25: ["orange", "black", "white", "black", "black", "black"],
       };
+
     case "CROSS_CENTER_EX1":
       return {
         16: ["black", "black", "white", "black", "black", "black"], // top
         23: ["blue", "black", "black", "black", "white", "black"],
       };
+
     case "CROSS_CENTER_EX2":
       return {
         16: ["black", "black", "white", "black", "black", "black"], // top
         23: ["white", "black", "black", "black", "red", "black"],
       };
+
     case "CROSS_BOTTOM_SIDE_EX1":
       return {
         16: ["black", "black", "white", "black", "black", "black"], // top
-        11: ["black", "black", "black", "red", "white", "black"],
+        17: ["black", "black", "blue", "black", "white", "black"],
       };
+
     case "CROSS_BOTTOM_SIDE_EX2":
       return {
         16: ["black", "black", "white", "black", "black", "black"], // top
-        19: ["white", "black", "black", "blue", "black", "black"],
+        19: ["white", "black", "black", "red", "black", "black"],
       };
+
     case "CROSS_BOTTOM_BOTTOM":
       return {
         16: ["black", "black", "white", "black", "black", "black"], // top
         19: ["blue", "black", "black", "white", "black", "black"],
       };
+
+    case "CROSS_PRACTICE_1":
+      return {
+        16: ["black", "black", "white", "black", "black", "black"], // top
+        17: ["black", "black", "white", "black", "green", "black"],
+        23: ["blue", "black", "black", "black", "white", "black"],
+        25: ["red", "black", "white", "black", "black", "black"],
+      };
+
+    case "CROSS_PRACTICE_2":
+      return {
+        16: ["black", "black", "white", "black", "black", "black"], // top
+        17: ["black", "black", "white", "black", "green", "black"],
+        19: ["white", "black", "black", "blue", "black", "black"],
+        25: ["red", "black", "white", "black", "black", "black"],
+      };
+
+    case "CROSS_PRACTICE_3":
+      return {
+        7: ["black", "blue", "white", "black", "black", "black"],
+        16: ["black", "black", "white", "black", "black", "black"], // top
+        17: ["black", "black", "orange", "black", "white", "black"],
+        25: ["green", "black", "white", "black", "black", "black"],
+      };
+
+    case "CROSS_CONFIRM":
+      return {
+        4: ["black", "red", "black", "black", "black", "black"],
+        7: ["black", "green", "white", "black", "black", "black"],
+        10: ["black", "black", "black", "yellow", "black", "black"],
+        12: ["black", "black", "black", "black", "black", "green"],
+        14: ["black", "black", "black", "black", "blue", "black"],
+        15: ["black", "black", "white", "black", "black", "orange"],
+        16: ["black", "black", "white", "black", "black", "black"], // top
+        17: ["black", "black", "white", "black", "red", "black"],
+        22: ["orange", "black", "black", "black", "black", "black"],
+        25: ["blue", "black", "white", "black", "black", "black"],
+      };
+
     case "F1L":
       return {
         0: ["red", "orange", "yellow", "white", "blue", "green"],
@@ -52,6 +96,7 @@ export const surfaceColorList = (
         19: ["red", "orange", "yellow", "white", "blue", "green"],
         20: ["red", "orange", "yellow", "white", "blue", "green"],
       };
+
     case "F2L":
       return {
         0: ["red", "orange", "yellow", "white", "blue", "green"],
@@ -73,6 +118,7 @@ export const surfaceColorList = (
         22: ["red", "orange", "yellow", "white", "blue", "green"],
         23: ["red", "orange", "yellow", "white", "blue", "green"],
       };
+
     case "F2L_LEFT":
       return {
         0: ["red", "orange", "yellow", "white", "blue", "green"],
@@ -91,6 +137,7 @@ export const surfaceColorList = (
         20: ["red", "orange", "yellow", "white", "blue", "green"],
         22: ["red", "orange", "yellow", "white", "blue", "green"],
       };
+
     case "F2L_RIGHT":
       return {
         0: ["red", "orange", "yellow", "white", "blue", "green"],
