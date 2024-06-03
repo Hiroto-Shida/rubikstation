@@ -27,7 +27,7 @@ const culcAvgTime = (timeList: number[], avgNum: number) => {
   timeList.slice(0, avgNum).forEach((time) => {
     ao += time;
   });
-  return ao;
+  return ao / avgNum;
 };
 
 export const RecordPresenter = React.memo(
