@@ -98,6 +98,44 @@ const MoveText = ({ moveChar }: MoveTextProps) => {
   );
 };
 
+const Bracket = ({ start, end }: { start?: boolean; end?: boolean }) => {
+  const direction = start ? -1 : end ? 1 : 1;
+  const blacketColor = "#353535";
+  return (
+    <>
+      <mesh position={[direction * 2.7, 0, 0]}>
+        <boxGeometry args={[0.3, 6, 1]} />
+        <meshBasicMaterial color={blacketColor} />
+      </mesh>
+      <mesh position={[direction * 2.7 - direction * 0.25, 3, 0]}>
+        <boxGeometry args={[0.8, 0.3, 1]} />
+        <meshBasicMaterial color={blacketColor} />
+      </mesh>
+      <mesh position={[direction * 2.7 - direction * 0.25, -3, 0]}>
+        <boxGeometry args={[0.8, 0.3, 1]} />
+        <meshBasicMaterial color={blacketColor} />
+      </mesh>
+    </>
+  );
+};
+
+const SupportText = ({ supportText }: { supportText: string }) => {
+  return (
+    <Html
+      as="div"
+      position={new THREE.Vector3(-1.7, 4.7, 0)}
+      style={{
+        color: "#000000",
+        fontWeight: "bold",
+        width: "200px",
+        textAlign: "left",
+      }}
+    >
+      <h3>{supportText}</h3>
+    </Html>
+  );
+};
+
 const model = (status: string, z: number, y: number, x: number) => {
   const colorDic: { [key: number]: string[] | undefined } | undefined = surfaceColorList(status);
   if (!colorDic) {
@@ -117,6 +155,10 @@ type Props = {
   moveTextRef: MutableRefObject<THREE.Group<THREE.Object3DEventMap>>;
   moveChar?: string;
   rotationGroupRef: MutableRefObject<THREE.Group<THREE.Object3DEventMap>>;
+  braketRef: MutableRefObject<THREE.Group<THREE.Object3DEventMap>>;
+  supportText: string | undefined;
+  supportTextRef: MutableRefObject<THREE.Group<THREE.Object3DEventMap>>;
+  braketNeed: { start: boolean; end: boolean };
   status?: string;
 };
 
@@ -125,10 +167,29 @@ export const CubesPresenter = ({
   moveTextRef,
   moveChar,
   rotationGroupRef,
+  braketRef,
+  supportText,
+  supportTextRef,
+  braketNeed,
   status = "default",
 }: Props) => {
   return (
     <>
+      {braketNeed.start && (
+        <group ref={braketRef}>
+          <Bracket start />
+        </group>
+      )}
+      {braketNeed.end && (
+        <group ref={braketRef}>
+          <Bracket end />
+        </group>
+      )}
+      {supportText && (
+        <group ref={supportTextRef}>
+          <SupportText supportText={supportText} />
+        </group>
+      )}
       <group ref={cubeGroupRef}>
         {[...Array(3).keys()].map((x) =>
           [...Array(3).keys()].map((y) =>

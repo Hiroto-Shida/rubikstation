@@ -26,6 +26,8 @@ export const useCubePosition = () => {
     (
       cubeGoupRef: THREE.Group,
       moveTextRef: THREE.Group,
+      braketRef: THREE.Group,
+      supportTextRef: THREE.Group,
       index: number,
       cubesNum: number,
       canvasWidth: number
@@ -33,6 +35,8 @@ export const useCubePosition = () => {
       const cubePos = getCubeGroupPosition(index, cubesNum, canvasWidth);
       cubeGoupRef.position.set(cubePos[0], cubePos[1], cubePos[2]);
       moveTextRef && moveTextRef.position.set(cubePos[0], cubePos[1], cubePos[2]);
+      braketRef && braketRef.position.set(cubePos[0], cubePos[1], cubePos[2]);
+      supportTextRef && supportTextRef.position.set(cubePos[0], cubePos[1], cubePos[2]);
     },
     [getCubeGroupPosition]
   );

@@ -187,8 +187,8 @@ export const Step1Presenter = () => {
 
       <B>
         無事十字が揃えられたら、次の
-        <Typography component={Link} to="/procedure/step2" sx={{ fontWeight: "bold" }}>
-          ステップ
+        <Typography component={Link} to="/procedure/2" sx={{ fontWeight: "bold" }}>
+          ステップ2
         </Typography>
         に進みましょう！
       </B>

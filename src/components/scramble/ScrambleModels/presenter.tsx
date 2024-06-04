@@ -7,9 +7,29 @@ import { ScrambleModels } from "./container";
 
 type Props = ComponentProps<typeof ScrambleModels>;
 
-export const ScrambleModelsPresenter = ({ status, scrambleList, isKeepRotate }: Props) => {
+export const ScrambleModelsPresenter = ({
+  status,
+  supportText,
+  scrambleList,
+  isKeepRotate,
+}: Props) => {
+  const needBraketIndex: { start: number[]; end: number[] } = { start: [], end: [] };
+  let braketNum = 0;
+  const noBracketScrambleList: string[] = [];
+  scrambleList.forEach((moveChar, index) => {
+    if (moveChar === "(") {
+      needBraketIndex.start.push(index - braketNum);
+      braketNum += 1;
+    } else if (moveChar === ")") {
+      needBraketIndex.end.push(index - 1 - braketNum);
+      braketNum += 1;
+    } else {
+      noBracketScrambleList.push(moveChar);
+    }
+  });
+
   const canvasDivRef = useRef<HTMLDivElement>(null);
-  const canvasWindowSize = useResize(canvasDivRef, scrambleList.length);
+  const canvasWindowSize = useResize(canvasDivRef, noBracketScrambleList.length);
 
   return (
     <div ref={canvasDivRef} style={{ width: "100%" }}>
@@ -25,28 +45,32 @@ export const ScrambleModelsPresenter = ({ status, scrambleList, isKeepRotate }: 
         gl={{ antialias: true }}
       >
         {isKeepRotate
-          ? scrambleList.map((_, index) => {
+          ? noBracketScrambleList.map((_, index) => {
               return (
                 <React.Fragment key={index}>
                   <Cubes
                     status={status}
-                    moveCharList={scrambleList.slice(0, index + 1)}
+                    moveCharList={noBracketScrambleList.slice(0, index + 1)}
                     canvasWindowSize={canvasWindowSize}
-                    cubesNum={scrambleList.length}
+                    cubesNum={noBracketScrambleList.length}
                     index={index}
+                    supportText={supportText}
+                    needBraketIndex={needBraketIndex}
                     // isHighlightRotateGroup={!isKeepRotate}
                   />
                 </React.Fragment>
               );
             })
-          : scrambleList.map((moveChar, index) => {
+          : noBracketScrambleList.map((moveChar, index) => {
               return (
                 <React.Fragment key={index}>
                   <Cubes
                     moveCharList={[moveChar]}
                     canvasWindowSize={canvasWindowSize}
-                    cubesNum={scrambleList.length}
+                    cubesNum={noBracketScrambleList.length}
                     index={index}
+                    supportText={supportText}
+                    needBraketIndex={needBraketIndex}
                     isHighlightRotateGroup={true}
                   />
                 </React.Fragment>

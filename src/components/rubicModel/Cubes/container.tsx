@@ -13,6 +13,8 @@ type Props = {
   canvasWindowSize?: MutableRefObject<CanvasWindowSize>;
   cubesNum?: number;
   index?: number;
+  needBraketIndex: { start: number[]; end: number[] };
+  supportText?: string;
   isHighlightRotateGroup?: boolean;
   isRotate?: boolean;
 };
@@ -23,6 +25,8 @@ export const Cubes = ({
   canvasWindowSize,
   cubesNum = 1,
   index = 0,
+  supportText,
+  needBraketIndex,
   isHighlightRotateGroup = false,
   isRotate = false,
 }: Props) => {
@@ -32,6 +36,8 @@ export const Cubes = ({
   const cubeGroupRef = useRef<THREE.Group>(null!);
   const rotationGroupRef = useRef<THREE.Group>(null!);
   const moveTextRef = useRef<THREE.Group>(null!);
+  const supportTextRef = useRef<THREE.Group>(null!);
+  const braketRef = useRef<THREE.Group>(null!);
 
   const prevCanvasWidth = useRef<number>(0);
   const isSetupCompletion = useRef<boolean>(false);
@@ -44,12 +50,13 @@ export const Cubes = ({
       canvasWindowSize &&
       prevCanvasWidth.current != canvasWindowSize.current.width &&
       cubeGroupRef.current &&
-      moveTextRef.current &&
       isSetupCompletion.current
     ) {
       updateCubesPosition(
         cubeGroupRef.current,
         moveTextRef.current,
+        braketRef.current,
+        supportTextRef.current,
         index,
         cubesNum,
         canvasWindowSize.current.width
@@ -69,17 +76,20 @@ export const Cubes = ({
       moveCharList &&
       moveCharList.length > 0
     ) {
+      updateCubesPosition(
+        cubeGroupRef.current,
+        moveTextRef.current,
+        braketRef.current,
+        supportTextRef.current,
+        index,
+        cubesNum,
+        canvasWindowSize.current.width
+      );
       moveCharList.forEach((moveChar, movingIndex) => {
+        // console.log(moveChar);
         const regexMoveChar = /2/;
         const removedTwoMoveChar = moveChar.replace(regexMoveChar, "");
         const cubePos = getCubeGroupPosition(index, cubesNum, canvasWindowSize.current.width);
-        updateCubesPosition(
-          cubeGroupRef.current,
-          moveTextRef.current,
-          index,
-          cubesNum,
-          canvasWindowSize.current.width
-        );
         if (ROTATE_DIRECTION[removedTwoMoveChar]) {
           rotate(
             cubeGroupRef.current,
@@ -114,6 +124,13 @@ export const Cubes = ({
         moveCharList && moveCharList.length > 0 ? moveCharList[moveCharList.length - 1] : undefined
       }
       rotationGroupRef={rotationGroupRef}
+      braketRef={braketRef}
+      supportText={needBraketIndex?.start.includes(index) ? supportText : undefined}
+      supportTextRef={supportTextRef}
+      braketNeed={{
+        start: needBraketIndex?.start.includes(index),
+        end: needBraketIndex?.end.includes(index),
+      }}
       status={status}
     />
   );
