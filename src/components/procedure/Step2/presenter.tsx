@@ -11,7 +11,10 @@ const StyledRubicModel = ({
   status,
   canvasCamera,
   isRotate,
-}: Pick<ComponentProps<typeof RubicModel>, "status" | "canvasCamera" | "isRotate">) => {
+}: Pick<
+  ComponentProps<typeof RubicModel>,
+  "status" | "canvasCamera" | "isRotate"
+>) => {
   return (
     <Box component="div" sx={(theme) => ({ m: `${theme.spacing(2)} 0` })}>
       <RubicModel
@@ -26,13 +29,13 @@ const StyledRubicModel = ({
 
 const StyledScrambleModels = ({
   status,
-  supportText,
+  supportTextList,
   scrambleList,
   isKeepRotate,
   border,
 }: Pick<
   ComponentProps<typeof ScrambleModels>,
-  "status" | "supportText" | "scrambleList" | "isKeepRotate"
+  "status" | "supportTextList" | "scrambleList" | "isKeepRotate"
 > & {
   border?: "error" | "success";
 }) => {
@@ -47,7 +50,7 @@ const StyledScrambleModels = ({
     >
       <ScrambleModels
         status={status}
-        supportText={supportText}
+        supportTextList={supportTextList}
         scrambleList={scrambleList}
         isKeepRotate={isKeepRotate}
       />
@@ -85,27 +88,41 @@ export const Step2Presenter = () => {
       <T>白のコーナーキューブの揃え方</T>
       <B>まずは本ステップで揃えたい、白のコーナーキューブを探しましょう。</B>
       <B>キューブを見つけたら、入れたい箇所の手前に持っていきましょう</B>
-      <B>下の例のように、白(青赤)のキューブを見つけたら、青赤の面の境目の上部に移動させましょう</B>
-      <StyledScrambleModels status="F1L_READY" scrambleList={["", "U", ""]} isKeepRotate={true} />
+      <B>
+        下の例のように、白(青赤)のキューブを見つけたら、青赤の面の境目の上部に移動させましょう
+      </B>
+      <StyledScrambleModels
+        status="F1L_READY"
+        scrambleList={["", "U", ""]}
+        isKeepRotate={true}
+      />
       <B>これで準備OK！</B>
 
       <B>
         そこから揃えるために大きく3パターンの状況があります。該当するパターンを見つけその手順で揃えていきましょう
       </B>
       <BorderBox>
-        <ST>パターン1：白面が横を向いており、白面の位置が横の面の 左 側にある場合</ST>
-        <B>※白面を手前にした時に回す向きが「→↑←↓」なので"左回り"のセクシーと覚えましょう</B>
+        <ST>
+          パターン1：白面が横を向いており、白面の位置が横の面の 左 側にある場合
+        </ST>
+        <B>
+          ※白面を手前にした時に回す向きが「→↑←↓」なので"左回り"のセクシーと覚えましょう
+        </B>
         <StyledScrambleModels
           status="F1L_SIDE_EX1"
-          supportText="左回りの逆セクシー"
+          supportTextList={["左回りの逆セクシー"]}
           scrambleList={["", "(", "U'", "F'", "U", "F", ")", ""]}
           isKeepRotate={true}
         />
-        <ST>パターン2：白面が横を向いており、白面の位置が横の面の 右 側にある場合</ST>
-        <B>※白面を手前にした時に回す向きが「←↑→↓」なので"右回り"のセクシーと覚えましょう</B>
+        <ST>
+          パターン2：白面が横を向いており、白面の位置が横の面の 右 側にある場合
+        </ST>
+        <B>
+          ※白面を手前にした時に回す向きが「←↑→↓」なので"右回り"のセクシーと覚えましょう
+        </B>
         <StyledScrambleModels
           status="F1L_SIDE_EX2"
-          supportText="右回りの逆セクシー"
+          supportTextList={["右回りの逆セクシー"]}
           scrambleList={["", "(", "U", "R", "U'", "R'", ")", ""]}
           isKeepRotate={true}
         />
@@ -117,7 +134,11 @@ export const Step2Presenter = () => {
         </B>
         <StyledScrambleModels
           status="F1L_SIDE_EX3"
-          supportText="左回りの逆セクシー"
+          supportTextList={[
+            "左回りの逆セクシー",
+            "左回りの逆セクシー",
+            "左回りの逆セクシー",
+          ]}
           scrambleList={[
             "",
             "(",
@@ -146,12 +167,16 @@ export const Step2Presenter = () => {
 
       <T>下の段に白コーナーキューブがある場合</T>
       <B>上段に白コーナーキューブがない場合は、下段にあるはずです</B>
-      <B>下段にあるけど、下面の白は揃ってない場合はセクシームーブをしましょう</B>
+      <B>
+        下段にあるけど、下面の白は揃ってない場合はセクシームーブをしましょう
+      </B>
       <BorderBox>
-        <ST>とりあえず右回りor左回りの逆セクシーで、揃えた面を崩さずに上段へ移動可能</ST>
+        <ST>
+          とりあえず右回りor左回りの逆セクシーで、揃えた面を崩さずに上段へ移動可能
+        </ST>
         <StyledScrambleModels
           status="F1L_WHITE_IN_BOTTOM"
-          supportText="右回りの逆セクシー"
+          supportTextList={["右回りの逆セクシー"]}
           scrambleList={["", "(", "U", "R", "U'", "R'", ")", ""]}
           isKeepRotate={true}
         />
@@ -168,8 +193,12 @@ export const Step2Presenter = () => {
       />
 
       <B>
-        無事十字が揃えられたら、次の
-        <Typography component={Link} to="/procedure/3" sx={{ fontWeight: "bold" }}>
+        無事完全一面が揃えられたら、次の
+        <Typography
+          component={Link}
+          to="/procedure/3"
+          sx={{ fontWeight: "bold" }}
+        >
           ステップ3
         </Typography>
         に進みましょう！

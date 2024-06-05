@@ -9,11 +9,14 @@ type Props = ComponentProps<typeof ScrambleModels>;
 
 export const ScrambleModelsPresenter = ({
   status,
-  supportText,
+  supportTextList,
   scrambleList,
   isKeepRotate,
 }: Props) => {
-  const needBraketIndex: { start: number[]; end: number[] } = { start: [], end: [] };
+  const needBraketIndex: { start: number[]; end: number[] } = {
+    start: [],
+    end: [],
+  };
   let braketNum = 0;
   const noBracketScrambleList: string[] = [];
   scrambleList.forEach((moveChar, index) => {
@@ -29,7 +32,10 @@ export const ScrambleModelsPresenter = ({
   });
 
   const canvasDivRef = useRef<HTMLDivElement>(null);
-  const canvasWindowSize = useResize(canvasDivRef, noBracketScrambleList.length);
+  const canvasWindowSize = useResize(
+    canvasDivRef,
+    noBracketScrambleList.length
+  );
 
   return (
     <div ref={canvasDivRef} style={{ width: "100%" }}>
@@ -54,7 +60,7 @@ export const ScrambleModelsPresenter = ({
                     canvasWindowSize={canvasWindowSize}
                     cubesNum={noBracketScrambleList.length}
                     index={index}
-                    supportText={supportText}
+                    supportTextList={supportTextList}
                     needBraketIndex={needBraketIndex}
                     // isHighlightRotateGroup={!isKeepRotate}
                   />
@@ -69,7 +75,7 @@ export const ScrambleModelsPresenter = ({
                     canvasWindowSize={canvasWindowSize}
                     cubesNum={noBracketScrambleList.length}
                     index={index}
-                    supportText={supportText}
+                    supportTextList={supportTextList}
                     needBraketIndex={needBraketIndex}
                     isHighlightRotateGroup={true}
                   />

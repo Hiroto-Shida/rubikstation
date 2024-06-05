@@ -14,7 +14,7 @@ type Props = {
   cubesNum?: number;
   index?: number;
   needBraketIndex: { start: number[]; end: number[] };
-  supportText?: string;
+  supportTextList?: string[];
   isHighlightRotateGroup?: boolean;
   isRotate?: boolean;
 };
@@ -25,7 +25,7 @@ export const Cubes = ({
   canvasWindowSize,
   cubesNum = 1,
   index = 0,
-  supportText,
+  supportTextList,
   needBraketIndex,
   isHighlightRotateGroup = false,
   isRotate = false,
@@ -89,7 +89,11 @@ export const Cubes = ({
         // console.log(moveChar);
         const regexMoveChar = /2/;
         const removedTwoMoveChar = moveChar.replace(regexMoveChar, "");
-        const cubePos = getCubeGroupPosition(index, cubesNum, canvasWindowSize.current.width);
+        const cubePos = getCubeGroupPosition(
+          index,
+          cubesNum,
+          canvasWindowSize.current.width
+        );
         if (ROTATE_DIRECTION[removedTwoMoveChar]) {
           rotate(
             cubeGroupRef.current,
@@ -102,7 +106,8 @@ export const Cubes = ({
           );
         }
       });
-      cubeGroupRef.current.rotation.set(Math.PI / 5, -Math.PI / 4, 0);
+      // cubeGroupRef.current.rotation.set(Math.PI / 5, -Math.PI / 4, 0);
+      cubeGroupRef.current.rotation.set(Math.PI / 6, -Math.PI / 7, 0);
       isSetupCompletion.current = true; // セットアップ完了
     }
   }, [
@@ -116,16 +121,25 @@ export const Cubes = ({
     updateCubesPosition,
   ]);
 
+  const supportText = supportTextList
+    ? supportTextList[needBraketIndex?.start.indexOf(index)] ??
+      supportTextList[0]
+    : undefined;
+
   return (
     <CubesPresenter
       cubeGroupRef={cubeGroupRef}
       moveTextRef={moveTextRef}
       moveChar={
-        moveCharList && moveCharList.length > 0 ? moveCharList[moveCharList.length - 1] : undefined
+        moveCharList && moveCharList.length > 0
+          ? moveCharList[moveCharList.length - 1]
+          : undefined
       }
       rotationGroupRef={rotationGroupRef}
       braketRef={braketRef}
-      supportText={needBraketIndex?.start.includes(index) ? supportText : undefined}
+      supportText={
+        needBraketIndex?.start.includes(index) ? supportText : undefined
+      }
       supportTextRef={supportTextRef}
       braketNeed={{
         start: needBraketIndex?.start.includes(index),

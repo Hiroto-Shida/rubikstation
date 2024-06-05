@@ -199,42 +199,80 @@ export const surfaceColorList = (
         23: ["red", "orange", "yellow", "white", "blue", "green"],
       };
 
+    case "F2L_READY_EX1":
+      return {
+        0: ["black", "orange", "black", "white", "black", "green"],
+        1: ["black", "orange", "black", "white", "black", "black"],
+        2: ["black", "orange", "black", "white", "blue", "black"],
+        4: ["black", "orange", "black", "black", "black", "black"],
+        9: ["black", "black", "black", "white", "black", "green"],
+        10: ["black", "black", "black", "white", "black", "black"],
+        11: ["black", "black", "black", "white", "blue", "black"],
+        12: ["black", "black", "black", "black", "black", "green"],
+        14: ["black", "black", "black", "black", "blue", "black"],
+        16: ["black", "black", "yellow", "black", "black", "black"], // top
+        18: ["red", "black", "black", "white", "black", "green"],
+        19: ["red", "black", "black", "white", "black", "black"],
+        20: ["red", "black", "black", "white", "blue", "black"],
+        22: ["red", "black", "black", "black", "black", "black"],
+        25: ["blue", "black", "red", "black", "black", "black"],
+      };
+
+    case "F2L_READY_EX2":
+      return {
+        0: ["black", "red", "black", "white", "black", "blue"],
+        1: ["black", "red", "black", "white", "black", "black"],
+        2: ["black", "red", "black", "white", "green", "black"],
+        4: ["black", "red", "black", "black", "black", "black"],
+        7: ["black", "orange", "green", "black", "black", "black"],
+        9: ["black", "black", "black", "white", "black", "blue"],
+        10: ["black", "black", "black", "white", "black", "black"],
+        11: ["black", "black", "black", "white", "green", "black"],
+        12: ["black", "black", "black", "black", "black", "blue"],
+        14: ["black", "black", "black", "black", "green", "black"],
+        16: ["black", "black", "yellow", "black", "black", "black"], // top
+        18: ["orange", "black", "black", "white", "black", "blue"],
+        19: ["orange", "black", "black", "white", "black", "black"],
+        20: ["orange", "black", "black", "white", "green", "black"],
+        22: ["orange", "black", "black", "black", "black", "black"],
+      };
+
     case "F2L_LEFT":
       return {
-        0: ["red", "orange", "yellow", "white", "blue", "green"],
-        1: ["red", "orange", "yellow", "white", "blue", "green"],
-        2: ["red", "orange", "yellow", "white", "blue", "green"],
-        4: ["red", "orange", "yellow", "white", "blue", "green"],
-        9: ["red", "orange", "yellow", "white", "blue", "green"],
-        10: ["red", "orange", "yellow", "white", "blue", "green"],
-        11: ["red", "orange", "yellow", "white", "blue", "green"],
-        12: ["red", "orange", "yellow", "white", "blue", "green"],
-        13: ["red", "orange", "yellow", "white", "blue", "green"],
-        14: ["red", "orange", "yellow", "white", "blue", "green"],
-        17: ["black", "black", "orange", "black", "blue", "black"], // top
-        18: ["red", "orange", "yellow", "white", "blue", "green"],
-        19: ["red", "orange", "yellow", "white", "blue", "green"],
-        20: ["red", "orange", "yellow", "white", "blue", "green"],
-        22: ["red", "orange", "yellow", "white", "blue", "green"],
+        0: ["black", "orange", "black", "white", "black", "green"],
+        1: ["black", "orange", "black", "white", "black", "black"],
+        2: ["black", "orange", "black", "white", "blue", "black"],
+        4: ["black", "orange", "black", "black", "black", "black"],
+        9: ["black", "black", "black", "white", "black", "green"],
+        10: ["black", "black", "black", "white", "black", "black"],
+        11: ["black", "black", "black", "white", "blue", "black"],
+        12: ["black", "black", "black", "black", "black", "green"],
+        14: ["black", "black", "black", "black", "blue", "black"],
+        16: ["black", "black", "yellow", "black", "black", "black"], // top
+        17: ["black", "black", "red", "black", "blue", "black"], // top
+        18: ["red", "black", "black", "white", "black", "green"],
+        19: ["red", "black", "black", "white", "black", "black"],
+        20: ["red", "black", "black", "white", "blue", "black"],
+        22: ["red", "black", "black", "black", "black", "black"],
       };
 
     case "F2L_RIGHT":
       return {
-        0: ["red", "orange", "yellow", "white", "blue", "green"],
-        1: ["red", "orange", "yellow", "white", "blue", "green"],
-        2: ["red", "orange", "yellow", "white", "blue", "green"],
-        4: ["red", "orange", "yellow", "white", "blue", "green"],
-        9: ["red", "orange", "yellow", "white", "blue", "green"],
-        10: ["red", "orange", "yellow", "white", "blue", "green"],
-        11: ["red", "orange", "yellow", "white", "blue", "green"],
-        12: ["red", "orange", "yellow", "white", "blue", "green"],
-        13: ["red", "orange", "yellow", "white", "blue", "green"],
-        14: ["red", "orange", "yellow", "white", "blue", "green"],
-        17: ["black", "black", "red", "black", "blue", "black"], // top
-        18: ["red", "orange", "yellow", "white", "blue", "green"],
-        19: ["red", "orange", "yellow", "white", "blue", "green"],
-        20: ["red", "orange", "yellow", "white", "blue", "green"],
-        22: ["red", "orange", "yellow", "white", "blue", "green"],
+        0: ["black", "red", "black", "white", "black", "blue"],
+        1: ["black", "red", "black", "white", "black", "black"],
+        2: ["black", "red", "black", "white", "green", "black"],
+        4: ["black", "red", "black", "black", "black", "black"],
+        9: ["black", "black", "black", "white", "black", "blue"],
+        10: ["black", "black", "black", "white", "black", "black"],
+        11: ["black", "black", "black", "white", "green", "black"],
+        12: ["black", "black", "black", "black", "black", "blue"],
+        14: ["black", "black", "black", "black", "green", "black"],
+        16: ["black", "black", "yellow", "black", "black", "black"], // top
+        18: ["orange", "black", "black", "white", "black", "blue"],
+        19: ["orange", "black", "black", "white", "black", "black"],
+        20: ["orange", "black", "black", "white", "green", "black"],
+        22: ["orange", "black", "black", "black", "black", "black"],
+        25: ["orange", "black", "green", "black", "black", "black"],
       };
   }
 };
