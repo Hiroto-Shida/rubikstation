@@ -2,7 +2,7 @@ export type Axis = "x" | "y" | "z";
 export type Limit = -0.5 | 0.5;
 export type Multiplier = -1 | 1;
 
-export const ROTATE_DIRECTION: { [key: string]: [Axis, Limit, Multiplier] } = {
+export const ROTATE_DIRECTION: { [key: string]: [Axis, Limit | undefined, Multiplier] } = {
   F: ["z", 0.5, -1],
   "F'": ["z", 0.5, 1],
 
@@ -20,4 +20,7 @@ export const ROTATE_DIRECTION: { [key: string]: [Axis, Limit, Multiplier] } = {
 
   D: ["y", -0.5, 1],
   "D'": ["y", -0.5, -1],
+
+  y: ["y", undefined, -1],
+  "y'": ["y", undefined, 1],
 };

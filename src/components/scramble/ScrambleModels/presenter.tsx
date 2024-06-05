@@ -12,6 +12,7 @@ export const ScrambleModelsPresenter = ({
   supportTextList,
   scrambleList,
   isKeepRotate,
+  lookfromRight,
 }: Props) => {
   const needBraketIndex: { start: number[]; end: number[] } = {
     start: [],
@@ -32,10 +33,8 @@ export const ScrambleModelsPresenter = ({
   });
 
   const canvasDivRef = useRef<HTMLDivElement>(null);
-  const canvasWindowSize = useResize(
-    canvasDivRef,
-    noBracketScrambleList.length
-  );
+  const canvasWindowSize = useResize(canvasDivRef, noBracketScrambleList.length);
+  const lookfromRightRef = useRef<boolean>(lookfromRight ?? true);
 
   return (
     <div ref={canvasDivRef} style={{ width: "100%" }}>
@@ -62,6 +61,8 @@ export const ScrambleModelsPresenter = ({
                     index={index}
                     supportTextList={supportTextList}
                     needBraketIndex={needBraketIndex}
+                    lookfromRight={lookfromRight ?? true}
+                    lookfromRightRef={lookfromRightRef}
                     // isHighlightRotateGroup={!isKeepRotate}
                   />
                 </React.Fragment>
@@ -78,6 +79,8 @@ export const ScrambleModelsPresenter = ({
                     supportTextList={supportTextList}
                     needBraketIndex={needBraketIndex}
                     isHighlightRotateGroup={true}
+                    lookfromRight={lookfromRight ?? true}
+                    lookfromRightRef={lookfromRightRef}
                   />
                 </React.Fragment>
               );

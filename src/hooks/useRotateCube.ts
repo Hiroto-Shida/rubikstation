@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { useCallback } from "react";
+import { MutableRefObject, useCallback } from "react";
 import { Axis, Limit, Multiplier } from "../components/rubicModel/rotateDirection";
 
 export const useRotateCube = () => {
@@ -22,14 +22,18 @@ export const useRotateCube = () => {
     rotationGroupRef: THREE.Group,
     cubeGroupPosition: number[],
     axis: Axis,
-    limit: Limit,
+    limit: Limit | undefined,
     isHighlightRotateGroup: boolean
   ) => {
     cubeGroupRef.children
       .slice()
       .reverse()
       .filter((c: THREE.Object3D<THREE.Object3DEventMap>) => {
-        const isRotateCube = limit < 0 ? c.position[axis] < limit : c.position[axis] > limit;
+        const isRotateCube = limit
+          ? limit < 0
+            ? c.position[axis] < limit
+            : c.position[axis] > limit
+          : true;
         if (isHighlightRotateGroup && !isRotateCube) {
           const mesh = c.children[0] as THREE.Mesh;
           if (Array.isArray(mesh.material)) {
@@ -51,8 +55,12 @@ export const useRotateCube = () => {
   };
 
   const rotateGroup = (
+    cubeGroupRef: THREE.Group,
     rotationGroupRef: THREE.Group,
+    // lookfromRightRef: MutableRefObject<boolean>,
+    changeLookFrom: () => void,
     axis: Axis,
+    limit: Limit | undefined,
     multiplier: Multiplier,
     isMoveTwice: boolean,
     isMoveMaximum: boolean
@@ -68,15 +76,24 @@ export const useRotateCube = () => {
       Math.round(rotationGroupRef.position.y),
       Math.round(rotationGroupRef.position.z)
     );
+    console.log(`${axis}, ${limit}`);
+    if (axis === "y" && !limit) {
+      console.log("changeLookFrom");
+      // cubeGroupRef.rotation.set(Math.PI / 6, ((lookfromRightRef ? 1 : -1) * Math.PI) / 8, 0);
+      // lookfromRightRef.current = !lookfromRightRef.current;
+      changeLookFrom();
+      // console.log(lookfromRightRef);
+    }
   };
 
   const addArrow = (
     cubeGroupRef: THREE.Group,
     rotationGroupRef: THREE.Group,
     rotateAxis: Axis,
-    limit: Limit,
+    limit: Limit | undefined,
     multiplier: Multiplier
   ) => {
+    console.log("add arrow");
     const cubeGroupPosVec = new THREE.Vector3();
     cubeGroupRef.getWorldPosition(cubeGroupPosVec);
 
@@ -118,7 +135,7 @@ export const useRotateCube = () => {
         arrowGroup.add(cylinderMesh);
         arrowGroup.add(cylinderLine);
 
-        const distanceFromSurface = 1 * Math.sign(limit);
+        // const distanceFromSurface = 1 * Math.sign(limit ?? 0.5); // limit=undefinedの時はlimit=0.5と同じなので0.5
 
         // 原点からの絶対座標から、各キューブの中心からの相対座標childPosに変換
         const childWorldPosVec = new THREE.Vector3();
@@ -129,72 +146,123 @@ export const useRotateCube = () => {
         const childPos = childPosVec.toArray().map((pos) => Math.round(pos));
 
         const originAxis = ["x", "y", "z"];
+        const excludeRotateAxis = originAxis.filter((axis) => axis !== rotateAxis);
 
         // 矢印をつける対象のCubeの場合、isTargetAddArrow = true
         let isTargetAddArrow;
-        if (Math.sign(limit) == 1) {
-          isTargetAddArrow =
-            childPos.filter((pos) => pos === 1).length == 2 &&
-            childPos.filter((pos) => pos === 0).length == 1;
+        if (limit) {
+          if (Math.sign(limit) == 1) {
+            isTargetAddArrow =
+              childPos.filter((pos) => pos === 1).length == 2 &&
+              childPos.filter((pos) => pos === 0).length == 1;
+          } else {
+            isTargetAddArrow =
+              childPos.filter((pos) => pos === 1).length == 1 &&
+              childPos.filter((pos) => pos === -1).length == 1 &&
+              childPos.filter((pos) => pos === 0).length == 1;
+          }
         } else {
-          isTargetAddArrow =
-            childPos.filter((pos) => pos === 1).length == 1 &&
-            childPos.filter((pos) => pos === -1).length == 1 &&
-            childPos.filter((pos) => pos === 0).length == 1;
+          if (rotateAxis === "y") {
+            isTargetAddArrow = childPos[0] + childPos[2] === 1;
+            // isTargetAddArrow && console.log(childPos);
+          }
         }
 
+        let zeroPosAxis = "";
+        originAxis.forEach((axis) => {
+          if (axis !== rotateAxis) zeroPosAxis = axis;
+        });
+
         if (isTargetAddArrow) {
-          if (originAxis[childPos.indexOf(0)] === "x") {
+          // console.log("xyz----");
+          // if (originAxis[childPos.indexOf(0)] === "x") {
+          if (zeroPosAxis === "x") {
+            // console.log("x");
             arrowGroup.position.set(
               childPos[0] * 2,
-              childPos[1] * 2 - (rotateAxis === "y" ? distanceFromSurface : 0),
-              childPos[2] * 2 - (rotateAxis === "z" ? distanceFromSurface : 0)
+              // childPos[1] * 2 - (rotateAxis === "y" ? distanceFromSurface : 0),
+              // childPos[2] * 2 - (rotateAxis === "z" ? distanceFromSurface : 0),
+              childPos[1] * (rotateAxis === "z" ? 2 : 1),
+              childPos[2] * (rotateAxis === "y" ? 2 : 1)
             );
           }
-          if (originAxis[childPos.indexOf(0)] === "y") {
+          // if (originAxis[childPos.indexOf(0)] === "y") {
+          if (zeroPosAxis === "y") {
+            // console.log("y");
             arrowGroup.position.set(
-              childPos[0] * 2 - (rotateAxis === "x" ? distanceFromSurface : 0),
+              // childPos[0] * 2 - (rotateAxis === "x" ? distanceFromSurface : 0),
+              childPos[0] * (rotateAxis === "z" ? 2 : 1),
               childPos[1] * 2,
-              childPos[2] * 2 - (rotateAxis === "z" ? distanceFromSurface : 0)
+              // childPos[2] * 2 - (rotateAxis === "z" ? distanceFromSurface : 0)
+              childPos[2] * (rotateAxis === "x" ? 2 : 1)
             );
           }
-          if (originAxis[childPos.indexOf(0)] === "z") {
+          // if (originAxis[childPos.indexOf(0)] === "z") {
+          if (zeroPosAxis === "z") {
+            // console.log("z");
             arrowGroup.position.set(
-              childPos[0] * 2 - (rotateAxis === "x" ? distanceFromSurface : 0),
-              childPos[1] * 2 - (rotateAxis === "y" ? distanceFromSurface : 0),
+              // childPos[0] * 2 - (rotateAxis === "x" ? distanceFromSurface : 0),
+              // childPos[1] * 2 - (rotateAxis === "y" ? distanceFromSurface : 0),
+              childPos[0] * (rotateAxis === "y" ? 2 : 1),
+              childPos[1] * (rotateAxis === "x" ? 2 : 1),
               childPos[2] * 2
             );
           }
 
           if (rotateAxis === "z") {
-            if (multiplier === -1) {
-              arrowGroup.rotation.x = Math.PI;
-            }
-            if (originAxis[childPos.indexOf(0)] == "x") {
+            if (childPos[0] === 0) {
               arrowGroup.rotation.z += (multiplier * Math.PI) / 2;
+            } else {
+              arrowGroup.rotation.z = multiplier === -1 ? Math.PI : 0;
             }
           }
 
           if (rotateAxis === "x") {
-            if (multiplier === 1) {
-              arrowGroup.rotation.x = Math.PI;
-            }
-            if (originAxis[childPos.indexOf(0)] == "z") {
-              arrowGroup.rotation.x -= Math.PI / 2;
+            if (childPos[2] === 0) {
+              arrowGroup.rotation.x += (multiplier * Math.PI) / 2;
+            } else {
+              arrowGroup.rotation.x = multiplier === 1 ? Math.PI : 0;
             }
           }
 
           if (rotateAxis === "y") {
-            if (multiplier === 1) {
-              arrowGroup.rotation.x = Math.PI;
-            }
-            if (originAxis[childPos.indexOf(0)] == "x") {
+            if (childPos[0] === 0) {
               arrowGroup.rotation.z -= (multiplier * Math.PI) / 2;
             }
-            if (originAxis[childPos.indexOf(0)] == "z") {
-              arrowGroup.rotation.x += Math.PI / 2;
+            if (childPos[2] === 0) {
+              arrowGroup.rotation.x -= (multiplier * Math.PI) / 2;
             }
           }
+
+          // if (rotateAxis === "z") {
+          //   if (multiplier === -1) {
+          //     arrowGroup.rotation.x = Math.PI;
+          //   }
+          //   if (originAxis[childPos.indexOf(0)] == "x") {
+          //     arrowGroup.rotation.z += (multiplier * Math.PI) / 2;
+          //   }
+          // }
+
+          // if (rotateAxis === "x") {
+          //   if (multiplier === 1) {
+          //     arrowGroup.rotation.x = Math.PI;
+          //   }
+          //   if (originAxis[childPos.indexOf(0)] == "z") {
+          //     arrowGroup.rotation.x -= Math.PI / 2;
+          //   }
+          // }
+
+          // if (rotateAxis === "y") {
+          //   if (multiplier === 1) {
+          //     arrowGroup.rotation.x = Math.PI;
+          //   }
+          //   if (originAxis[childPos.indexOf(0)] == "x") {
+          //     arrowGroup.rotation.z -= (multiplier * Math.PI) / 2;
+          //   }
+          //   if (originAxis[childPos.indexOf(0)] == "z") {
+          //     arrowGroup.rotation.x += Math.PI / 2;
+          //   }
+          // }
 
           arrowGroup.scale.set(0.9, 0.9, 0.9);
           targetPosListAddArrow.push({ pos: childPos, arrow: arrowGroup });
@@ -210,11 +278,10 @@ export const useRotateCube = () => {
     (
       cubeGroupRef: THREE.Group,
       rotationGroupRef: THREE.Group,
+      // lookfromRightRef: MutableRefObject<boolean>,
+      changeLookFrom: () => void,
       cubeGroupPosition: number[],
-      // axis: Axis,
-      // limit: Limit,
-      // multiplier: Multiplier,
-      rotateDirection: [Axis, Limit, Multiplier],
+      rotateDirection: [Axis, Limit | undefined, Multiplier],
       isMoveTwice: boolean,
       isMoveMaximum: boolean,
       isHighlightRotateGroup: boolean
@@ -231,7 +298,17 @@ export const useRotateCube = () => {
         isHighlightRotateGroup
       );
       !isMoveMaximum && addArrow(cubeGroupRef, rotationGroupRef, axis, limit, multiplier);
-      rotateGroup(rotationGroupRef, axis, multiplier, isMoveTwice, isMoveMaximum);
+      rotateGroup(
+        cubeGroupRef,
+        rotationGroupRef,
+        // lookfromRightRef,
+        changeLookFrom,
+        axis,
+        limit,
+        multiplier,
+        isMoveTwice,
+        isMoveMaximum
+      );
       resetCubeGroup(cubeGroupRef, rotationGroupRef);
     },
     []
