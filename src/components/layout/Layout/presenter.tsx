@@ -72,25 +72,18 @@ export const LayoutPresenter = ({ children }: Props) => {
         <Divider />
         <AppListItem to={"/"} primaryText="トップ" icon={<HomeIcon />} />
         <AppListItem to={"/rubic-model"} primaryText="モデル" icon={<Apps />} />
-        <AppListItem
-          to={"/procedure"}
-          primaryText="6面までの手順"
-          icon={<AppRegistrationIcon />}
-        />
+        <AppListItem to={"/procedure"} primaryText="6面までの手順" icon={<AppRegistrationIcon />} />
         {pathname.includes(`/procedure`) && (
           <>
             <AppListItem to={"/procedure/1"} primaryText="ステップ1" />
             <AppListItem to={"/procedure/2"} primaryText="ステップ2" />
             <AppListItem to={"/procedure/3"} primaryText="ステップ3" />
+            <AppListItem to={"/procedure/4"} primaryText="ステップ4" />
           </>
         )}
         <ListSubheader>その他</ListSubheader>
         <Divider />
-        <AppListItem
-          to={"/release"}
-          primaryText="リリース情報"
-          icon={<NewReleasesIcon />}
-        />
+        <AppListItem to={"/release"} primaryText="リリース情報" icon={<NewReleasesIcon />} />
       </List>
     </Box>
   );
@@ -121,10 +114,7 @@ export const LayoutPresenter = ({ children }: Props) => {
         </Toolbar>
       </AppBar>
 
-      <Box
-        component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-      >
+      <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}>
         <Drawer
           container={window?.document?.body}
           variant="temporary"
