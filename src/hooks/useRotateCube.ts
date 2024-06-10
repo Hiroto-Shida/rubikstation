@@ -1,9 +1,16 @@
 import * as THREE from "three";
-import { MutableRefObject, useCallback } from "react";
-import { Axis, Limit, Multiplier } from "../components/rubicModel/rotateDirection";
+import { useCallback } from "react";
+import {
+  Axis,
+  Limit,
+  Multiplier,
+} from "../components/rubicModel/rotateDirection";
 
 export const useRotateCube = () => {
-  const resetCubeGroup = (cubeGroupRef: THREE.Group, rotationGroupRef: THREE.Group) => {
+  const resetCubeGroup = (
+    cubeGroupRef: THREE.Group,
+    rotationGroupRef: THREE.Group
+  ) => {
     rotationGroupRef.children
       .slice()
       // .reverse() // いらない？
@@ -55,12 +62,8 @@ export const useRotateCube = () => {
   };
 
   const rotateGroup = (
-    cubeGroupRef: THREE.Group,
     rotationGroupRef: THREE.Group,
-    // lookfromRightRef: MutableRefObject<boolean>,
-    changeLookFrom: () => void,
     axis: Axis,
-    limit: Limit | undefined,
     multiplier: Multiplier,
     isMoveTwice: boolean,
     isMoveMaximum: boolean
@@ -76,14 +79,6 @@ export const useRotateCube = () => {
       Math.round(rotationGroupRef.position.y),
       Math.round(rotationGroupRef.position.z)
     );
-    console.log(`${axis}, ${limit}`);
-    if (axis === "y" && !limit) {
-      console.log("changeLookFrom");
-      // cubeGroupRef.rotation.set(Math.PI / 6, ((lookfromRightRef ? 1 : -1) * Math.PI) / 8, 0);
-      // lookfromRightRef.current = !lookfromRightRef.current;
-      changeLookFrom();
-      // console.log(lookfromRightRef);
-    }
   };
 
   const addArrow = (
@@ -103,7 +98,12 @@ export const useRotateCube = () => {
       if (child instanceof THREE.Group) {
         // child.quaternion.set(0, 0, 0, 1);
         const coneGeometry = new THREE.ConeGeometry(0.4, 1, 10);
-        const cylinderGeometry = new THREE.CylinderGeometry(0.15, 0.15, 2.3, 10);
+        const cylinderGeometry = new THREE.CylinderGeometry(
+          0.15,
+          0.15,
+          2.3,
+          10
+        );
 
         const meshColor = "#6bcacd";
         const lineColor = "#000000";
@@ -126,7 +126,10 @@ export const useRotateCube = () => {
 
         const cylinderMesh = new THREE.Mesh(cylinderGeometry, meshMaterial);
         const cylinderWireframe = new THREE.WireframeGeometry(cylinderGeometry);
-        const cylinderLine = new THREE.LineSegments(cylinderWireframe, lineMaterial);
+        const cylinderLine = new THREE.LineSegments(
+          cylinderWireframe,
+          lineMaterial
+        );
         cylinderMesh.position.setY(-0.2);
         cylinderLine.position.setY(-0.2);
 
@@ -142,11 +145,16 @@ export const useRotateCube = () => {
         const childWorldDirVec = new THREE.Vector3();
         child.getWorldPosition(childWorldPosVec);
         child.getWorldDirection(childWorldDirVec);
-        const childPosVec = new THREE.Vector3().subVectors(childWorldPosVec, cubeGroupPosVec);
+        const childPosVec = new THREE.Vector3().subVectors(
+          childWorldPosVec,
+          cubeGroupPosVec
+        );
         const childPos = childPosVec.toArray().map((pos) => Math.round(pos));
 
         const originAxis = ["x", "y", "z"];
-        const excludeRotateAxis = originAxis.filter((axis) => axis !== rotateAxis);
+        const excludeRotateAxis = originAxis.filter(
+          (axis) => axis !== rotateAxis
+        );
 
         // 矢印をつける対象のCubeの場合、isTargetAddArrow = true
         let isTargetAddArrow;
@@ -278,8 +286,6 @@ export const useRotateCube = () => {
     (
       cubeGroupRef: THREE.Group,
       rotationGroupRef: THREE.Group,
-      // lookfromRightRef: MutableRefObject<boolean>,
-      changeLookFrom: () => void,
       cubeGroupPosition: number[],
       rotateDirection: [Axis, Limit | undefined, Multiplier],
       isMoveTwice: boolean,
@@ -297,14 +303,11 @@ export const useRotateCube = () => {
         limit,
         isHighlightRotateGroup
       );
-      !isMoveMaximum && addArrow(cubeGroupRef, rotationGroupRef, axis, limit, multiplier);
+      !isMoveMaximum &&
+        addArrow(cubeGroupRef, rotationGroupRef, axis, limit, multiplier);
       rotateGroup(
-        cubeGroupRef,
         rotationGroupRef,
-        // lookfromRightRef,
-        changeLookFrom,
         axis,
-        limit,
         multiplier,
         isMoveTwice,
         isMoveMaximum

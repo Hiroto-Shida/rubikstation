@@ -1,7 +1,7 @@
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
 import { Cubes } from "../../rubicModel/Cubes/container";
-import React, { ComponentProps, useRef } from "react";
+import React, { ComponentProps, useCallback, useRef } from "react";
 import { useResize } from "../../../hooks/useResize";
 import { ScrambleModels } from "./container";
 
@@ -18,23 +18,39 @@ export const ScrambleModelsPresenter = ({
     start: [],
     end: [],
   };
-  let braketNum = 0;
+  let shortenNum = 0;
+  const lookChangeIndexList: number[] = [];
   const noBracketScrambleList: string[] = [];
   scrambleList.forEach((moveChar, index) => {
     if (moveChar === "(") {
-      needBraketIndex.start.push(index - braketNum);
-      braketNum += 1;
+      needBraketIndex.start.push(index - shortenNum);
+      shortenNum += 1;
     } else if (moveChar === ")") {
-      needBraketIndex.end.push(index - 1 - braketNum);
-      braketNum += 1;
+      needBraketIndex.end.push(index - 1 - shortenNum);
+      shortenNum += 1;
+    } else if (moveChar === "changelookFrom") {
+      lookChangeIndexList.push(index - shortenNum);
+      shortenNum += 1;
     } else {
       noBracketScrambleList.push(moveChar);
     }
   });
 
   const canvasDivRef = useRef<HTMLDivElement>(null);
-  const canvasWindowSize = useResize(canvasDivRef, noBracketScrambleList.length);
+  const canvasWindowSize = useResize(
+    canvasDivRef,
+    noBracketScrambleList.length
+  );
   const lookfromRightRef = useRef<boolean>(lookfromRight ?? true);
+
+  const changeLookFrom = useCallback(
+    (index: number, lookChangeIndexList: number[]) => {
+      if (lookChangeIndexList.includes(index)) {
+        lookfromRightRef.current = !lookfromRightRef.current;
+      }
+    },
+    []
+  );
 
   return (
     <div ref={canvasDivRef} style={{ width: "100%" }}>
@@ -51,6 +67,7 @@ export const ScrambleModelsPresenter = ({
       >
         {isKeepRotate
           ? noBracketScrambleList.map((_, index) => {
+              changeLookFrom(index, lookChangeIndexList);
               return (
                 <React.Fragment key={index}>
                   <Cubes
@@ -61,14 +78,13 @@ export const ScrambleModelsPresenter = ({
                     index={index}
                     supportTextList={supportTextList}
                     needBraketIndex={needBraketIndex}
-                    lookfromRight={lookfromRight ?? true}
-                    lookfromRightRef={lookfromRightRef}
-                    // isHighlightRotateGroup={!isKeepRotate}
+                    lookfromRight={lookfromRightRef.current}
                   />
                 </React.Fragment>
               );
             })
           : noBracketScrambleList.map((moveChar, index) => {
+              changeLookFrom(index, lookChangeIndexList);
               return (
                 <React.Fragment key={index}>
                   <Cubes
@@ -79,8 +95,7 @@ export const ScrambleModelsPresenter = ({
                     supportTextList={supportTextList}
                     needBraketIndex={needBraketIndex}
                     isHighlightRotateGroup={true}
-                    lookfromRight={lookfromRight ?? true}
-                    lookfromRightRef={lookfromRightRef}
+                    lookfromRight={lookfromRightRef.current}
                   />
                 </React.Fragment>
               );

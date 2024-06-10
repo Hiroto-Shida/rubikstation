@@ -21,15 +21,19 @@ export const Step3Presenter = () => {
 
       <T>完全2面の揃え方</T>
       <B>まずは前のステップと同様に白面を下にして持ちましょう</B>
-      <B>その後は、入れたいエッジのキューブを探し、その側面の色が揃うように持ち替えましょう</B>
+      <B>
+        その後は、入れたいエッジのキューブを探し、その側面の色が揃うように持ち替えましょう
+      </B>
       <BorderBox>
-        <ST>例：青赤のエッジキューブを見つけ、側面の青とセンターキューブの青を揃える</ST>
+        <ST>
+          例：青赤のエッジキューブを見つけ、側面の青とセンターキューブの青を揃える
+        </ST>
         <StyledScrambleModels
           status="F2L_READY_EX1"
-          scrambleList={["", "U", "y", "U'"]}
+          scrambleList={["", "U", ""]}
           isKeepRotate={true}
         />
-        {/* <ST>
+        <ST>
           例：オレンジ緑のエッジキューブを見つけ、側面のオレンジとセンターキューブのオレンジを揃える
         </ST>
         <StyledScrambleModels
@@ -37,16 +41,35 @@ export const Step3Presenter = () => {
           scrambleList={["", "U2", ""]}
           isKeepRotate={true}
           lookfromRight={false}
-        /> */}
+        />
       </BorderBox>
 
-      {/* <B>持ち替えが済んだら、そのあとは以下の2パターンのどちらかで揃えることができます</B>
+      <B>
+        持ち替えが済んだら、そのあとは以下の2パターンのどちらかで揃えることができます
+      </B>
       <BorderBox>
         <ST>右下のエッジに入れたい場合</ST>
         <StyledScrambleModels
           status="F2L_LEFT"
           supportTextList={["右回りの逆セクシー", "左回りの逆セクシー"]}
-          scrambleList={["", "(", "U", "R", "U'", "R'", ")", "", "(", "U'", "L'", "U", "L", ")"]}
+          scrambleList={[
+            "",
+            "(",
+            "U",
+            "R",
+            "U'",
+            "R'",
+            ")",
+            "y",
+            "changelookFrom",
+            "(",
+            "U'",
+            "L'",
+            "U",
+            "L",
+            ")",
+            "",
+          ]}
           isKeepRotate={true}
         />
         <ST>左下のエッジに入れたい場合</ST>
@@ -57,11 +80,12 @@ export const Step3Presenter = () => {
             "",
             "(",
             "U'",
-            "F'",
+            "L'",
             "U",
-            "F",
+            "L",
             ")",
-            "",
+            "y'",
+            "changelookFrom",
             "(",
             "U",
             "R",
@@ -77,13 +101,17 @@ export const Step3Presenter = () => {
 
       <B>
         無事完全2面が揃えられたら、次の
-        <Typography component={Link} to="/procedure/4" sx={{ fontWeight: "bold" }}>
+        <Typography
+          component={Link}
+          to="/procedure/4"
+          sx={{ fontWeight: "bold" }}
+        >
           ステップ4
         </Typography>
         に進みましょう！
       </B>
 
-      <Box component="div" sx={{ height: "200px" }}></Box> */}
+      <Box component="div" sx={{ height: "200px" }}></Box>
     </>
   );
 };

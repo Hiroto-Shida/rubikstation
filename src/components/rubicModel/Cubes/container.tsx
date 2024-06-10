@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { CubesPresenter } from "./presenter";
 import { ROTATE_DIRECTION } from "../rotateDirection";
-import { MutableRefObject, useCallback, useEffect, useRef } from "react";
+import { MutableRefObject, useEffect, useRef } from "react";
 import { useRotateCube } from "../../../hooks/useRotateCube";
 import { useFrame } from "@react-three/fiber";
 import { useCubePosition } from "../../../hooks/useCubePosition";
@@ -18,7 +18,6 @@ type Props = {
   isHighlightRotateGroup?: boolean;
   isRotate?: boolean;
   lookfromRight: boolean;
-  lookfromRightRef: MutableRefObject<boolean>;
 };
 
 export const Cubes = ({
@@ -32,7 +31,6 @@ export const Cubes = ({
   isHighlightRotateGroup = false,
   isRotate = false,
   lookfromRight,
-  lookfromRightRef,
 }: Props) => {
   const { rotate } = useRotateCube();
   const { getCubeGroupPosition, updateCubesPosition } = useCubePosition();
@@ -45,12 +43,6 @@ export const Cubes = ({
 
   const prevCanvasWidth = useRef<number>(0);
   const isSetupCompletion = useRef<boolean>(false);
-
-  const changeLookFrom = useCallback(() => {
-    console.log("change!");
-    lookfromRightRef.current = !lookfromRightRef.current;
-    console.log("change!");
-  }, [lookfromRightRef]);
 
   // リサイズ時(canvasWidth.currentが変化した時)に各キューブの位置を再調整
   useFrame(() => {
@@ -96,15 +88,17 @@ export const Cubes = ({
         canvasWindowSize.current.width
       );
       moveCharList.forEach((moveChar, movingIndex) => {
-        // console.log(moveChar);
         const regexMoveChar = /2/;
         const removedTwoMoveChar = moveChar.replace(regexMoveChar, "");
-        const cubePos = getCubeGroupPosition(index, cubesNum, canvasWindowSize.current.width);
+        const cubePos = getCubeGroupPosition(
+          index,
+          cubesNum,
+          canvasWindowSize.current.width
+        );
         if (ROTATE_DIRECTION[removedTwoMoveChar]) {
           rotate(
             cubeGroupRef.current,
             rotationGroupRef.current,
-            changeLookFrom,
             cubePos,
             ROTATE_DIRECTION[removedTwoMoveChar],
             moveChar.match(/2/) ? true : false,
@@ -113,9 +107,7 @@ export const Cubes = ({
           );
         }
       });
-      // cubeGroupRef.current.rotation.set(Math.PI / 5, -Math.PI / 4, 0);
-      console.log(`lookfromRightRef.current = ${lookfromRightRef.current}`);
-      if (lookfromRightRef.current) {
+      if (lookfromRight) {
         cubeGroupRef.current.rotation.set(Math.PI / 6, -Math.PI / 8, 0);
       } else {
         cubeGroupRef.current.rotation.set(Math.PI / 6, Math.PI / 8, 0);
@@ -124,19 +116,19 @@ export const Cubes = ({
     }
   }, [
     canvasWindowSize,
-    changeLookFrom,
     cubesNum,
     getCubeGroupPosition,
     index,
     isHighlightRotateGroup,
-    lookfromRightRef,
+    lookfromRight,
     moveCharList,
     rotate,
     updateCubesPosition,
   ]);
 
   const supportText = supportTextList
-    ? supportTextList[needBraketIndex?.start.indexOf(index)] ?? supportTextList[0]
+    ? supportTextList[needBraketIndex?.start.indexOf(index)] ??
+      supportTextList[0]
     : undefined;
 
   return (
@@ -144,11 +136,15 @@ export const Cubes = ({
       cubeGroupRef={cubeGroupRef}
       moveTextRef={moveTextRef}
       moveChar={
-        moveCharList && moveCharList.length > 0 ? moveCharList[moveCharList.length - 1] : undefined
+        moveCharList && moveCharList.length > 0
+          ? moveCharList[moveCharList.length - 1]
+          : undefined
       }
       rotationGroupRef={rotationGroupRef}
       braketRef={braketRef}
-      supportText={needBraketIndex?.start.includes(index) ? supportText : undefined}
+      supportText={
+        needBraketIndex?.start.includes(index) ? supportText : undefined
+      }
       supportTextRef={supportTextRef}
       braketNeed={{
         start: needBraketIndex?.start.includes(index),
