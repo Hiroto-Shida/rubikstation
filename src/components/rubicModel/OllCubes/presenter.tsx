@@ -8,6 +8,7 @@ const OllCube = ({ position, status }: { position: [number, number, number]; sta
     green: "#188a28",
     red: "#f80208",
     yellow: "#fdde02",
+    yellow_A: "rgb(255, 160, 2)",
     white: "#ffffff",
     orange: "#ff8005",
     blue: "#004ac3",

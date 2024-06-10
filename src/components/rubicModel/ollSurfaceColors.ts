@@ -4,6 +4,7 @@ export type RubiksColor =
   | "green"
   | "blue"
   | "yellow"
+  | "yellow_A"
   | "white"
   | "black"
   | "gray";
@@ -32,6 +33,7 @@ export const ollSurfaceColors = (status: string): OllSurfaceType => {
         centerCenter: ["yellow", "yellow", "yellow"],
         centerRight: ["black", "yellow", "black"],
       };
+
     case "DOT":
       return {
         top: ["gray", "gray", "gray"],
@@ -42,6 +44,7 @@ export const ollSurfaceColors = (status: string): OllSurfaceType => {
         centerCenter: ["black", "yellow", "black"],
         centerRight: ["black", "black", "black"],
       };
+
     case "LINE":
       return {
         top: ["gray", "gray", "gray"],
@@ -52,6 +55,7 @@ export const ollSurfaceColors = (status: string): OllSurfaceType => {
         centerCenter: ["black", "yellow", "black"],
         centerRight: ["black", "yellow", "black"],
       };
+
     case "L":
       return {
         top: ["gray", "gray", "gray"],
@@ -62,6 +66,7 @@ export const ollSurfaceColors = (status: string): OllSurfaceType => {
         centerCenter: ["black", "yellow", "yellow"],
         centerRight: ["black", "black", "black"],
       };
+
     case "DOT_EX":
       return {
         top: ["gray", "gray", "gray"],
@@ -72,6 +77,7 @@ export const ollSurfaceColors = (status: string): OllSurfaceType => {
         centerCenter: ["black", "yellow", "black"],
         centerRight: ["yellow", "black", "yellow"],
       };
+
     case "LINE_EX":
       return {
         top: ["gray", "gray", "gray"],
@@ -80,6 +86,127 @@ export const ollSurfaceColors = (status: string): OllSurfaceType => {
         left: ["gray", "gray", "gray"],
         centerLeft: ["black", "yellow", "yellow"],
         centerCenter: ["black", "yellow", "black"],
+        centerRight: ["black", "yellow", "yellow"],
+      };
+
+    case "CROSS_1_EX1":
+      return {
+        top: ["black", "black", "yellow"],
+        right: ["yellow", "black", "black"],
+        bottom: ["black", "black", "black"],
+        left: ["black", "black", "yellow"],
+        centerLeft: ["yellow", "yellow", "black"],
+        centerCenter: ["yellow", "yellow", "yellow"],
+        centerRight: ["black", "yellow", "black"],
+      };
+
+    case "CROSS_1_EX2":
+      return {
+        top: ["yellow", "black", "black"],
+        right: ["black", "black", "yellow"],
+        bottom: ["black", "black", "yellow"],
+        left: ["black", "black", "black"],
+        centerLeft: ["yellow", "yellow", "black"],
+        centerCenter: ["yellow", "yellow", "yellow"],
+        centerRight: ["black", "yellow", "black"],
+      };
+
+    case "CROSS_0_EX1":
+      return {
+        top: ["black", "black", "black"],
+        right: ["black", "black", "yellow"],
+        bottom: ["yellow", "black", "yellow"],
+        left: ["black", "black", "yellow"],
+        centerLeft: ["black", "yellow", "black"],
+        centerCenter: ["yellow", "yellow", "yellow"],
+        centerRight: ["black", "yellow", "black"],
+      };
+
+    case "CROSS_2_EX1":
+      return {
+        top: ["black", "black", "black"],
+        right: ["black", "black", "yellow"],
+        bottom: ["yellow", "black", "black"],
+        left: ["black", "black", "black"],
+        centerLeft: ["black", "yellow", "yellow"],
+        centerCenter: ["yellow", "yellow", "yellow"],
+        centerRight: ["yellow", "yellow", "black"],
+      };
+
+    case "CROSS_1_EX1_A":
+      return {
+        top: ["black", "black", "yellow"],
+        right: ["yellow", "black", "black"],
+        bottom: ["black", "black", "black"],
+        left: ["black", "black", "yellow"],
+        centerLeft: ["yellow_A", "yellow", "black"],
+        centerCenter: ["yellow", "yellow", "yellow"],
+        centerRight: ["black", "yellow", "black"],
+      };
+
+    case "CROSS_1_EX2_A":
+      return {
+        top: ["yellow", "black", "black"],
+        right: ["black", "black", "yellow"],
+        bottom: ["black", "black", "yellow"],
+        left: ["black", "black", "black"],
+        centerLeft: ["yellow_A", "yellow", "black"],
+        centerCenter: ["yellow", "yellow", "yellow"],
+        centerRight: ["black", "yellow", "black"],
+      };
+
+    case "CROSS_0_EX1_A":
+      return {
+        top: ["black", "black", "black"],
+        right: ["black", "black", "yellow"],
+        bottom: ["yellow_A", "black", "yellow"],
+        left: ["black", "black", "yellow"],
+        centerLeft: ["black", "yellow", "black"],
+        centerCenter: ["yellow", "yellow", "yellow"],
+        centerRight: ["black", "yellow", "black"],
+      };
+
+    case "CROSS_0_EX2_A":
+      return {
+        top: ["yellow", "black", "yellow"],
+        right: ["black", "black", "black"],
+        bottom: ["yellow_A", "black", "yellow"],
+        left: ["black", "black", "black"],
+        centerLeft: ["black", "yellow", "black"],
+        centerCenter: ["yellow", "yellow", "yellow"],
+        centerRight: ["black", "yellow", "black"],
+      };
+
+    case "CROSS_2_EX1_A":
+      return {
+        top: ["black", "black", "black"],
+        right: ["black", "black", "yellow"],
+        bottom: ["yellow_A", "black", "black"],
+        left: ["black", "black", "black"],
+        centerLeft: ["black", "yellow", "yellow"],
+        centerCenter: ["yellow", "yellow", "yellow"],
+        centerRight: ["yellow", "yellow", "black"],
+      };
+
+    case "CROSS_2_EX2_A":
+      return {
+        top: ["yellow", "black", "black"],
+        right: ["black", "black", "black"],
+        bottom: ["yellow_A", "black", "black"],
+        left: ["black", "black", "black"],
+        centerLeft: ["black", "yellow", "black"],
+        centerCenter: ["yellow", "yellow", "yellow"],
+        centerRight: ["yellow", "yellow", "yellow"],
+      };
+
+    case "CROSS_2_EX3_A":
+      return {
+        top: ["black", "black", "black"],
+        right: ["black", "black", "black"],
+        bottom: ["yellow_A", "black", "yellow"],
+        left: ["black", "black", "black"],
+        centerLeft: ["black", "yellow", "yellow"],
+        centerCenter: ["yellow", "yellow", "yellow"],
         centerRight: ["black", "yellow", "yellow"],
       };
 
