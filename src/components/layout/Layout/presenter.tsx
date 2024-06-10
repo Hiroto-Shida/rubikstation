@@ -80,6 +80,7 @@ export const LayoutPresenter = ({ children }: Props) => {
             <AppListItem to={"/procedure/3"} primaryText="ステップ3" />
             <AppListItem to={"/procedure/4"} primaryText="ステップ4" />
             <AppListItem to={"/procedure/5"} primaryText="ステップ5" />
+            <AppListItem to={"/procedure/6"} primaryText="ステップ6" />
           </>
         )}
         <ListSubheader>その他</ListSubheader>
