@@ -22,7 +22,7 @@ export type OllSurfaceType = {
 
 export const ollSurfaceColors = (status: string): OllSurfaceType => {
   switch (status) {
-    case "YELLOW_CROSS":
+    case "TOP_CROSS":
       return {
         top: ["gray", "gray", "gray"],
         right: ["gray", "gray", "gray"],
@@ -32,6 +32,57 @@ export const ollSurfaceColors = (status: string): OllSurfaceType => {
         centerCenter: ["yellow", "yellow", "yellow"],
         centerRight: ["black", "yellow", "black"],
       };
+    case "DOT":
+      return {
+        top: ["gray", "gray", "gray"],
+        right: ["gray", "gray", "gray"],
+        bottom: ["gray", "gray", "gray"],
+        left: ["gray", "gray", "gray"],
+        centerLeft: ["black", "black", "black"],
+        centerCenter: ["black", "yellow", "black"],
+        centerRight: ["black", "black", "black"],
+      };
+    case "LINE":
+      return {
+        top: ["gray", "gray", "gray"],
+        right: ["gray", "gray", "gray"],
+        bottom: ["gray", "gray", "gray"],
+        left: ["gray", "gray", "gray"],
+        centerLeft: ["black", "yellow", "black"],
+        centerCenter: ["black", "yellow", "black"],
+        centerRight: ["black", "yellow", "black"],
+      };
+    case "L":
+      return {
+        top: ["gray", "gray", "gray"],
+        right: ["gray", "gray", "gray"],
+        bottom: ["gray", "gray", "gray"],
+        left: ["gray", "gray", "gray"],
+        centerLeft: ["black", "yellow", "black"],
+        centerCenter: ["black", "yellow", "yellow"],
+        centerRight: ["black", "black", "black"],
+      };
+    case "DOT_EX":
+      return {
+        top: ["gray", "gray", "gray"],
+        right: ["gray", "gray", "gray"],
+        bottom: ["gray", "gray", "gray"],
+        left: ["gray", "gray", "gray"],
+        centerLeft: ["yellow", "black", "yellow"],
+        centerCenter: ["black", "yellow", "black"],
+        centerRight: ["yellow", "black", "yellow"],
+      };
+    case "LINE_EX":
+      return {
+        top: ["gray", "gray", "gray"],
+        right: ["gray", "gray", "gray"],
+        bottom: ["gray", "gray", "gray"],
+        left: ["gray", "gray", "gray"],
+        centerLeft: ["black", "yellow", "yellow"],
+        centerCenter: ["black", "yellow", "black"],
+        centerRight: ["black", "yellow", "yellow"],
+      };
+
     default:
       return {
         top: ["green", "green", "green"],
