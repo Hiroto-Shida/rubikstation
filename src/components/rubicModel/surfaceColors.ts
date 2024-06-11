@@ -559,6 +559,66 @@ export const surfaceColorList = (
         25: ["black", "black", "yellow", "black", "black", "black"],
         26: ["green", "black", "yellow", "black", "red", "black"],
       };
+
+    case "PLL_EDGE_0_FULL":
+      return {
+        0: ["black", "orange", "black", "white", "black", "green"],
+        1: ["black", "orange", "black", "white", "black", "black"],
+        2: ["black", "orange", "black", "white", "blue", "black"],
+        3: ["black", "orange", "black", "black", "black", "green"],
+        4: ["black", "orange", "black", "black", "black", "black"],
+        5: ["black", "orange", "black", "black", "blue", "black"],
+        6: ["black", "orange", "yellow", "black", "black", "green"],
+        7: ["black", "green", "yellow", "black", "black", "black"],
+        8: ["black", "orange", "yellow", "black", "blue", "black"],
+        9: ["black", "black", "black", "white", "black", "green"],
+        10: ["black", "black", "black", "white", "black", "black"],
+        11: ["black", "black", "black", "white", "blue", "black"],
+        12: ["black", "black", "black", "black", "black", "green"],
+        14: ["black", "black", "black", "black", "blue", "black"],
+        15: ["black", "black", "yellow", "black", "black", "orange"],
+        16: ["black", "black", "yellow", "black", "black", "black"], // top
+        17: ["black", "black", "yellow", "black", "red", "black"],
+        18: ["red", "black", "black", "white", "black", "green"],
+        19: ["red", "black", "black", "white", "black", "black"],
+        20: ["red", "black", "black", "white", "blue", "black"],
+        21: ["red", "black", "black", "black", "black", "green"],
+        22: ["red", "black", "black", "black", "black", "black"],
+        23: ["red", "black", "black", "black", "blue", "black"],
+        24: ["red", "black", "yellow", "black", "black", "green"],
+        25: ["blue", "black", "yellow", "black", "black", "black"],
+        26: ["red", "black", "yellow", "black", "blue", "black"],
+      };
+
+    case "PLL_EDGE_1_FULL":
+      return {
+        0: ["black", "orange", "black", "white", "black", "green"],
+        1: ["black", "orange", "black", "white", "black", "black"],
+        2: ["black", "orange", "black", "white", "blue", "black"],
+        3: ["black", "orange", "black", "black", "black", "green"],
+        4: ["black", "orange", "black", "black", "black", "black"],
+        5: ["black", "orange", "black", "black", "blue", "black"],
+        6: ["black", "orange", "yellow", "black", "black", "green"],
+        7: ["black", "red", "yellow", "black", "black", "black"],
+        8: ["black", "orange", "yellow", "black", "blue", "black"],
+        9: ["black", "black", "black", "white", "black", "green"],
+        10: ["black", "black", "black", "white", "black", "black"],
+        11: ["black", "black", "black", "white", "blue", "black"],
+        12: ["black", "black", "black", "black", "black", "green"],
+        14: ["black", "black", "black", "black", "blue", "black"],
+        15: ["black", "black", "yellow", "black", "black", "green"],
+        16: ["black", "black", "yellow", "black", "black", "black"], // top
+        17: ["black", "black", "yellow", "black", "orange", "black"],
+        18: ["red", "black", "black", "white", "black", "green"],
+        19: ["red", "black", "black", "white", "black", "black"],
+        20: ["red", "black", "black", "white", "blue", "black"],
+        21: ["red", "black", "black", "black", "black", "green"],
+        22: ["red", "black", "black", "black", "black", "black"],
+        23: ["red", "black", "black", "black", "blue", "black"],
+        24: ["red", "black", "yellow", "black", "black", "green"],
+        25: ["blue", "black", "yellow", "black", "black", "black"],
+        26: ["red", "black", "yellow", "black", "blue", "black"],
+      };
   }
 };
 

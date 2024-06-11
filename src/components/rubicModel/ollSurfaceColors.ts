@@ -243,6 +243,28 @@ export const ollSurfaceColors = (status: string): OllSurfaceType => {
         centerRight: ["yellow", "yellow", "yellow"],
       };
 
+    case "PLL_EDGE_0_FULL":
+      return {
+        top: ["green", "orange", "green"],
+        right: ["red", "blue", "red"],
+        bottom: ["blue", "red", "blue"],
+        left: ["orange", "green", "orange"],
+        centerLeft: ["yellow", "yellow", "yellow"],
+        centerCenter: ["yellow", "yellow", "yellow"],
+        centerRight: ["yellow", "yellow", "yellow"],
+      };
+
+    case "PLL_EDGE_1_FULL":
+      return {
+        top: ["green", "green", "green"],
+        right: ["red", "blue", "red"],
+        bottom: ["blue", "orange", "blue"],
+        left: ["orange", "red", "orange"],
+        centerLeft: ["yellow", "yellow", "yellow"],
+        centerCenter: ["yellow", "yellow", "yellow"],
+        centerRight: ["yellow", "yellow", "yellow"],
+      };
+
     default:
       return {
         top: ["green", "green", "green"],

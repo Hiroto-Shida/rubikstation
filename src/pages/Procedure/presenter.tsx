@@ -4,6 +4,7 @@ import { Step3 } from "../../components/procedure/Step3/container";
 import { Step4 } from "../../components/procedure/Step4/container";
 import { Step5 } from "../../components/procedure/Step5/container";
 import { Step6 } from "../../components/procedure/Step6/container";
+import { Step7 } from "../../components/procedure/Step7/container";
 
 type Props = {
   step: string | undefined;
@@ -18,6 +19,7 @@ export const ProcedurePagePresenter = ({ step }: Props) => {
       {step === "4" && <Step4 />}
       {step === "5" && <Step5 />}
       {step === "6" && <Step6 />}
+      {step === "7" && <Step7 />}
     </>
   );
 };

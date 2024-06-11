@@ -15,7 +15,6 @@ import {
   ListItem,
   ListItemButton,
   ListItemIcon,
-  ListItemText,
   ListSubheader,
   Toolbar,
   Typography,
@@ -37,10 +36,12 @@ export const LayoutPresenter = ({ children }: Props) => {
   };
 
   const AppListItem = ({
+    small,
     to,
     primaryText,
     icon,
   }: {
+    small: boolean;
     to: string;
     primaryText: string;
     icon?: ReactElement;
@@ -49,7 +50,7 @@ export const LayoutPresenter = ({ children }: Props) => {
       <ListItem component={Link} to={to} disablePadding>
         <ListItemButton
           sx={(theme) => ({
-            p: `${theme.spacing(2)} ${theme.spacing(1)}`,
+            p: `${theme.spacing(small ? 1.5 : 2)} ${theme.spacing(1)}`,
             backgroundColor: to === pathname ? "#e2f5ff" : "ffffff",
           })}
         >
@@ -75,12 +76,13 @@ export const LayoutPresenter = ({ children }: Props) => {
         <AppListItem to={"/procedure"} primaryText="6面までの手順" icon={<AppRegistrationIcon />} />
         {pathname.includes(`/procedure`) && (
           <>
-            <AppListItem to={"/procedure/1"} primaryText="ステップ1" />
-            <AppListItem to={"/procedure/2"} primaryText="ステップ2" />
-            <AppListItem to={"/procedure/3"} primaryText="ステップ3" />
-            <AppListItem to={"/procedure/4"} primaryText="ステップ4" />
-            <AppListItem to={"/procedure/5"} primaryText="ステップ5" />
-            <AppListItem to={"/procedure/6"} primaryText="ステップ6" />
+            <AppListItem small to={"/procedure/1"} primaryText="ステップ1" />
+            <AppListItem small to={"/procedure/2"} primaryText="ステップ2" />
+            <AppListItem small to={"/procedure/3"} primaryText="ステップ3" />
+            <AppListItem small to={"/procedure/4"} primaryText="ステップ4" />
+            <AppListItem small to={"/procedure/5"} primaryText="ステップ5" />
+            <AppListItem small to={"/procedure/6"} primaryText="ステップ6" />
+            <AppListItem small to={"/procedure/7"} primaryText="ステップ7" />
           </>
         )}
         <ListSubheader>その他</ListSubheader>
