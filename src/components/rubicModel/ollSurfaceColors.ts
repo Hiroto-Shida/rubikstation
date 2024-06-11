@@ -210,6 +210,39 @@ export const ollSurfaceColors = (status: string): OllSurfaceType => {
         centerRight: ["black", "yellow", "yellow"],
       };
 
+    case "PLL_CORNER":
+      return {
+        top: ["green", "black", "green"],
+        right: ["red", "black", "red"],
+        bottom: ["blue", "black", "blue"],
+        left: ["orange", "black", "orange"],
+        centerLeft: ["yellow", "yellow", "yellow"],
+        centerCenter: ["yellow", "yellow", "yellow"],
+        centerRight: ["yellow", "yellow", "yellow"],
+      };
+
+    case "PLL_CORNER_0_PAIRS":
+      return {
+        top: ["red", "black", "orange"],
+        right: ["blue", "black", "green"],
+        bottom: ["red", "black", "orange"],
+        left: ["blue", "black", "green"],
+        centerLeft: ["yellow", "yellow", "yellow"],
+        centerCenter: ["yellow", "yellow", "yellow"],
+        centerRight: ["yellow", "yellow", "yellow"],
+      };
+
+    case "PLL_CORNER_1_PAIRS":
+      return {
+        top: ["green", "black", "red"],
+        right: ["green", "black", "blue"],
+        bottom: ["blue", "black", "red"],
+        left: ["orange", "black", "orange"],
+        centerLeft: ["yellow", "yellow", "yellow"],
+        centerCenter: ["yellow", "yellow", "yellow"],
+        centerRight: ["yellow", "yellow", "yellow"],
+      };
+
     default:
       return {
         top: ["green", "green", "green"],
