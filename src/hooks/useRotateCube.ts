@@ -1,16 +1,9 @@
 import * as THREE from "three";
 import { useCallback } from "react";
-import {
-  Axis,
-  Limit,
-  Multiplier,
-} from "../components/rubicModel/rotateDirection";
+import { Axis, Limit, Multiplier } from "../components/rubicModel/rotateDirection";
 
 export const useRotateCube = () => {
-  const resetCubeGroup = (
-    cubeGroupRef: THREE.Group,
-    rotationGroupRef: THREE.Group
-  ) => {
+  const resetCubeGroup = (cubeGroupRef: THREE.Group, rotationGroupRef: THREE.Group) => {
     rotationGroupRef.children
       .slice()
       // .reverse() // いらない？
@@ -88,7 +81,6 @@ export const useRotateCube = () => {
     limit: Limit | undefined,
     multiplier: Multiplier
   ) => {
-    console.log("add arrow");
     const cubeGroupPosVec = new THREE.Vector3();
     cubeGroupRef.getWorldPosition(cubeGroupPosVec);
 
@@ -98,12 +90,7 @@ export const useRotateCube = () => {
       if (child instanceof THREE.Group) {
         // child.quaternion.set(0, 0, 0, 1);
         const coneGeometry = new THREE.ConeGeometry(0.4, 1, 10);
-        const cylinderGeometry = new THREE.CylinderGeometry(
-          0.15,
-          0.15,
-          2.3,
-          10
-        );
+        const cylinderGeometry = new THREE.CylinderGeometry(0.15, 0.15, 2.3, 10);
 
         const meshColor = "#6bcacd";
         const lineColor = "#000000";
@@ -126,10 +113,7 @@ export const useRotateCube = () => {
 
         const cylinderMesh = new THREE.Mesh(cylinderGeometry, meshMaterial);
         const cylinderWireframe = new THREE.WireframeGeometry(cylinderGeometry);
-        const cylinderLine = new THREE.LineSegments(
-          cylinderWireframe,
-          lineMaterial
-        );
+        const cylinderLine = new THREE.LineSegments(cylinderWireframe, lineMaterial);
         cylinderMesh.position.setY(-0.2);
         cylinderLine.position.setY(-0.2);
 
@@ -145,16 +129,11 @@ export const useRotateCube = () => {
         const childWorldDirVec = new THREE.Vector3();
         child.getWorldPosition(childWorldPosVec);
         child.getWorldDirection(childWorldDirVec);
-        const childPosVec = new THREE.Vector3().subVectors(
-          childWorldPosVec,
-          cubeGroupPosVec
-        );
+        const childPosVec = new THREE.Vector3().subVectors(childWorldPosVec, cubeGroupPosVec);
         const childPos = childPosVec.toArray().map((pos) => Math.round(pos));
 
         const originAxis = ["x", "y", "z"];
-        const excludeRotateAxis = originAxis.filter(
-          (axis) => axis !== rotateAxis
-        );
+        const excludeRotateAxis = originAxis.filter((axis) => axis !== rotateAxis);
 
         // 矢印をつける対象のCubeの場合、isTargetAddArrow = true
         let isTargetAddArrow;
@@ -303,15 +282,8 @@ export const useRotateCube = () => {
         limit,
         isHighlightRotateGroup
       );
-      !isMoveMaximum &&
-        addArrow(cubeGroupRef, rotationGroupRef, axis, limit, multiplier);
-      rotateGroup(
-        rotationGroupRef,
-        axis,
-        multiplier,
-        isMoveTwice,
-        isMoveMaximum
-      );
+      !isMoveMaximum && addArrow(cubeGroupRef, rotationGroupRef, axis, limit, multiplier);
+      rotateGroup(rotationGroupRef, axis, multiplier, isMoveTwice, isMoveMaximum);
       resetCubeGroup(cubeGroupRef, rotationGroupRef);
     },
     []

@@ -529,6 +529,36 @@ export const surfaceColorList = (
         25: ["black", "black", "yellow", "black", "black", "black"],
         26: ["blue", "black", "yellow", "black", "orange", "black"],
       };
+
+    case "PLL_CORNER_1_PAIRS":
+      return {
+        0: ["black", "orange", "black", "white", "black", "green"],
+        1: ["black", "orange", "black", "white", "black", "black"],
+        2: ["black", "orange", "black", "white", "blue", "black"],
+        3: ["black", "orange", "black", "black", "black", "green"],
+        4: ["black", "orange", "black", "black", "black", "black"],
+        5: ["black", "orange", "black", "black", "blue", "black"],
+        6: ["black", "orange", "yellow", "black", "black", "green"],
+        7: ["black", "black", "yellow", "black", "black", "black"],
+        8: ["black", "orange", "yellow", "black", "blue", "black"],
+        9: ["black", "black", "black", "white", "black", "green"],
+        10: ["black", "black", "black", "white", "black", "black"],
+        11: ["black", "black", "black", "white", "blue", "black"],
+        12: ["black", "black", "black", "black", "black", "green"],
+        14: ["black", "black", "black", "black", "blue", "black"],
+        15: ["black", "black", "yellow", "black", "black", "black"],
+        16: ["black", "black", "yellow", "black", "black", "black"], // top
+        17: ["black", "black", "yellow", "black", "black", "black"],
+        18: ["red", "black", "black", "white", "black", "green"],
+        19: ["red", "black", "black", "white", "black", "black"],
+        20: ["red", "black", "black", "white", "blue", "black"],
+        21: ["red", "black", "black", "black", "black", "green"],
+        22: ["red", "black", "black", "black", "black", "black"],
+        23: ["red", "black", "black", "black", "blue", "black"],
+        24: ["blue", "black", "yellow", "black", "black", "red"],
+        25: ["black", "black", "yellow", "black", "black", "black"],
+        26: ["green", "black", "yellow", "black", "red", "black"],
+      };
   }
 };
 
