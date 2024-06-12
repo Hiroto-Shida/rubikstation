@@ -73,10 +73,18 @@ export const LayoutPresenter = ({ children }: Props) => {
         <Divider />
         <AppListItem to={"/"} primaryText="トップ" icon={<HomeIcon />} />
         <AppListItem to={"/rubic-model"} primaryText="モデル" icon={<Apps />} />
-        <AppListItem to={"/procedure"} primaryText="6面までの手順" icon={<AppRegistrationIcon />} />
+        <AppListItem
+          to={"/procedure"}
+          primaryText="6面までの手順"
+          icon={<AppRegistrationIcon />}
+        />
         {pathname.includes(`/procedure`) && (
           <>
-            <AppListItem small to={"/procedure/introduction"} primaryText="はじめに" />
+            <AppListItem
+              small
+              to={"/procedure/introduction"}
+              primaryText="はじめに"
+            />
             <AppListItem small to={"/procedure/1"} primaryText="ステップ1" />
             <AppListItem small to={"/procedure/2"} primaryText="ステップ2" />
             <AppListItem small to={"/procedure/3"} primaryText="ステップ3" />
@@ -88,7 +96,11 @@ export const LayoutPresenter = ({ children }: Props) => {
         )}
         <ListSubheader>その他</ListSubheader>
         <Divider />
-        <AppListItem to={"/release"} primaryText="リリース情報" icon={<NewReleasesIcon />} />
+        <AppListItem
+          to={"/release"}
+          primaryText="リリース情報"
+          icon={<NewReleasesIcon />}
+        />
       </List>
     </Box>
   );
@@ -101,6 +113,7 @@ export const LayoutPresenter = ({ children }: Props) => {
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
+          zIndex: 16777272,
         }}
         color="primary"
       >
@@ -119,7 +132,10 @@ export const LayoutPresenter = ({ children }: Props) => {
         </Toolbar>
       </AppBar>
 
-      <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}>
+      <Box
+        component="nav"
+        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+      >
         <Drawer
           container={window?.document?.body}
           variant="temporary"

@@ -68,6 +68,7 @@ export const IntroductionPresenter = () => {
           <STandRubicModel st="日本配色" status="JAPAN_ALL" isRotate={true} />
         </Box>
         <B>↑マウスで動かせるよ</B>
+        <B>対面の色が、世界配色は黄⇄白、日本配色は青⇄白になってますね</B>
       </BorderBox>
 
       <ST>各キューブの名前</ST>
@@ -95,14 +96,40 @@ export const IntroductionPresenter = () => {
             status="EDGE_CUBE"
           />
         </Box>
-        <B>↑マウスで動かせるよ</B>
       </BorderBox>
 
-      {/* <StyledScrambleModels status="F1L_SIDE_EX1" scrambleList={[""]} /> */}
+      <ST>回転記号</ST>
+      <B>ルービックキューブの回転にはそれぞれ記号が割り当てられています</B>
+      <B>
+        が、
+        <Typography component="span" sx={{ fontWeight: "bold", color: "red" }}>
+          本記事では矢印で図示してるので、覚えなくて大丈夫です！
+        </Typography>
+      </B>
+      <B>
+        ただ回転記号は世界共通なので、覚えると、他の手順を覚える時にも役立ちます
+      </B>
+      <B>気になる人は調べてみてね</B>
+      <BorderBox>
+        <ST>回転記号例(一部)</ST>
+        <B>RはRight、LはLeft、UはUp、の頭文字</B>
+        <B>
+          プライム(')がついてると半時計周りになります(意外と覚えやすいかも？)
+        </B>
+        <StyledScrambleModels
+          status="WORLD_ALL"
+          scrambleList={["R", "R'", "L", "U"]}
+        />
+      </BorderBox>
 
+      <Box component="div" sx={{ height: "20px" }}></Box>
       <B>
         それでは最初のステップ
-        <Typography component={Link} to="/procedure/1" sx={{ fontWeight: "bold" }}>
+        <Typography
+          component={Link}
+          to="/procedure/1"
+          sx={{ fontWeight: "bold" }}
+        >
           ステップ1
         </Typography>
         から始めましょう！

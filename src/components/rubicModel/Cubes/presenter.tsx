@@ -46,7 +46,11 @@ const Cube = ({
       <group position={position}>
         <mesh ref={cubeRef} geometry={roundedBoxGeometry}>
           {colorList.map((value, index) => (
-            <meshBasicMaterial key={index} attach={`material-${index}`} color={colorsDic[value]} />
+            <meshBasicMaterial
+              key={index}
+              attach={`material-${index}`}
+              color={colorsDic[value]}
+            />
           ))}
         </mesh>
         <lineSegments ref={edgesRef}>
@@ -123,7 +127,7 @@ const SupportText = ({ supportText }: { supportText: string }) => {
   return (
     <Html
       as="div"
-      position={new THREE.Vector3(-1.7, 4.7, 0)}
+      position={new THREE.Vector3(-1.7, 5, 0)}
       style={{
         color: "#000000",
         fontWeight: "bold",
@@ -131,13 +135,20 @@ const SupportText = ({ supportText }: { supportText: string }) => {
         textAlign: "left",
       }}
     >
-      <h3>{supportText}</h3>
+      <h4>
+        {supportText.split(",").map((text, index) => (
+          <div key={index} style={{ lineHeight: 1 }}>
+            {text}
+          </div>
+        ))}
+      </h4>
     </Html>
   );
 };
 
 const model = (status: string, z: number, y: number, x: number) => {
-  const colorDic: { [key: number]: string[] | undefined } | undefined = surfaceColorList(status);
+  const colorDic: { [key: number]: string[] | undefined } | undefined =
+    surfaceColorList(status);
   if (!colorDic) {
     return DEFAULT;
   }

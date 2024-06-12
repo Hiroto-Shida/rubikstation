@@ -51,7 +51,7 @@ export const Step3Presenter = () => {
         <ST>右下のエッジに入れたい場合</ST>
         <StyledScrambleModels
           status="F2L_LEFT"
-          supportTextList={["右回りの逆セクシー", "左回りの逆セクシー"]}
+          supportTextList={["右回りの,逆セクシー", "左回りの,逆セクシー"]}
           scrambleList={[
             "",
             "(",
@@ -75,7 +75,7 @@ export const Step3Presenter = () => {
         <ST>左下のエッジに入れたい場合</ST>
         <StyledScrambleModels
           status="F2L_RIGHT"
-          supportTextList={["左回りの逆セクシー", "右回りの逆セクシー"]}
+          supportTextList={["左回りの,逆セクシー", "右回りの,逆セクシー"]}
           scrambleList={[
             "",
             "(",

@@ -23,7 +23,10 @@ export const Step7Presenter = () => {
       <T pageTop={true}>ステップ7：6面を完成させよう</T>
       <B>以下がステップ6の完成形です。</B>
       <B> ↓ マウスで動かして全体像を確認しよう！</B>
-      <StyledRubicModel canvasCamera={{ position: [2.5, 2.7, 2.5] }} isRotate={true} />
+      <StyledRubicModel
+        canvasCamera={{ position: [2.5, 2.7, 2.5] }}
+        isRotate={true}
+      />
 
       <T>黄色エッジのパターン</T>
       <B>上段側面のパターンは、大きく2つのパターンがあります</B>
@@ -37,10 +40,12 @@ export const Step7Presenter = () => {
         <ST>「揃ってる側面なし」のパターン</ST>
         <OllModel status="PLL_EDGE_0_FULL" />
 
-        <B>黄色面を上にして持ち、以下の手順を回しましょう（向きはどこでも大丈夫です）</B>
+        <B>
+          黄色面を上にして持ち、以下の手順を回しましょう（向きはどこでも大丈夫です）
+        </B>
         <StyledScrambleModels
           status="PLL_EDGE_0_FULL"
-          supportTextList={["スーン", "左右対称スーン"]}
+          supportTextList={["スーン", "左右対称,スーン"]}
           scrambleList={[
             "",
             "(",
@@ -76,10 +81,12 @@ export const Step7Presenter = () => {
         <ST>「1面だけ揃ってる」のパターン</ST>
         <OllModel status="PLL_EDGE_1_FULL" />
 
-        <B>黄色面を上にし、揃っている面を後ろにして持ち、以下の手順を回しましょう</B>
+        <B>
+          黄色面を上にし、揃っている面を後ろにして持ち、以下の手順を回しましょう
+        </B>
         <StyledScrambleModels
           status="PLL_EDGE_1_FULL"
-          supportTextList={["スーン", "左右対称スーン"]}
+          supportTextList={["スーン", "左右対称,スーン"]}
           scrambleList={[
             "",
             "(",
@@ -110,6 +117,39 @@ export const Step7Presenter = () => {
           上記手順を回した後でも、再度「1面だけ揃ってる」のパターンになった場合は、再度揃っている面を後ろにして持ち、同じ上記手順を回しましょう。最低でも2回の繰り返しで6面揃うはずです
         </B>
       </BorderBox>
+
+      <T>6面揃えられたら</T>
+      <B>無事揃えられた方おめでとうございます！</B>
+      <B>次のステップはまず、手順を覚えることです</B>
+      <B>
+        左回り/右回りのセクシームーブ、スーン、それらを使う箇所をおぼえれば、手順を見ずに6面揃えられるようになります！
+      </B>
+
+      <T>手順を見ずに6面揃えられるようになったら</T>
+      <B>
+        見ないでも揃えられるようになったら
+        <Typography component={Link} to="/" sx={{ fontWeight: "bold" }}>
+          トップページ
+        </Typography>
+        でタイムを測ってみよう！
+      </B>
+      <B>
+        トップページにはタイマーの下に
+        <Typography component="span" sx={{ fontWeight: "bold" }}>
+          スクランブル
+        </Typography>
+        といって、崩すための手順も表示されます。
+      </B>
+      <B>
+        スペースキーを押すとタイマーがスタートストップできるのでぜひやってみてね
+      </B>
+      <B>
+        もっと速く揃えられるようになりたい人は、
+        <Typography component="span" sx={{ fontWeight: "bold" }}>
+          CFOP法、LBL法
+        </Typography>
+        などをネットで調べてみましょう
+      </B>
 
       <Box component="div" sx={{ height: "200px" }}></Box>
     </>
