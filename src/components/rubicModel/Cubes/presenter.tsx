@@ -3,6 +3,7 @@ import { BLACK, DEFAULT, surfaceColorList } from "../surfaceColors";
 import { MutableRefObject, useEffect, useMemo, useRef } from "react";
 import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
 import { Html } from "@react-three/drei";
+import { useTheme } from "@mui/material";
 
 const Cube = ({
   position,
@@ -11,14 +12,15 @@ const Cube = ({
   position: [number, number, number];
   colorList: string[];
 }) => {
+  const theme = useTheme();
   const colorsDic: { [key: string]: string } = {
-    green: "#188a28",
-    red: "#f80208",
-    yellow: "#fdde02",
-    white: "#ffffff",
-    orange: "#ff8005",
-    blue: "#004ac3",
-    black: "#524d4d",
+    green: theme.palette.themeRubik.green,
+    red: theme.palette.themeRubik.red,
+    yellow: theme.palette.themeRubik.yellow,
+    white: theme.palette.themeRubik.white,
+    orange: theme.palette.themeRubik.orange,
+    blue: theme.palette.themeRubik.blue,
+    black: theme.palette.themeRubik.black,
   }; // 6 colors for the faces
 
   const cubeRef = useRef<THREE.Mesh>(null);
@@ -46,11 +48,7 @@ const Cube = ({
       <group position={position}>
         <mesh ref={cubeRef} geometry={roundedBoxGeometry}>
           {colorList.map((value, index) => (
-            <meshBasicMaterial
-              key={index}
-              attach={`material-${index}`}
-              color={colorsDic[value]}
-            />
+            <meshBasicMaterial key={index} attach={`material-${index}`} color={colorsDic[value]} />
           ))}
         </mesh>
         <lineSegments ref={edgesRef}>
@@ -147,8 +145,7 @@ const SupportText = ({ supportText }: { supportText: string }) => {
 };
 
 const model = (status: string, z: number, y: number, x: number) => {
-  const colorDic: { [key: number]: string[] | undefined } | undefined =
-    surfaceColorList(status);
+  const colorDic: { [key: number]: string[] | undefined } | undefined = surfaceColorList(status);
   if (!colorDic) {
     return DEFAULT;
   }

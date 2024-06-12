@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { StyledRubicModel } from "../StyledRubicModel/container";
 import { StyledScrambleModels } from "../StyledScrambleModels/container";
 import { BorderBox } from "../BorderBox/container";
+import { OllModel } from "../../rubicModel/OllModel/container";
 
 export const Step1Presenter = () => {
   return (
@@ -15,16 +16,17 @@ export const Step1Presenter = () => {
       <B> ↓ マウスで動かして全体像を確認しよう！</B>
       <StyledRubicModel status="CROSS" canvasCamera={{ position: [2.5, 3, 2.5] }} isRotate={true} />
       <B>キューブはどんなに動かしても中心の色の配置は変わりません。</B>
+      <B>↓白十字を揃えた時の上から見た図↓</B>
+      <OllModel status="WHITE_CROSS" />
       <B>白面を上にした時、横の面の中心の色は時計回りに"青"→"赤"→"緑"→"オレンジ"となっています。</B>
       <B>なのでこの順番を意識して揃えていきましょう！</B>
-      {/* <B>※本揃え方の手順ではこの配色で説明していきます。違う配色の方は適宜読み替えてください</B> */}
 
       <T>白十字の基本的な揃え方</T>
       <B>まず白のセンターキューブを上にしてキューブを持ちましょう。</B>
       <B>次に白色を含むエッジキューブを探し、上の白面に向かって揃えていきましょう。</B>
-      {/* <B>パターン1. 入れたいキューブが中央の段にある場合</B> */}
       <BorderBox>
         <ST>パターン1：入れたいキューブが中央の段にある場合</ST>
+        <B>上の白面に向かって1回まわすだけで揃う、一番簡単なパターンです</B>
         <StyledScrambleModels
           status="CROSS_CENTER_EX1"
           scrambleList={["", "R", ""]}
@@ -40,6 +42,7 @@ export const Step1Presenter = () => {
 
       <BorderBox>
         <ST>パターン2：入れたいキューブが、上の段または下の段にあり、白面が横を向いている場合</ST>
+        <B>入れたいキューブがある面を右か左に回してから、上の白面に向かって回し入れましょう</B>
         <B>上の段にある例</B>
         <StyledScrambleModels
           status="CROSS_BOTTOM_SIDE_EX1"
@@ -57,9 +60,19 @@ export const Step1Presenter = () => {
 
       <BorderBox>
         <ST>パターン3. 入れたいキューブが下の段にあり、白面が下を向いている場合</ST>
+        <B>入れたいキューブの白面が下を向いている場合は、2回転することでその真上に持って来れます</B>
         <StyledScrambleModels
           status="CROSS_BOTTOM_BOTTOM"
           scrambleList={["", "F2", ""]}
+          isKeepRotate={true}
+        />
+        <B>入れたい先の真下ではない時は、下の面を回転してから、上に2回転しましょう</B>
+        <B>
+          下の例では下面を動かしてから2回転することで、上面の右側にキューブを持ってくることができてますね
+        </B>
+        <StyledScrambleModels
+          status="CROSS_BOTTOM_BOTTOM"
+          scrambleList={["", "D", "R2", ""]}
           isKeepRotate={true}
         />
       </BorderBox>
@@ -118,7 +131,7 @@ export const Step1Presenter = () => {
 
       <T>十字が揃っているか確認しよう</T>
       <B>
-        正しい順番で各4キューブ(白青、白赤、白緑、白オレンジ)を上段に入れられたら、上段を何回か回してみよう
+        正しい順番で各4キューブ(白青、白赤、白緑、白オレンジ)を上段に入れられたら、上段を何回か回してみましょう
       </B>
       <B>以下の例は1回回すことで十字が揃ってますね</B>
       <StyledScrambleModels

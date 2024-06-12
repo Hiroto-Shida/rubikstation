@@ -23,10 +23,7 @@ export const Step7Presenter = () => {
       <T pageTop={true}>ステップ7：6面を完成させよう</T>
       <B>以下がステップ6の完成形です。</B>
       <B> ↓ マウスで動かして全体像を確認しよう！</B>
-      <StyledRubicModel
-        canvasCamera={{ position: [2.5, 2.7, 2.5] }}
-        isRotate={true}
-      />
+      <StyledRubicModel canvasCamera={{ position: [2.5, 2.7, 2.5] }} isRotate={true} />
 
       <T>黄色エッジのパターン</T>
       <B>上段側面のパターンは、大きく2つのパターンがあります</B>
@@ -40,9 +37,7 @@ export const Step7Presenter = () => {
         <ST>「揃ってる側面なし」のパターン</ST>
         <OllModel status="PLL_EDGE_0_FULL" />
 
-        <B>
-          黄色面を上にして持ち、以下の手順を回しましょう（向きはどこでも大丈夫です）
-        </B>
+        <B>黄色面を上にして持ち、以下の手順を回しましょう（向きはどこでも大丈夫です）</B>
         <StyledScrambleModels
           status="PLL_EDGE_0_FULL"
           supportTextList={["スーン", "左右対称,スーン"]}
@@ -81,9 +76,7 @@ export const Step7Presenter = () => {
         <ST>「1面だけ揃ってる」のパターン</ST>
         <OllModel status="PLL_EDGE_1_FULL" />
 
-        <B>
-          黄色面を上にし、揃っている面を後ろにして持ち、以下の手順を回しましょう
-        </B>
+        <B>黄色面を上にし、揃っている面を後ろにして持ち、以下の手順を回しましょう</B>
         <StyledScrambleModels
           status="PLL_EDGE_1_FULL"
           supportTextList={["スーン", "左右対称,スーン"]}
@@ -122,7 +115,7 @@ export const Step7Presenter = () => {
       <B>無事揃えられた方おめでとうございます！</B>
       <B>次のステップはまず、手順を覚えることです</B>
       <B>
-        左回り/右回りのセクシームーブ、スーン、それらを使う箇所をおぼえれば、手順を見ずに6面揃えられるようになります！
+        左回り/右回りのセクシームーブ、スーン、それらを使う箇所を覚えれば、手順を見ずに6面揃えられるようになります！
       </B>
 
       <T>手順を見ずに6面揃えられるようになったら</T>
@@ -131,7 +124,7 @@ export const Step7Presenter = () => {
         <Typography component={Link} to="/" sx={{ fontWeight: "bold" }}>
           トップページ
         </Typography>
-        でタイムを測ってみよう！
+        でタイムを測ってみましょう！
       </B>
       <B>
         トップページにはタイマーの下に
@@ -140,9 +133,7 @@ export const Step7Presenter = () => {
         </Typography>
         といって、崩すための手順も表示されます。
       </B>
-      <B>
-        スペースキーを押すとタイマーがスタートストップできるのでぜひやってみてね
-      </B>
+      <B>スペースキーを押すとタイマーがスタートストップできるのでぜひやってみてね</B>
       <B>
         もっと速く揃えられるようになりたい人は、
         <Typography component="span" sx={{ fontWeight: "bold" }}>
@@ -150,6 +141,8 @@ export const Step7Presenter = () => {
         </Typography>
         などをネットで調べてみましょう
       </B>
+      <Box component="div" sx={{ height: "20px" }}></Box>
+      <B>それでは良いルービックキューブライフを！</B>
 
       <Box component="div" sx={{ height: "200px" }}></Box>
     </>

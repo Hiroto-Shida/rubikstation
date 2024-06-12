@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 1974",
     "build": "tsc && vite build && cp docs/index.html docs/404.html",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
@@ -21,7 +21,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.23.0",
-    "three": "^0.164.1"
+    "three": "^0.164.1",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.6",
