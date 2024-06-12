@@ -1,5 +1,5 @@
 import { Canvas } from "@react-three/fiber";
-import { CameraControls } from "@react-three/drei";
+import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 import { Cubes } from "../Cubes/container";
 import { ComponentProps } from "react";
@@ -8,28 +8,31 @@ import { RubicModel } from "./container";
 type Props = ComponentProps<typeof RubicModel>;
 
 export const RubicModelPresenter = ({
-  moveChar,
+  orthographic = false,
   axis = true,
   cameraControls = true,
   status,
   canvasStyle = { width: "150px", height: "150px" },
   canvasCamera = { position: [3, 2.8, 3] },
+  isRotate,
 }: Props) => {
   return (
     <>
       <Canvas
-        camera={canvasCamera}
+        orthographic={orthographic ? true : false}
+        camera={{
+          zoom: orthographic ? 30 : 0.7,
+          position: orthographic ? [3, 3, 10] : canvasCamera.position,
+        }}
         onCreated={({ gl }) => {
           gl.setClearColor(new THREE.Color("#bdbdbd"));
         }}
         gl={{ antialias: true }}
         style={canvasStyle}
       >
-        <ambientLight intensity={1.5} />
-        <pointLight position={[10, 10, 10]} />
-        <Cubes moveChar={moveChar} status={status} />
+        <Cubes status={status} isRotate={isRotate} />
 
-        {cameraControls && <CameraControls />}
+        {cameraControls && <OrbitControls enableZoom={false} />}
         {/* X:red, Y:green, Z:blue. args:長さ */}
         {axis && <axesHelper args={[5]} />}
       </Canvas>

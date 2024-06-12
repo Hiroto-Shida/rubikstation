@@ -1,18 +1,12 @@
 import { useEffect, RefObject, useRef } from "react";
-import {
-  oneCubeNeedCanvasHeight,
-  oneCubeNeedCanvasWidth,
-} from "./useCubePosition";
+import { oneCubeNeedCanvasHeight, oneCubeNeedCanvasWidth } from "./useCubePosition";
 
 export type CanvasWindowSize = {
   width: number;
   height: number;
 };
 
-export const useResize = (
-  canvasDivRef: RefObject<HTMLDivElement>,
-  scrambleNum: number
-) => {
+export const useResize = (canvasDivRef: RefObject<HTMLDivElement>, scrambleNum: number) => {
   const canvasWindowSize = useRef<CanvasWindowSize>({ width: 0, height: 0 });
   const prevCanvasWidth = useRef<number>(0);
 
@@ -27,8 +21,7 @@ export const useResize = (
             canvasWindowSize.current.width / oneCubeNeedCanvasWidth
           );
           const maxCubeInHeight = Math.ceil(scrambleNum / maxCubeInWidth);
-          canvasWindowSize.current.height =
-            oneCubeNeedCanvasHeight * maxCubeInHeight;
+          canvasWindowSize.current.height = oneCubeNeedCanvasHeight * maxCubeInHeight;
           if (canvasDivRef.current) {
             canvasDivRef.current.style.height = `${canvasWindowSize.current.height}px`;
           }

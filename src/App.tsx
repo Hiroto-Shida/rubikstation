@@ -12,7 +12,8 @@ function App() {
       <Routes>
         <Route path={`/`} element={<IndexPage />} />
         <Route path={`/rubic-model`} element={<RubicModelPage />} />
-        <Route path={`/procedure`} element={<ProcedurePage />} />
+        <Route path={`/procedure/`} element={<ProcedurePage />} />
+        <Route path={`/procedure/:step`} element={<ProcedurePage />} />
         <Route path={`/release`} element={<ReleasePage />} />
         <Route path={`/*`} element={<NotFoundPage />} />
       </Routes>
