@@ -3,6 +3,8 @@ import Apps from "@mui/icons-material/Apps";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import NewReleasesIcon from "@mui/icons-material/NewReleases";
 import MenuIcon from "@mui/icons-material/Menu";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 import {
   AppBar,
@@ -22,6 +24,8 @@ import {
 import { ComponentProps, ReactElement, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Layout } from "./container";
+// import { useStore } from "zustand";
+import { useProcedureDrawerOpenStore } from "../../../stores/procedureDrawerOpenStore";
 
 type Props = ComponentProps<typeof Layout>;
 
@@ -29,10 +33,18 @@ const drawerWidth = 240;
 
 export const LayoutPresenter = ({ children }: Props) => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  // const [procedureOpen, setProcedureOpen] = useState(false);
+  const { procedureOpen, setProcedureOpen } =
+    useProcedureDrawerOpenStore.getState();
+
   const pathname = useLocation().pathname;
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
+  };
+
+  const handleProcedureToggle = () => {
+    setProcedureOpen(!procedureOpen);
   };
 
   const AppListItem = ({
@@ -64,6 +76,40 @@ export const LayoutPresenter = ({ children }: Props) => {
     </>
   );
 
+  const AppListItemProcedure = ({
+    small = false,
+    onClick,
+    primaryText,
+    icon,
+  }: {
+    small?: boolean;
+    onClick: () => void;
+    primaryText: string;
+    icon?: ReactElement;
+  }) => (
+    <>
+      <ListItem disablePadding>
+        <ListItemButton
+          sx={(theme) => ({
+            p: `${theme.spacing(small ? 1.5 : 2)} ${theme.spacing(1)}`,
+          })}
+          onClick={onClick}
+        >
+          <ListItemIcon>{icon}</ListItemIcon>
+          <Typography>{primaryText}</Typography>
+          <ListItemIcon>
+            {procedureOpen ? (
+              <KeyboardArrowDownIcon />
+            ) : (
+              <KeyboardArrowRightIcon />
+            )}
+          </ListItemIcon>
+        </ListItemButton>
+      </ListItem>
+      <Divider />
+    </>
+  );
+
   const drawer = (
     <Box component="div">
       <Toolbar />
@@ -73,12 +119,12 @@ export const LayoutPresenter = ({ children }: Props) => {
         <Divider />
         <AppListItem to={"/"} primaryText="トップ" icon={<HomeIcon />} />
         <AppListItem to={"/rubic-model"} primaryText="モデル" icon={<Apps />} />
-        <AppListItem
-          to={"/procedure"}
+        <AppListItemProcedure
           primaryText="6面までの手順"
+          onClick={handleProcedureToggle}
           icon={<AppRegistrationIcon />}
         />
-        {pathname.includes(`/procedure`) && (
+        {procedureOpen && (
           <>
             <AppListItem
               small
