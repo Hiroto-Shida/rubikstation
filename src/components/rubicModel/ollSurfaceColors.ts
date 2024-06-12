@@ -23,6 +23,17 @@ export type OllSurfaceType = {
 
 export const ollSurfaceColors = (status: string): OllSurfaceType => {
   switch (status) {
+    case "WHITE_CROSS":
+      return {
+        top: ["black", "green", "black"],
+        right: ["black", "orange", "black"],
+        bottom: ["black", "blue", "black"],
+        left: ["black", "red", "black"],
+        centerLeft: ["black", "white", "black"],
+        centerCenter: ["white", "white", "white"],
+        centerRight: ["black", "white", "black"],
+      };
+
     case "TOP_CROSS":
       return {
         top: ["gray", "gray", "gray"],

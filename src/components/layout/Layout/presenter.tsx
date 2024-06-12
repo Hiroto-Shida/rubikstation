@@ -1,5 +1,5 @@
 import HomeIcon from "@mui/icons-material/Home";
-import Apps from "@mui/icons-material/Apps";
+// import Apps from "@mui/icons-material/Apps";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import NewReleasesIcon from "@mui/icons-material/NewReleases";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -22,22 +22,19 @@ import {
   Typography,
 } from "@mui/material";
 import { ComponentProps, ReactElement, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Layout } from "./container";
-// import { useStore } from "zustand";
-import { useProcedureDrawerOpenStore } from "../../../stores/procedureDrawerOpenStore";
 
-type Props = ComponentProps<typeof Layout>;
+type Props = ComponentProps<typeof Layout> & {
+  procedureOpen: boolean;
+  setProcedureOpen: (TorF: boolean) => void;
+  pathname: string;
+};
 
 const drawerWidth = 240;
 
-export const LayoutPresenter = ({ children }: Props) => {
+export const LayoutPresenter = ({ children, procedureOpen, setProcedureOpen, pathname }: Props) => {
   const [mobileOpen, setMobileOpen] = useState(false);
-  // const [procedureOpen, setProcedureOpen] = useState(false);
-  const { procedureOpen, setProcedureOpen } =
-    useProcedureDrawerOpenStore.getState();
-
-  const pathname = useLocation().pathname;
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -63,11 +60,17 @@ export const LayoutPresenter = ({ children }: Props) => {
         <ListItemButton
           sx={(theme) => ({
             p: `${theme.spacing(small ? 1.5 : 2)} ${theme.spacing(1)}`,
-            backgroundColor: to === pathname ? "#e2f5ff" : "ffffff",
+            color: to === pathname ? "themeBase.primary" : "text.primary",
+            borderLeft: to === pathname ? `10px ${theme.palette.themeBase.primary} solid` : "none",
           })}
         >
           <ListItemIcon>{icon}</ListItemIcon>
-          <Typography sx={{ fontWeight: to === pathname ? "500" : "normal" }}>
+          <Typography
+            sx={{
+              color: to === pathname ? "themeBase.primary" : "text.primary",
+              fontWeight: to === pathname ? "bold" : "normal",
+            }}
+          >
             {primaryText}
           </Typography>
         </ListItemButton>
@@ -98,11 +101,7 @@ export const LayoutPresenter = ({ children }: Props) => {
           <ListItemIcon>{icon}</ListItemIcon>
           <Typography>{primaryText}</Typography>
           <ListItemIcon>
-            {procedureOpen ? (
-              <KeyboardArrowDownIcon />
-            ) : (
-              <KeyboardArrowRightIcon />
-            )}
+            {procedureOpen ? <KeyboardArrowDownIcon /> : <KeyboardArrowRightIcon />}
           </ListItemIcon>
         </ListItemButton>
       </ListItem>
@@ -118,7 +117,7 @@ export const LayoutPresenter = ({ children }: Props) => {
         <ListSubheader>メイン</ListSubheader>
         <Divider />
         <AppListItem to={"/"} primaryText="トップ" icon={<HomeIcon />} />
-        <AppListItem to={"/rubic-model"} primaryText="モデル" icon={<Apps />} />
+        {/* <AppListItem to={"/rubic-model"} primaryText="モデル" icon={<Apps />} /> */}
         <AppListItemProcedure
           primaryText="6面までの手順"
           onClick={handleProcedureToggle}
@@ -126,11 +125,7 @@ export const LayoutPresenter = ({ children }: Props) => {
         />
         {procedureOpen && (
           <>
-            <AppListItem
-              small
-              to={"/procedure/introduction"}
-              primaryText="はじめに"
-            />
+            <AppListItem small to={"/procedure/introduction"} primaryText="はじめに" />
             <AppListItem small to={"/procedure/1"} primaryText="ステップ1" />
             <AppListItem small to={"/procedure/2"} primaryText="ステップ2" />
             <AppListItem small to={"/procedure/3"} primaryText="ステップ3" />
@@ -142,11 +137,7 @@ export const LayoutPresenter = ({ children }: Props) => {
         )}
         <ListSubheader>その他</ListSubheader>
         <Divider />
-        <AppListItem
-          to={"/release"}
-          primaryText="リリース情報"
-          icon={<NewReleasesIcon />}
-        />
+        <AppListItem to={"/release"} primaryText="リリース情報" icon={<NewReleasesIcon />} />
       </List>
     </Box>
   );
@@ -159,9 +150,10 @@ export const LayoutPresenter = ({ children }: Props) => {
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
+          backgroundColor: "themeBase.primary",
           zIndex: 16777272,
         }}
-        color="primary"
+        // color="themeBase.primary"
       >
         <Toolbar sx={{ justifyContent: "space-between" }}>
           <IconButton
@@ -178,10 +170,7 @@ export const LayoutPresenter = ({ children }: Props) => {
         </Toolbar>
       </AppBar>
 
-      <Box
-        component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-      >
+      <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}>
         <Drawer
           container={window?.document?.body}
           variant="temporary"
@@ -196,6 +185,7 @@ export const LayoutPresenter = ({ children }: Props) => {
               boxSizing: "border-box",
               width: drawerWidth,
             },
+            zIndex: 16777272,
           }}
         >
           {drawer}
@@ -208,6 +198,7 @@ export const LayoutPresenter = ({ children }: Props) => {
               boxSizing: "border-box",
               width: drawerWidth,
             },
+            zIndex: 16777272,
           }}
           open
         >

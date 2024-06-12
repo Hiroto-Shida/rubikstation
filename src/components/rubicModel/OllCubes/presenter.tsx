@@ -1,19 +1,20 @@
 import * as THREE from "three";
 import { useEffect, useRef } from "react";
-// import { DEFAULT, OllSurfaceType } from "../ollSurfaceColorList";
 import { ollSurfaceColors, OllSurfaceType, RubiksColor } from "../ollSurfaceColors";
+import { useTheme } from "@mui/material";
 
 const OllCube = ({ position, status }: { position: [number, number, number]; status: string }) => {
+  const theme = useTheme();
   const colorsDic: { [key in RubiksColor]: string } = {
-    green: "#188a28",
-    red: "#f80208",
-    yellow: "#fdde02",
+    green: theme.palette.themeRubik.green,
+    red: theme.palette.themeRubik.red,
+    yellow: theme.palette.themeRubik.yellow,
     yellow_A: "rgb(255, 160, 2)",
-    white: "#ffffff",
-    orange: "#ff8005",
-    blue: "#004ac3",
-    black: "#524d4d",
-    gray: "#777777",
+    white: theme.palette.themeRubik.white,
+    orange: theme.palette.themeRubik.orange,
+    blue: theme.palette.themeRubik.blue,
+    black: theme.palette.themeRubik.black,
+    gray: theme.palette.themeRubik.gray,
   }; // 6 colors for the faces
 
   const cubeRef = useRef<THREE.Mesh>(null);

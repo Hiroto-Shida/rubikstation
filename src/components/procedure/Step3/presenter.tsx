@@ -21,13 +21,9 @@ export const Step3Presenter = () => {
 
       <T>完全2面の揃え方</T>
       <B>まずは前のステップと同様に白面を下にして持ちましょう</B>
-      <B>
-        その後は、入れたいエッジのキューブを探し、その側面の色が揃うように持ち替えましょう
-      </B>
+      <B>その後は、入れたいエッジのキューブを探し、その側面の色が揃うように持ち替えましょう</B>
       <BorderBox>
-        <ST>
-          例：青赤のエッジキューブを見つけ、側面の青とセンターキューブの青を揃える
-        </ST>
+        <ST>例：青赤のエッジキューブを見つけ、側面の青とセンターキューブの青を揃える</ST>
         <StyledScrambleModels
           status="F2L_READY_EX1"
           scrambleList={["", "U", ""]}
@@ -44,11 +40,12 @@ export const Step3Presenter = () => {
         />
       </BorderBox>
 
-      <B>
-        持ち替えが済んだら、そのあとは以下の2パターンのどちらかで揃えることができます
-      </B>
+      <B>持ち替えが済んだら、そのあとは以下の2パターンのどちらかで揃えることができます</B>
       <BorderBox>
         <ST>右下のエッジに入れたい場合</ST>
+        <B>
+          途中の[y]は単に持ち替えです。下の例だと最初青面を正面にしてますが、[y]の後は赤面が正面になるように持ち替えています。
+        </B>
         <StyledScrambleModels
           status="F2L_LEFT"
           supportTextList={["右回りの,逆セクシー", "左回りの,逆セクシー"]}
@@ -73,6 +70,9 @@ export const Step3Presenter = () => {
           isKeepRotate={true}
         />
         <ST>左下のエッジに入れたい場合</ST>
+        <B>
+          途中の[y']は単に持ち替えです。下の例だと最初オレンジ面を正面にしてますが、[y']の後は緑面が正面になるように持ち替えています。
+        </B>
         <StyledScrambleModels
           status="F2L_RIGHT"
           supportTextList={["左回りの,逆セクシー", "右回りの,逆セクシー"]}
@@ -101,11 +101,7 @@ export const Step3Presenter = () => {
 
       <B>
         無事完全2面が揃えられたら、次の
-        <Typography
-          component={Link}
-          to="/procedure/4"
-          sx={{ fontWeight: "bold" }}
-        >
+        <Typography component={Link} to="/procedure/4" sx={{ fontWeight: "bold" }}>
           ステップ4
         </Typography>
         に進みましょう！

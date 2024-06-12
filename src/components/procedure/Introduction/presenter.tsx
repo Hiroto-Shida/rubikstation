@@ -41,18 +41,11 @@ export const IntroductionPresenter = () => {
       <T pageTop={true}>はじめに</T>
       <B>ルービックキューブを揃えたいそこのあなた！</B>
       <B>ようこそ！ルービックキューブの世界へ！</B>
-      <B>本記事ではまだ6面の揃え方を知らない初心者へ向けての手順書となります</B>
+      <B>本記事はまだ6面の揃え方を知らない初心者へ向けての手順書となります</B>
 
       <T>本当に6面揃えられるの？</T>
       <B>ご安心を！</B>
-      <B>
-        実は本記事のやり方だと、6面揃えるのに覚える手順はたったの
-        <Typography component="span" sx={{ fontWeight: "bold", color: "red" }}>
-          2手順
-        </Typography>
-        ！(ほぼ)
-      </B>
-      <B>なんとその2手順の組み合わせで6面まで揃えることができちゃいます</B>
+      <B>実は本記事のやり方だと、たった7ステップで6面揃えることができます！</B>
       <B>なんだかいけそうでしょ？</B>
 
       <T>揃える前に知っておくと良いこと</T>
@@ -106,30 +99,19 @@ export const IntroductionPresenter = () => {
           本記事では矢印で図示してるので、覚えなくて大丈夫です！
         </Typography>
       </B>
-      <B>
-        ただ回転記号は世界共通なので、覚えると、他の手順を覚える時にも役立ちます
-      </B>
+      <B>ただ回転記号は世界共通なので、覚えると、他の手順を覚える時にも役立ちます</B>
       <B>気になる人は調べてみてね</B>
       <BorderBox>
         <ST>回転記号例(一部)</ST>
         <B>RはRight、LはLeft、UはUp、の頭文字</B>
-        <B>
-          プライム(')がついてると半時計周りになります(意外と覚えやすいかも？)
-        </B>
-        <StyledScrambleModels
-          status="WORLD_ALL"
-          scrambleList={["R", "R'", "L", "U"]}
-        />
+        <B>プライム(')がついてると半時計周りになります(意外と覚えやすいかも？)</B>
+        <StyledScrambleModels status="WORLD_ALL" scrambleList={["R", "R'", "L", "U"]} />
       </BorderBox>
 
       <Box component="div" sx={{ height: "20px" }}></Box>
       <B>
         それでは最初のステップ
-        <Typography
-          component={Link}
-          to="/procedure/1"
-          sx={{ fontWeight: "bold" }}
-        >
+        <Typography component={Link} to="/procedure/1" sx={{ fontWeight: "bold" }}>
           ステップ1
         </Typography>
         から始めましょう！

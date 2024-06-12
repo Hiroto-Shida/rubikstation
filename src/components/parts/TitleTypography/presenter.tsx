@@ -13,7 +13,7 @@ export const TitleTypographyPresenter = ({ children, variant = "h4", pageTop }: 
           marginTop: theme.spacing(4),
           marginBottom: theme.spacing(1),
           padding: theme.spacing(1),
-          backgroundColor: pageTop ? "#fdaf8b" : "#cecef8",
+          backgroundColor: pageTop ? "themeBase.secondaryAlpha" : "themeBase.primaryAlpha",
         })}
       >
         <Typography variant={variant} align="left" sx={{ fontWeight: "bold" }}>
