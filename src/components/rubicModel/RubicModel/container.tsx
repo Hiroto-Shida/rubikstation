@@ -3,6 +3,7 @@ import { RubicModelPresenter } from "./presenter";
 import { Canvas } from "@react-three/fiber";
 
 type Props = {
+  orthographic?: boolean; // 平行透視でキューブを見るか
   axis?: boolean; // 軸の表示
   cameraControls?: boolean; // カメラコントロールの有無
   status?: string;
@@ -12,6 +13,7 @@ type Props = {
 };
 
 export const RubicModel = ({
+  orthographic,
   axis,
   cameraControls,
   status,
@@ -21,6 +23,7 @@ export const RubicModel = ({
 }: Props) => {
   return (
     <RubicModelPresenter
+      orthographic={orthographic}
       axis={axis}
       cameraControls={cameraControls}
       status={status}

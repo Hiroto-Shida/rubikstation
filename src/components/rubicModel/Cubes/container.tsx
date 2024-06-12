@@ -13,11 +13,11 @@ type Props = {
   canvasWindowSize?: MutableRefObject<CanvasWindowSize>;
   cubesNum?: number;
   index?: number;
-  needBraketIndex: { start: number[]; end: number[] };
+  needBraketIndex?: { start: number[]; end: number[] };
   supportTextList?: string[];
   isHighlightRotateGroup?: boolean;
   isRotate?: boolean;
-  lookfromRight: boolean;
+  lookfromRight?: boolean;
 };
 
 export const Cubes = ({
@@ -27,10 +27,10 @@ export const Cubes = ({
   cubesNum = 1,
   index = 0,
   supportTextList,
-  needBraketIndex,
+  needBraketIndex = { start: [], end: [] },
   isHighlightRotateGroup = false,
   isRotate = false,
-  lookfromRight,
+  lookfromRight = true,
 }: Props) => {
   const { rotate } = useRotateCube();
   const { getCubeGroupPosition, updateCubesPosition } = useCubePosition();
@@ -90,11 +90,7 @@ export const Cubes = ({
       moveCharList.forEach((moveChar, movingIndex) => {
         const regexMoveChar = /2/;
         const removedTwoMoveChar = moveChar.replace(regexMoveChar, "");
-        const cubePos = getCubeGroupPosition(
-          index,
-          cubesNum,
-          canvasWindowSize.current.width
-        );
+        const cubePos = getCubeGroupPosition(index, cubesNum, canvasWindowSize.current.width);
         if (ROTATE_DIRECTION[removedTwoMoveChar]) {
           rotate(
             cubeGroupRef.current,
@@ -127,8 +123,7 @@ export const Cubes = ({
   ]);
 
   const supportText = supportTextList
-    ? supportTextList[needBraketIndex?.start.indexOf(index)] ??
-      supportTextList[0]
+    ? supportTextList[needBraketIndex?.start.indexOf(index)] ?? supportTextList[0]
     : undefined;
 
   return (
@@ -136,15 +131,11 @@ export const Cubes = ({
       cubeGroupRef={cubeGroupRef}
       moveTextRef={moveTextRef}
       moveChar={
-        moveCharList && moveCharList.length > 0
-          ? moveCharList[moveCharList.length - 1]
-          : undefined
+        moveCharList && moveCharList.length > 0 ? moveCharList[moveCharList.length - 1] : undefined
       }
       rotationGroupRef={rotationGroupRef}
       braketRef={braketRef}
-      supportText={
-        needBraketIndex?.start.includes(index) ? supportText : undefined
-      }
+      supportText={needBraketIndex?.start.includes(index) ? supportText : undefined}
       supportTextRef={supportTextRef}
       braketNeed={{
         start: needBraketIndex?.start.includes(index),

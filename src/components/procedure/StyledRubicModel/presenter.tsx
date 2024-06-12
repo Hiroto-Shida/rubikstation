@@ -5,11 +5,20 @@ import { StyledRubicModel } from "./container";
 
 type Props = ComponentProps<typeof StyledRubicModel>;
 
-export const StyledRubicModelPresenter = ({ status, canvasCamera, isRotate }: Props) => {
+export const StyledRubicModelPresenter = ({
+  orthographic,
+  cameraControls,
+  canvasStyle = { width: "300px", height: "300px" },
+  status,
+  canvasCamera,
+  isRotate,
+}: Props) => {
   return (
     <Box component="div" sx={(theme) => ({ m: `${theme.spacing(2)} 0` })}>
       <RubicModel
-        canvasStyle={{ width: "300px", height: "300px" }}
+        orthographic={orthographic}
+        cameraControls={cameraControls}
+        canvasStyle={canvasStyle}
         status={status}
         canvasCamera={canvasCamera}
         isRotate={isRotate}

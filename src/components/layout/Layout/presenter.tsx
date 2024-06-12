@@ -36,12 +36,12 @@ export const LayoutPresenter = ({ children }: Props) => {
   };
 
   const AppListItem = ({
-    small,
+    small = false,
     to,
     primaryText,
     icon,
   }: {
-    small: boolean;
+    small?: boolean;
     to: string;
     primaryText: string;
     icon?: ReactElement;
@@ -76,6 +76,7 @@ export const LayoutPresenter = ({ children }: Props) => {
         <AppListItem to={"/procedure"} primaryText="6面までの手順" icon={<AppRegistrationIcon />} />
         {pathname.includes(`/procedure`) && (
           <>
+            <AppListItem small to={"/procedure/introduction"} primaryText="はじめに" />
             <AppListItem small to={"/procedure/1"} primaryText="ステップ1" />
             <AppListItem small to={"/procedure/2"} primaryText="ステップ2" />
             <AppListItem small to={"/procedure/3"} primaryText="ステップ3" />

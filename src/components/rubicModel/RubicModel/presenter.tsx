@@ -8,6 +8,7 @@ import { RubicModel } from "./container";
 type Props = ComponentProps<typeof RubicModel>;
 
 export const RubicModelPresenter = ({
+  orthographic = false,
   axis = true,
   cameraControls = true,
   status,
@@ -18,7 +19,11 @@ export const RubicModelPresenter = ({
   return (
     <>
       <Canvas
-        camera={{ position: canvasCamera.position, zoom: 0.7 }}
+        orthographic={orthographic ? true : false}
+        camera={{
+          zoom: orthographic ? 30 : 0.7,
+          position: orthographic ? [3, 3, 10] : canvasCamera.position,
+        }}
         onCreated={({ gl }) => {
           gl.setClearColor(new THREE.Color("#bdbdbd"));
         }}
