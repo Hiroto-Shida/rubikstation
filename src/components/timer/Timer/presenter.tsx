@@ -8,6 +8,7 @@ type Props = {
 };
 
 const StyledTypography = styled(Typography)({
+  fontWeight: "bold",
   animation: "fancyBorder 0.7s ease infinite",
   "@keyframes fancyBorder": {
     "0%": {
@@ -29,23 +30,17 @@ export const TimerPresenter = ({ time, timerState, isNewRecord }: Props) => {
 
   return (
     <>
-      {isNewRecord &&
-        !timerState.isStarted &&
-        !timerState.startingState.isCanStart && (
-          <StyledTypography variant="h6">New Record !!!</StyledTypography>
-        )}
+      {isNewRecord && !timerState.isStarted && !timerState.startingState.isCanStart && (
+        <StyledTypography variant="h6">New Record !!!</StyledTypography>
+      )}
       <Typography
-        variant={
-          timerState.isStarted || timerState.startingState.isCanStart
-            ? "h1"
-            : "h2"
-        }
+        variant={timerState.isStarted || timerState.startingState.isCanStart ? "h1" : "h2"}
         color={
           timerState.startingState.isKeyDownSpace
             ? timerState.startingState.isCanStart
-              ? "success.main"
-              : "error.main"
-            : "textPrimary"
+              ? "themeBase.green"
+              : "themeBase.red"
+            : "text.primary"
         }
       >
         {minutes}:{seconds}:{milliseconds}
