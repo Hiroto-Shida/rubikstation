@@ -26,6 +26,13 @@ export const ReleasePagePresenter = () => {
       </Typography>
       <Divider sx={{ mb: 2 }} />
 
+      <StyledVersionTitle>[2.0.0] - 2024-06-14</StyledVersionTitle>
+      <List>
+        <StyledListItemText>サービス名とドメインを設定</StyledListItemText>
+        <StyledListItemText>6面を揃えるための手順追加</StyledListItemText>
+        <StyledListItemText>レイアウトの追加</StyledListItemText>
+      </List>
+
       <StyledVersionTitle>[1.3.0] - 2024-05-31</StyledVersionTitle>
       <List>
         <StyledListItemText>直近12回のタイムとスクランブルを表示する機能を追加</StyledListItemText>
@@ -84,7 +91,7 @@ export const ReleasePagePresenter = () => {
       </List>
 
       <Box component="div" sx={{ height: "20px" }}></Box>
-      <a target="_blank" href="https://github.com/Hiroto-Shida/rubic-timer">
+      <a target="_blank" href="https://github.com/Hiroto-Shida/rubikstation">
         Git Hub
       </a>
       <Box component="div" sx={{ height: "50px" }}></Box>

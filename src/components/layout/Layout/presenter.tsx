@@ -164,8 +164,8 @@ export const LayoutPresenter = ({ children, procedureOpen, setProcedureOpen, pat
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            ルービックキューブタイマー
+          <Typography variant="h5" noWrap component="div" sx={{ fontWeight: "bold" }}>
+            Rubik Station
           </Typography>
         </Toolbar>
       </AppBar>
