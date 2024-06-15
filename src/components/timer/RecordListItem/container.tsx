@@ -6,6 +6,7 @@ type Props = {
   index: number;
   recordListLength: number;
   fastestTimeIndex: number | null;
+  latestTimeIndex: number | null;
   handleDeleteRecord: (index: number) => void;
 };
 
@@ -14,6 +15,7 @@ export const RecordListItem = ({
   index,
   recordListLength,
   fastestTimeIndex,
+  latestTimeIndex,
   handleDeleteRecord,
 }: Props) => {
   return (
@@ -22,6 +24,7 @@ export const RecordListItem = ({
       index={index}
       recordListLength={recordListLength}
       fastestTimeIndex={fastestTimeIndex}
+      latestTimeIndex={latestTimeIndex}
       handleDeleteRecord={handleDeleteRecord}
     />
   );

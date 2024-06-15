@@ -22,12 +22,34 @@ type Props = {
   handleDeleteRecord: (index: number) => void;
 };
 
-const culcAvgTime = (timeList: number[], avgNum: number) => {
-  let ao = 0;
-  timeList.slice(0, avgNum).forEach((time) => {
-    ao += time;
+const aryMin = (a: number, b: number) => Math.min(a, b);
+const aryMax = (a: number, b: number) => Math.max(a, b);
+
+// MO5, MO12の計算
+const culcMoTime = (timeList: number[]) => {
+  let mo = 0;
+  timeList.forEach((time) => {
+    mo += time;
   });
-  return ao / avgNum;
+  return mo / timeList.length;
+};
+
+// AO5, AO12の計算
+const culcAoTime = (timeList: number[], removeTimeIndexList: number[]) => {
+  let sum = 0;
+  timeList.forEach((time, index) => {
+    if (!removeTimeIndexList.includes(index)) {
+      sum += time;
+    }
+  });
+  return sum / (timeList.length - 2);
+};
+
+// 配列から最大値と最小値のインデックスを取得
+const findMinMaxTimeIndex = (timeList: number[]) => {
+  const minIndex = timeList.indexOf(timeList.reduce(aryMin));
+  const maxIndex = timeList.indexOf(timeList.reduce(aryMax));
+  return [minIndex, maxIndex];
 };
 
 export const RecordPresenter = React.memo(
@@ -43,18 +65,28 @@ export const RecordPresenter = React.memo(
     };
 
     let fastestTimeIndex: number | null = null;
+    let latestTimeIndex: number | null = null;
     let ao5: number | null = null;
     let ao12: number | null = null;
+    let mo3: number | null = null;
+    let removeTimeIndexListOfAo5: number[] = [];
+    let removeTimeIndexListOfAo12: number[] = [];
     if (recordList.length !== 0) {
-      const aryMin = (a: number, b: number) => Math.min(a, b);
       const timeList = recordList.map((record) => record.time);
       fastestTimeIndex = timeList.indexOf(timeList.reduce(aryMin));
+      latestTimeIndex = timeList.indexOf(timeList.reduce(aryMax));
+
+      if (timeList.length >= 3) {
+        mo3 = culcMoTime(timeList.slice(0, 3));
+      }
 
       if (timeList.length >= 5) {
-        ao5 = culcAvgTime(timeList, 5);
+        removeTimeIndexListOfAo5 = findMinMaxTimeIndex(timeList.slice(0, 5));
+        ao5 = culcAoTime(timeList.slice(0, 5), removeTimeIndexListOfAo5);
       }
       if (timeList.length >= 12) {
-        ao12 = culcAvgTime(timeList, 12);
+        removeTimeIndexListOfAo12 = findMinMaxTimeIndex(timeList.slice(0, 12));
+        ao12 = culcAoTime(timeList.slice(0, 12), removeTimeIndexListOfAo12);
       }
     }
 
@@ -68,17 +100,25 @@ export const RecordPresenter = React.memo(
             component="div"
             sx={{ display: "flex", justifyContent: "center" }}
           >
-            <VCenterTypography variant="h6">
+            <Typography variant="h6">
+              MO3: {mo3 ? convertToTimerText(mo3) : "-"}
+            </Typography>
+            <Typography
+              variant="h6"
+              sx={(theme) => ({
+                ml: theme.spacing(3),
+              })}
+            >
               AO5: {ao5 ? convertToTimerText(ao5) : "-"}
-            </VCenterTypography>
-            <VCenterTypography
+            </Typography>
+            <Typography
               variant="h6"
               sx={(theme) => ({
                 ml: theme.spacing(3),
               })}
             >
               AO12: {ao12 ? convertToTimerText(ao12) : "-"}
-            </VCenterTypography>
+            </Typography>
             <Button
               variant="outlined"
               onClick={handleClickOpenRecord}
@@ -119,6 +159,7 @@ export const RecordPresenter = React.memo(
                     index={index}
                     recordListLength={recordList.length}
                     fastestTimeIndex={fastestTimeIndex}
+                    latestTimeIndex={latestTimeIndex}
                     handleDeleteRecord={handleDeleteRecord}
                     key={index}
                   />
