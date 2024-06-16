@@ -288,7 +288,3 @@ export const ollSurfaceColors = (status: string): OllSurfaceType => {
       };
   }
 };
-
-// export const DEFAULT = ["red", "orange", "green", "blue", "yellow", "white"];
-
-// export const BLACK = ["black", "black", "black", "black", "black", "black"];

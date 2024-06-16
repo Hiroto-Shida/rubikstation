@@ -44,9 +44,9 @@ export const useRotateCube = () => {
         if (isHighlightRotateGroup && !isRotateCube) {
           const mesh = c.children[0] as THREE.Mesh;
           if (Array.isArray(mesh.material)) {
-            mesh.material.forEach((material) =>
-              (material as THREE.MeshBasicMaterial).color.set("#777777")
-            );
+            mesh.material.forEach((material) => {
+              (material as THREE.MeshBasicMaterial).color.set("#777777");
+            });
           }
         }
         return isRotateCube;
@@ -103,8 +103,8 @@ export const useRotateCube = () => {
           10
         );
 
-        const meshColor = "#6bcacd";
-        const lineColor = "#000000";
+        const meshColor = "#d8e3e4";
+        const lineColor = "#961010";
         const meshMaterial = new THREE.MeshStandardMaterial({
           color: meshColor,
           emissive: meshColor,

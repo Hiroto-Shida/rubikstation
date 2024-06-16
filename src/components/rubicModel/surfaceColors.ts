@@ -1,6 +1,6 @@
 export const surfaceColorList = (
   status: string
-): { [key: number]: string[] | undefined } | undefined => {
+): { [key: number]: string[] | undefined } => {
   switch (status) {
     case "CROSS":
       return {
@@ -769,9 +769,37 @@ export const surfaceColorList = (
         25: ["red", "black", "yellow", "black", "black", "black"],
         26: ["black", "black", "black", "black", "black", "black"],
       };
+
+    default:
+      return {
+        0: ["black", "orange", "black", "yellow", "black", "blue"],
+        1: ["black", "orange", "black", "yellow", "black", "black"],
+        2: ["black", "orange", "black", "yellow", "green", "black"],
+        3: ["black", "orange", "black", "black", "black", "blue"],
+        4: ["black", "orange", "black", "black", "black", "black"],
+        5: ["black", "orange", "black", "black", "green", "black"],
+        6: ["black", "orange", "white", "black", "black", "blue"],
+        7: ["black", "orange", "white", "black", "black", "black"],
+        8: ["black", "orange", "white", "black", "green", "black"],
+        9: ["black", "black", "black", "yellow", "black", "blue"],
+        10: ["black", "black", "black", "yellow", "black", "black"],
+        11: ["black", "black", "black", "yellow", "green", "black"],
+        12: ["black", "black", "black", "black", "black", "blue"],
+        14: ["black", "black", "black", "black", "green", "black"],
+        15: ["black", "black", "white", "black", "black", "blue"],
+        16: ["black", "black", "white", "black", "black", "black"], // top
+        17: ["black", "black", "white", "black", "green", "black"],
+        18: ["red", "black", "black", "yellow", "black", "blue"],
+        19: ["red", "black", "black", "yellow", "black", "black"],
+        20: ["red", "black", "black", "yellow", "green", "black"],
+        21: ["red", "black", "black", "black", "black", "blue"],
+        22: ["red", "black", "black", "black", "black", "black"],
+        23: ["red", "black", "black", "black", "green", "black"],
+        24: ["red", "black", "white", "black", "black", "blue"],
+        25: ["red", "black", "white", "black", "black", "black"],
+        26: ["red", "black", "white", "black", "green", "black"],
+      };
   }
 };
-
-export const DEFAULT = ["red", "orange", "yellow", "white", "blue", "green"];
 
 export const BLACK = ["black", "black", "black", "black", "black", "black"];
