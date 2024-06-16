@@ -69,7 +69,11 @@ type MoveTextProps = {
 
 const MoveText = ({ moveChar }: MoveTextProps) => {
   const regexMoveChar = /.2/;
-  const shadowColor = regexMoveChar.test(moveChar) ? "#cc0000" : "#000000";
+  const shadowColor = regexMoveChar.test(moveChar)
+    ? "#cc0000"
+    : moveChar.includes("y")
+    ? "#00aa00"
+    : "#000000";
 
   return (
     <>

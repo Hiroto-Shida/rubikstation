@@ -84,6 +84,20 @@ export const surfaceColorList = (
         25: ["blue", "black", "white", "black", "black", "black"],
       };
 
+    case "CROSS_REPAIR":
+      return {
+        4: ["black", "red", "black", "black", "black", "black"],
+        7: ["black", "red", "white", "black", "black", "black"],
+        10: ["black", "black", "black", "yellow", "black", "black"],
+        12: ["black", "black", "black", "black", "black", "green"],
+        14: ["black", "black", "black", "black", "blue", "black"],
+        15: ["black", "black", "white", "black", "black", "green"],
+        16: ["black", "black", "white", "black", "black", "black"], // top
+        17: ["black", "black", "white", "black", "orange", "black"],
+        22: ["orange", "black", "black", "black", "black", "black"],
+        25: ["blue", "black", "white", "black", "black", "black"],
+      };
+
     case "F1L":
       return {
         0: ["black", "orange", "black", "white", "black", "green"],
@@ -274,6 +288,50 @@ export const surfaceColorList = (
         19: ["blue", "black", "black", "white", "black", "black"],
         20: ["blue", "black", "black", "white", "orange", "black"],
         22: ["blue", "black", "black", "black", "black", "black"],
+      };
+
+    case "F2L_NG1":
+      return {
+        0: ["black", "orange", "black", "white", "black", "green"],
+        1: ["black", "orange", "black", "white", "black", "black"],
+        2: ["black", "orange", "black", "white", "blue", "black"],
+        3: ["black", "orange", "black", "black", "black", "green"],
+        4: ["black", "orange", "black", "black", "black", "black"],
+        5: ["black", "orange", "black", "black", "blue", "black"],
+        9: ["black", "black", "black", "white", "black", "green"],
+        10: ["black", "black", "black", "white", "black", "black"],
+        11: ["black", "black", "black", "white", "blue", "black"],
+        12: ["black", "black", "black", "black", "black", "green"],
+        14: ["black", "black", "black", "black", "blue", "black"],
+        16: ["black", "black", "yellow", "black", "black", "black"], // top
+        18: ["red", "black", "black", "white", "black", "green"],
+        19: ["red", "black", "black", "white", "black", "black"],
+        20: ["red", "black", "black", "white", "blue", "black"],
+        21: ["red", "black", "black", "black", "black", "green"],
+        22: ["red", "black", "black", "black", "black", "black"],
+        23: ["blue", "black", "black", "black", "red", "black"],
+      };
+
+    case "F2L_NG2":
+      return {
+        0: ["black", "orange", "black", "white", "black", "green"],
+        1: ["black", "orange", "black", "white", "black", "black"],
+        2: ["black", "orange", "black", "white", "blue", "black"],
+        3: ["black", "orange", "black", "black", "black", "green"],
+        4: ["black", "orange", "black", "black", "black", "black"],
+        5: ["black", "green", "black", "black", "red", "black"],
+        9: ["black", "black", "black", "white", "black", "green"],
+        10: ["black", "black", "black", "white", "black", "black"],
+        11: ["black", "black", "black", "white", "blue", "black"],
+        12: ["black", "black", "black", "black", "black", "green"],
+        14: ["black", "black", "black", "black", "blue", "black"],
+        16: ["black", "black", "yellow", "black", "black", "black"], // top
+        18: ["red", "black", "black", "white", "black", "green"],
+        19: ["red", "black", "black", "white", "black", "black"],
+        20: ["red", "black", "black", "white", "blue", "black"],
+        21: ["red", "black", "black", "black", "black", "green"],
+        22: ["red", "black", "black", "black", "black", "black"],
+        23: ["red", "black", "black", "black", "blue", "black"],
       };
 
     case "TOP_CROSS":
