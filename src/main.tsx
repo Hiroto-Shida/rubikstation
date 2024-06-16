@@ -19,6 +19,7 @@ const theme = createTheme({
       secondary: "#FF892C",
       secondaryAlpha: "rgb(255, 137, 46, 0.6)",
       red: "#EC4C33",
+      blue: "#3985ab",
       green: "#9EDD00",
       white: "#FFFFFF",
       black: "#000000",

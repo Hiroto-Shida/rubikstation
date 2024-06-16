@@ -5,11 +5,11 @@ import Cookies from "js-cookie";
 
 // 記号のリストと、「'そのまま'、'2回転'、'逆回転'」のオプションリスト
 const MOVE_LIST: string[] = ["U", "F", "R", "D", "B", "L"];
-const OPTION_MOVE_LIST: string[] = ["", "2", "'"];
+const OPTION_MOVE_LIST: string[] = ["", "", "2", "'", "'"];
 
 // スクランブルの文字数 の 最小/最大 値
-const MIN_MOVE = 10;
-const MAX_MOVE = 14;
+const MIN_MOVE = 13;
+const MAX_MOVE = 16;
 
 // 横に表示する最大 文字and画像 数
 // const ROW_MAX_LEGTH = 7;

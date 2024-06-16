@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { BLACK, DEFAULT, surfaceColorList } from "../surfaceColors";
+import { BLACK, surfaceColorList } from "../surfaceColors";
 import { MutableRefObject, useEffect, useMemo, useRef } from "react";
 import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
 import { Html } from "@react-three/drei";
@@ -48,7 +48,11 @@ const Cube = ({
       <group position={position}>
         <mesh ref={cubeRef} geometry={roundedBoxGeometry}>
           {colorList.map((value, index) => (
-            <meshBasicMaterial key={index} attach={`material-${index}`} color={colorsDic[value]} />
+            <meshBasicMaterial
+              key={index}
+              attach={`material-${index}`}
+              color={colorsDic[value]}
+            />
           ))}
         </mesh>
         <lineSegments ref={edgesRef}>
@@ -65,7 +69,11 @@ type MoveTextProps = {
 
 const MoveText = ({ moveChar }: MoveTextProps) => {
   const regexMoveChar = /.2/;
-  const shadowColor = regexMoveChar.test(moveChar) ? "#cc0000" : "#000000";
+  const shadowColor = regexMoveChar.test(moveChar)
+    ? "#cc0000"
+    : moveChar.includes("y")
+    ? "#00aa00"
+    : "#000000";
 
   return (
     <>
@@ -145,10 +153,11 @@ const SupportText = ({ supportText }: { supportText: string }) => {
 };
 
 const model = (status: string, z: number, y: number, x: number) => {
-  const colorDic: { [key: number]: string[] | undefined } | undefined = surfaceColorList(status);
-  if (!colorDic) {
-    return DEFAULT;
-  }
+  const colorDic: { [key: number]: string[] | undefined } =
+    surfaceColorList(status);
+  // if (!colorDic) {
+  //   return DEFAULT;
+  // }
   if (z + y * 3 + x * 9 in colorDic) {
     const colorList = colorDic[z + y * 3 + x * 9];
     if (colorList) {

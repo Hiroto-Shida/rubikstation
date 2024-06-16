@@ -5,6 +5,7 @@ import NewReleasesIcon from "@mui/icons-material/NewReleases";
 import MenuIcon from "@mui/icons-material/Menu";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import HelpIcon from "@mui/icons-material/Help";
 
 import {
   AppBar,
@@ -33,7 +34,12 @@ type Props = ComponentProps<typeof Layout> & {
 
 const drawerWidth = 240;
 
-export const LayoutPresenter = ({ children, procedureOpen, setProcedureOpen, pathname }: Props) => {
+export const LayoutPresenter = ({
+  children,
+  procedureOpen,
+  setProcedureOpen,
+  pathname,
+}: Props) => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
@@ -61,7 +67,20 @@ export const LayoutPresenter = ({ children, procedureOpen, setProcedureOpen, pat
           sx={(theme) => ({
             p: `${theme.spacing(small ? 1.5 : 2)} ${theme.spacing(1)}`,
             color: to === pathname ? "themeBase.primary" : "text.primary",
-            borderLeft: to === pathname ? `10px ${theme.palette.themeBase.primary} solid` : "none",
+            position: "relative",
+            "&::after": {
+              content: `''`,
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              display: "block",
+              borderLeft:
+                to === pathname
+                  ? `10px ${theme.palette.themeBase.primary} solid`
+                  : "none",
+            },
           })}
         >
           <ListItemIcon>{icon}</ListItemIcon>
@@ -101,7 +120,11 @@ export const LayoutPresenter = ({ children, procedureOpen, setProcedureOpen, pat
           <ListItemIcon>{icon}</ListItemIcon>
           <Typography>{primaryText}</Typography>
           <ListItemIcon>
-            {procedureOpen ? <KeyboardArrowDownIcon /> : <KeyboardArrowRightIcon />}
+            {procedureOpen ? (
+              <KeyboardArrowDownIcon />
+            ) : (
+              <KeyboardArrowRightIcon />
+            )}
           </ListItemIcon>
         </ListItemButton>
       </ListItem>
@@ -125,7 +148,11 @@ export const LayoutPresenter = ({ children, procedureOpen, setProcedureOpen, pat
         />
         {procedureOpen && (
           <>
-            <AppListItem small to={"/procedure/introduction"} primaryText="はじめに" />
+            <AppListItem
+              small
+              to={"/procedure/introduction"}
+              primaryText="はじめに"
+            />
             <AppListItem small to={"/procedure/1"} primaryText="ステップ1" />
             <AppListItem small to={"/procedure/2"} primaryText="ステップ2" />
             <AppListItem small to={"/procedure/3"} primaryText="ステップ3" />
@@ -137,7 +164,12 @@ export const LayoutPresenter = ({ children, procedureOpen, setProcedureOpen, pat
         )}
         <ListSubheader>その他</ListSubheader>
         <Divider />
-        <AppListItem to={"/release"} primaryText="リリース情報" icon={<NewReleasesIcon />} />
+        <AppListItem
+          to={"/release"}
+          primaryText="リリース情報"
+          icon={<NewReleasesIcon />}
+        />
+        <AppListItem to={"/help"} primaryText="ヘルプ" icon={<HelpIcon />} />
       </List>
     </Box>
   );
@@ -153,7 +185,6 @@ export const LayoutPresenter = ({ children, procedureOpen, setProcedureOpen, pat
           backgroundColor: "themeBase.primary",
           zIndex: 16777272,
         }}
-        // color="themeBase.primary"
       >
         <Toolbar sx={{ justifyContent: "space-between" }}>
           <IconButton
@@ -164,13 +195,21 @@ export const LayoutPresenter = ({ children, procedureOpen, setProcedureOpen, pat
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h5" noWrap component="div" sx={{ fontWeight: "bold" }}>
-            Rubik Station
+          <Typography
+            variant="h5"
+            noWrap
+            component="div"
+            sx={{ fontWeight: "bold" }}
+          >
+            RubikStation
           </Typography>
         </Toolbar>
       </AppBar>
 
-      <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}>
+      <Box
+        component="nav"
+        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+      >
         <Drawer
           container={window?.document?.body}
           variant="temporary"

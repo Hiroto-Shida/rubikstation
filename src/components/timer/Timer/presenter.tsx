@@ -1,6 +1,7 @@
 import { Typography } from "@mui/material";
 import { TimerState } from "../../../providers/TimerStateProvider";
 import { styled } from "@mui/material/styles";
+import { convertToTimerText } from "../convertToTimerText";
 type Props = {
   time: number;
   timerState: TimerState;
@@ -24,17 +25,19 @@ const StyledTypography = styled(Typography)({
 });
 
 export const TimerPresenter = ({ time, timerState, isNewRecord }: Props) => {
-  const milliseconds = `0${(time % 1000) / 10}`.slice(-2);
-  const seconds = `0${Math.floor(time / 1000) % 60}`.slice(-2);
-  const minutes = `0${Math.floor(time / 60000) % 60}`.slice(-2);
-
   return (
     <>
-      {isNewRecord && !timerState.isStarted && !timerState.startingState.isCanStart && (
-        <StyledTypography variant="h6">New Record !!!</StyledTypography>
-      )}
+      {isNewRecord &&
+        !timerState.isStarted &&
+        !timerState.startingState.isCanStart && (
+          <StyledTypography variant="h6">New Record !!!</StyledTypography>
+        )}
       <Typography
-        variant={timerState.isStarted || timerState.startingState.isCanStart ? "h1" : "h2"}
+        variant={
+          timerState.isStarted || timerState.startingState.isCanStart
+            ? "h1"
+            : "h2"
+        }
         color={
           timerState.startingState.isKeyDownSpace
             ? timerState.startingState.isCanStart
@@ -43,7 +46,7 @@ export const TimerPresenter = ({ time, timerState, isNewRecord }: Props) => {
             : "text.primary"
         }
       >
-        {minutes}:{seconds}:{milliseconds}
+        {convertToTimerText(time)}
       </Typography>
     </>
   );
