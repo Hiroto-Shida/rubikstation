@@ -5,6 +5,7 @@ import NewReleasesIcon from "@mui/icons-material/NewReleases";
 import MenuIcon from "@mui/icons-material/Menu";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import HelpIcon from "@mui/icons-material/Help";
 
 import {
   AppBar,
@@ -168,6 +169,7 @@ export const LayoutPresenter = ({
           primaryText="リリース情報"
           icon={<NewReleasesIcon />}
         />
+        <AppListItem to={"/help"} primaryText="ヘルプ" icon={<HelpIcon />} />
       </List>
     </Box>
   );

@@ -3,7 +3,6 @@ import { TimerState } from "../../../providers/TimerStateProvider";
 import React, { useState } from "react";
 import { TransitionProps } from "@mui/material/transitions";
 import { RecordType } from "./container";
-import { VCenterTypography } from "../../parts/VCenterTypography/container";
 import { convertToTimerText } from "../convertToTimerText";
 import { RecordListItem } from "../RecordListItem/container";
 
