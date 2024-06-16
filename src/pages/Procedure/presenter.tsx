@@ -1,3 +1,4 @@
+import React from "react";
 import { Introduction } from "../../components/procedure/Introduction/container";
 import { Step1 } from "../../components/procedure/Step1/container";
 import { Step2 } from "../../components/procedure/Step2/container";
@@ -11,7 +12,7 @@ type Props = {
   step: string | undefined;
 };
 
-export const ProcedurePagePresenter = ({ step }: Props) => {
+export const ProcedurePagePresenter = React.memo(({ step }: Props) => {
   return (
     <>
       {step === "introduction" && <Introduction />}
@@ -24,4 +25,4 @@ export const ProcedurePagePresenter = ({ step }: Props) => {
       {step === "7" && <Step7 />}
     </>
   );
-};
+});

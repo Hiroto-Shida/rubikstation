@@ -5,6 +5,7 @@ import { NotFoundPage } from "./pages/NotFound/container";
 import { RubicModelPage } from "./pages/RubicModel/container";
 import { ReleasePage } from "./pages/Release/container";
 import { ProcedurePage } from "./pages/Procedure/container";
+import { HelpPage } from "./pages/Help/container";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path={`/procedure/`} element={<ProcedurePage />} />
         <Route path={`/procedure/:step`} element={<ProcedurePage />} />
         <Route path={`/release`} element={<ReleasePage />} />
+        <Route path={`/help`} element={<HelpPage />} />
         <Route path={`/*`} element={<NotFoundPage />} />
       </Routes>
     </div>

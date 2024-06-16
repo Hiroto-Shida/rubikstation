@@ -28,6 +28,7 @@ declare module "@mui/material/styles" {
     secondary?: string;
     secondaryAlpha?: string;
     red?: string;
+    blue?: string;
     green?: string;
     white?: string;
     black?: string;
@@ -38,6 +39,7 @@ declare module "@mui/material/styles" {
     secondary: string;
     secondaryAlpha: string;
     red: string;
+    blue: string;
     green: string;
     white: string;
     black: string;

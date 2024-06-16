@@ -12,6 +12,7 @@ export const RecordListItemPresenter = ({
   index,
   recordListLength,
   fastestTimeIndex,
+  latestTimeIndex,
   handleDeleteRecord,
 }: Props) => {
   return (
@@ -33,33 +34,58 @@ export const RecordListItemPresenter = ({
             edge="end"
             aria-label="delete"
             onClick={() => handleDeleteRecord(index)}
+            sx={{ "&:hover": { color: "themeBase.red" } }}
           >
             <DeleteIcon />
           </IconButton>
         }
         key={index}
       >
-        <Box component="div" sx={{ display: "flex", justifyContent: "center" }}>
+        <Box component="div" sx={{ display: "flex" }}>
           <VCenterTypography
             variant="h6"
-            color={index === fastestTimeIndex ? "primary" : "textPrimary"}
+            color={
+              index === fastestTimeIndex
+                ? "themeBase.blue"
+                : index === latestTimeIndex
+                ? "themeBase.red"
+                : "themeText.primary"
+            }
+            sx={{
+              minWidth: "30px",
+              textAlign: "right",
+            }}
           >
             {recordListLength - index}
           </VCenterTypography>
           <VCenterTypography
             variant="h5"
             sx={(theme) => ({
-              ml: theme.spacing(3),
+              ml: theme.spacing(1),
               fontWeight: index === fastestTimeIndex ? "bold" : "normal",
+              minWidth: "100px",
+              textAlign: "right",
             })}
-            color={index === fastestTimeIndex ? "primary" : "textPrimary"}
+            color={
+              index === fastestTimeIndex
+                ? "themeBase.blue"
+                : index === latestTimeIndex
+                ? "themeBase.red"
+                : "themeText.primary"
+            }
           >
             {convertToTimerText(record.time)}
           </VCenterTypography>
           <VCenterTypography
             variant="h6"
             sx={(theme) => ({ ml: theme.spacing(3) })}
-            color={index === fastestTimeIndex ? "primary" : "textPrimary"}
+            color={
+              index === fastestTimeIndex
+                ? "themeBase.blue"
+                : index === latestTimeIndex
+                ? "themeBase.red"
+                : "themeText.primary"
+            }
           >
             {record.scramble}
           </VCenterTypography>
