@@ -5,6 +5,7 @@ import { TransitionProps } from "@mui/material/transitions";
 import { RecordType } from "./container";
 import { convertToTimerText } from "../convertToTimerText";
 import { RecordListItem } from "../RecordListItem/container";
+import { useModalOpenStore } from "../../../stores/modalOpenStore";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -54,13 +55,16 @@ const findMinMaxTimeIndex = (timeList: number[]) => {
 export const RecordPresenter = React.memo(
   ({ timerState, recordList, handleDeleteRecord }: Props) => {
     const [isOpenRecord, setIsOpenRecord] = useState<boolean>(false);
+    const { setModalOpen } = useModalOpenStore();
 
     const handleClickOpenRecord = () => {
       setIsOpenRecord(true);
+      setModalOpen(true);
     };
 
     const handleCloseRecord = () => {
       setIsOpenRecord(false);
+      setModalOpen(false);
     };
 
     let fastestTimeIndex: number | null = null;
@@ -89,19 +93,13 @@ export const RecordPresenter = React.memo(
       }
     }
 
-    const isDisplay: boolean =
-      !timerState.isStarted && !timerState.startingState.isCanStart;
+    const isDisplay: boolean = !timerState.isStarted && !timerState.startingState.isCanStart;
 
     return (
       isDisplay && (
         <>
-          <Box
-            component="div"
-            sx={{ display: "flex", justifyContent: "center" }}
-          >
-            <Typography variant="h6">
-              MO3: {mo3 ? convertToTimerText(mo3) : "-"}
-            </Typography>
+          <Box component="div" sx={{ display: "flex", justifyContent: "center" }}>
+            <Typography variant="h6">MO3: {mo3 ? convertToTimerText(mo3) : "-"}</Typography>
             <Typography
               variant="h6"
               sx={(theme) => ({

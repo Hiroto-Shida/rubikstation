@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useEffect, useRef, useState } from "react";
 import { useKeyEvent } from "../hooks/useKeyEvent";
+import { useModalOpenStore } from "../stores/modalOpenStore";
 
 export type TimerState = {
   isStarted: boolean; // タイマーがスタートしたか
@@ -27,15 +28,15 @@ type Props = {
 export const TimerStateProvider = ({ children }: Props) => {
   const [timerState, setTimerState] = useState<TimerState>(initialTimerState);
   const isKeyDownSpaceInPause = useRef<boolean>(false);
+  const { modalOpen } = useModalOpenStore();
 
-  const {
-    isKeyDownSpaceStart,
-    isCanStartByKeyUpSpace,
-    isKeyUpSpaceHeldAndReleased,
-  } = useKeyEvent();
+  const { isKeyDownSpaceStart, isCanStartByKeyUpSpace, isKeyUpSpaceHeldAndReleased } =
+    useKeyEvent();
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (modalOpen) return;
+
       // spaceキー押し始めの時
       if (isKeyDownSpaceStart(e)) {
         if (!timerState.isStarted) {
@@ -49,19 +50,20 @@ export const TimerStateProvider = ({ children }: Props) => {
           }));
           return;
         }
+      }
 
-        if (timerState.isStarted) {
-          isKeyDownSpaceInPause.current = false;
-          setTimerState((preTimerState) => ({
-            ...preTimerState,
-            isStarted: false,
-            startingState: {
-              isKeyDownSpace: true,
-              isCanStart: false,
-            },
-          }));
-          return;
-        }
+      // タイマーストップ(任意のキーでOK)
+      if (timerState.isStarted) {
+        isKeyDownSpaceInPause.current = false;
+        setTimerState((preTimerState) => ({
+          ...preTimerState,
+          isStarted: false,
+          startingState: {
+            isKeyDownSpace: true,
+            isCanStart: false,
+          },
+        }));
+        return;
       }
 
       // タイマーが停止した画面から、spaceキー押してから一定時間経過した時
@@ -80,6 +82,8 @@ export const TimerStateProvider = ({ children }: Props) => {
     };
 
     const handleKeyUp = (e: KeyboardEvent) => {
+      if (modalOpen) return;
+
       // タイマーが停止した画面から、spaceキーを一定時間押した後、キーを話したとき
       if (isKeyUpSpaceHeldAndReleased(e) && isKeyDownSpaceInPause.current) {
         if (!timerState.isStarted) {
@@ -109,12 +113,9 @@ export const TimerStateProvider = ({ children }: Props) => {
     isCanStartByKeyUpSpace,
     isKeyDownSpaceStart,
     isKeyUpSpaceHeldAndReleased,
+    modalOpen,
     timerState.isStarted,
   ]);
 
-  return (
-    <TimerStateContext.Provider value={timerState}>
-      {children}
-    </TimerStateContext.Provider>
-  );
+  return <TimerStateContext.Provider value={timerState}>{children}</TimerStateContext.Provider>;
 };
