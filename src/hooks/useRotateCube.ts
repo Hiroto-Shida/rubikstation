@@ -1,23 +1,18 @@
 import * as THREE from "three";
-import { useCallback } from "react";
-import {
-  Axis,
-  Limit,
-  Multiplier,
-} from "../components/rubicModel/rotateDirection";
+import { MutableRefObject, useCallback } from "react";
+import { Axis, Limit, Multiplier } from "../components/rubicModel/rotateDirection";
+import { ArrowType } from "../components/rubicModel/Arrow/container";
 
 export const useRotateCube = () => {
-  const resetCubeGroup = (
-    cubeGroupRef: THREE.Group,
-    rotationGroupRef: THREE.Group
-  ) => {
+  const resetCubeGroup = (cubeGroupRef: THREE.Group, rotationGroupRef: THREE.Group) => {
     rotationGroupRef.children
       .slice()
       // .reverse() // いらない？
       .forEach((c) => {
-        const objectPosition = new THREE.Vector3();
-        c.getWorldPosition(objectPosition);
+        // const objectPosition = new THREE.Vector3();
+        // c.getWorldPosition(objectPosition);
         cubeGroupRef.attach(c);
+        cubeGroupRef.add(c);
       });
     // MAYBE: 上記の処理でrotationGroupの中を空にしてからrotationリセット?
     // rotationGroupRef.quaternion.set(0, 0, 0, 1); // どっちもかわらなそう
@@ -27,10 +22,12 @@ export const useRotateCube = () => {
   const attachToRotationGroup = (
     cubeGroupRef: THREE.Group,
     rotationGroupRef: THREE.Group,
+    hiddenGroupRef: THREE.Group,
     cubeGroupPosition: number[],
     axis: Axis,
     limit: Limit | undefined,
-    isHighlightRotateGroup: boolean
+    isHighlightRotateGroup: boolean,
+    isMoveMaximum: boolean
   ) => {
     cubeGroupRef.children
       .slice()
@@ -59,6 +56,15 @@ export const useRotateCube = () => {
         );
         rotationGroupRef.attach(c);
       });
+    // 矢印も一緒にrotateGroupに移動
+    if (!isMoveMaximum) {
+      hiddenGroupRef.children
+        .slice()
+        .reverse() // いらない？
+        .forEach((c) => {
+          rotationGroupRef.attach(c);
+        });
+    }
   };
 
   const rotateGroup = (
@@ -82,6 +88,7 @@ export const useRotateCube = () => {
   };
 
   const addArrow = (
+    arrowRefList: MutableRefObject<THREE.Group<THREE.Object3DEventMap>>[],
     cubeGroupRef: THREE.Group,
     rotationGroupRef: THREE.Group,
     rotateAxis: Axis,
@@ -91,60 +98,21 @@ export const useRotateCube = () => {
     const cubeGroupPosVec = new THREE.Vector3();
     cubeGroupRef.getWorldPosition(cubeGroupPosVec);
 
-    const targetPosListAddArrow: { pos: number[]; arrow: THREE.Group }[] = [];
+    const arrowInfoList: ArrowType[] = [];
 
     rotationGroupRef.children.forEach((child) => {
       if (child instanceof THREE.Group) {
-        const coneGeometry = new THREE.ConeGeometry(0.4, 1, 10);
-        const cylinderGeometry = new THREE.CylinderGeometry(
-          0.15,
-          0.15,
-          2.3,
-          10
-        );
-
-        const meshColor = "#d8e3e4";
-        const lineColor = "#961010";
-        const meshMaterial = new THREE.MeshStandardMaterial({
-          color: meshColor,
-          emissive: meshColor,
-        });
-        const lineMaterial = new THREE.MeshStandardMaterial({
-          color: lineColor,
-          emissive: lineColor,
-        });
-
-        const arrowGroup = new THREE.Group();
-
-        const coneMesh = new THREE.Mesh(coneGeometry, meshMaterial);
-        const coneWireframe = new THREE.WireframeGeometry(coneGeometry);
-        const coneLine = new THREE.LineSegments(coneWireframe, lineMaterial);
-        coneMesh.position.setY(1);
-        coneLine.position.setY(1);
-
-        const cylinderMesh = new THREE.Mesh(cylinderGeometry, meshMaterial);
-        const cylinderWireframe = new THREE.WireframeGeometry(cylinderGeometry);
-        const cylinderLine = new THREE.LineSegments(
-          cylinderWireframe,
-          lineMaterial
-        );
-        cylinderMesh.position.setY(-0.2);
-        cylinderLine.position.setY(-0.2);
-
-        arrowGroup.add(coneMesh);
-        arrowGroup.add(coneLine);
-        arrowGroup.add(cylinderMesh);
-        arrowGroup.add(cylinderLine);
+        const arrowInfo: ArrowType = {
+          position: new THREE.Vector3(0, 0, 0),
+          rotation: new THREE.Euler(0, 0, 0),
+        };
 
         // 原点からの絶対座標から、各キューブの中心からの相対座標childPosに変換
         const childWorldPosVec = new THREE.Vector3();
         const childWorldDirVec = new THREE.Vector3();
         child.getWorldPosition(childWorldPosVec);
         child.getWorldDirection(childWorldDirVec);
-        const childPosVec = new THREE.Vector3().subVectors(
-          childWorldPosVec,
-          cubeGroupPosVec
-        );
+        const childPosVec = new THREE.Vector3().subVectors(childWorldPosVec, cubeGroupPosVec);
         const childPos = childPosVec.toArray().map((pos) => Math.round(pos));
 
         const originAxis = ["x", "y", "z"];
@@ -164,7 +132,9 @@ export const useRotateCube = () => {
           }
         } else {
           if (rotateAxis === "y") {
-            isTargetAddArrow = childPos[0] + childPos[2] === 1;
+            // TODO: y軸回転の時に矢印が後ろに隠れちゃう問題を解決。↓y,y'の時だけ以下で対処可。これを参考に後述の部分もやりたい
+            // isTargetAddArrow = childPos[0] * -multiplier + childPos[2] === 1 && childPos[1] === 0;
+            isTargetAddArrow = childPos[0] + childPos[2] === 1 && childPos[1] === 0;
           }
         }
 
@@ -175,21 +145,21 @@ export const useRotateCube = () => {
 
         if (isTargetAddArrow) {
           if (zeroPosAxis === "x") {
-            arrowGroup.position.set(
+            arrowInfo.position.set(
               childPos[0] * 2,
               childPos[1] * (rotateAxis === "z" ? 2 : 1),
               childPos[2] * (rotateAxis === "y" ? 2 : 1)
             );
           }
           if (zeroPosAxis === "y") {
-            arrowGroup.position.set(
+            arrowInfo.position.set(
               childPos[0] * (rotateAxis === "z" ? 2 : 1),
               childPos[1] * 2,
               childPos[2] * (rotateAxis === "x" ? 2 : 1)
             );
           }
           if (zeroPosAxis === "z") {
-            arrowGroup.position.set(
+            arrowInfo.position.set(
               childPos[0] * (rotateAxis === "y" ? 2 : 1),
               childPos[1] * (rotateAxis === "x" ? 2 : 1),
               childPos[2] * 2
@@ -198,36 +168,44 @@ export const useRotateCube = () => {
 
           if (rotateAxis === "z") {
             if (childPos[0] === 0) {
-              arrowGroup.rotation.z += (multiplier * Math.PI) / 2;
+              arrowInfo.rotation.z += (multiplier * Math.PI) / 2;
             } else {
-              arrowGroup.rotation.z = multiplier === -1 ? Math.PI : 0;
+              arrowInfo.rotation.z = multiplier === -1 ? Math.PI : 0;
             }
           }
 
           if (rotateAxis === "x") {
             if (childPos[2] === 0) {
-              arrowGroup.rotation.x += (multiplier * Math.PI) / 2;
+              arrowInfo.rotation.x += (multiplier * Math.PI) / 2;
             } else {
-              arrowGroup.rotation.x = multiplier === 1 ? Math.PI : 0;
+              arrowInfo.rotation.x = multiplier === 1 ? Math.PI : 0;
             }
           }
 
           if (rotateAxis === "y") {
             if (childPos[0] === 0) {
-              arrowGroup.rotation.z -= (multiplier * Math.PI) / 2;
+              arrowInfo.rotation.z -= (multiplier * Math.PI) / 2;
             }
             if (childPos[2] === 0) {
-              arrowGroup.rotation.x -= (multiplier * Math.PI) / 2;
+              arrowInfo.rotation.x -= (multiplier * Math.PI) / 2;
             }
           }
 
-          arrowGroup.scale.set(0.9, 0.9, 0.9);
-          targetPosListAddArrow.push({ pos: childPos, arrow: arrowGroup });
+          arrowInfoList.push(arrowInfo);
         }
       }
     });
-    targetPosListAddArrow.forEach((target) => {
-      rotationGroupRef.add(target.arrow);
+    arrowInfoList.forEach((arrowInfo, index) => {
+      arrowRefList[index].current.position.set(
+        arrowInfo.position.x,
+        arrowInfo.position.y,
+        arrowInfo.position.z
+      );
+      arrowRefList[index].current.rotation.set(
+        arrowInfo.rotation.x,
+        arrowInfo.rotation.y,
+        arrowInfo.rotation.z
+      );
     });
   };
 
@@ -235,11 +213,13 @@ export const useRotateCube = () => {
     (
       cubeGroupRef: THREE.Group,
       rotationGroupRef: THREE.Group,
+      hiddenGroupRef: THREE.Group,
       cubeGroupPosition: number[],
       rotateDirection: [Axis, Limit | undefined, Multiplier],
       isMoveTwice: boolean,
       isMoveMaximum: boolean,
-      isHighlightRotateGroup: boolean
+      isHighlightRotateGroup: boolean,
+      arrowRefList: MutableRefObject<THREE.Group<THREE.Object3DEventMap>>[]
     ) => {
       const axis = rotateDirection[0];
       const limit = rotateDirection[1];
@@ -247,20 +227,16 @@ export const useRotateCube = () => {
       attachToRotationGroup(
         cubeGroupRef,
         rotationGroupRef,
+        hiddenGroupRef,
         cubeGroupPosition,
         axis,
         limit,
-        isHighlightRotateGroup
-      );
-      !isMoveMaximum &&
-        addArrow(cubeGroupRef, rotationGroupRef, axis, limit, multiplier);
-      rotateGroup(
-        rotationGroupRef,
-        axis,
-        multiplier,
-        isMoveTwice,
+        isHighlightRotateGroup,
         isMoveMaximum
       );
+      !isMoveMaximum &&
+        addArrow(arrowRefList, cubeGroupRef, rotationGroupRef, axis, limit, multiplier);
+      rotateGroup(rotationGroupRef, axis, multiplier, isMoveTwice, isMoveMaximum);
       resetCubeGroup(cubeGroupRef, rotationGroupRef);
     },
     []
