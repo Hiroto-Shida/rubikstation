@@ -14,24 +14,16 @@ export const Step1Presenter = () => {
       <T pageTop={true}>ステップ1：十字を揃えよう</T>
       <B>以下がステップ1の完成形です。</B>
       <B> ↓ マウスで動かして全体像を確認しよう！</B>
-      <StyledRubicModel
-        status="CROSS"
-        canvasCamera={{ position: [2.5, 3, 2.5] }}
-        isRotate={true}
-      />
+      <StyledRubicModel status="CROSS" canvasCamera={{ position: [2.5, 3, 2.5] }} isRotate={true} />
       <B>キューブはどんなに動かしても中心の色の配置は変わりません。</B>
       <B>↓最終的に白十字を揃えた時の上から見た図↓</B>
       <OllModel status="WHITE_CROSS" />
-      <B>
-        白面のエッジキューブのペアの色は時計回りに"青"→"赤"→"緑"→"オレンジ"となっています。
-      </B>
+      <B>白面のエッジキューブのペアの色は時計回りに"青"→"赤"→"緑"→"オレンジ"となっています。</B>
       <B>なのでこの順番を意識して揃えていきましょう！</B>
 
       <T>白十字の基本的な揃え方</T>
       <B>まず白のセンターキューブを上にしてキューブを持ちましょう。</B>
-      <B>
-        次に白色を含むエッジキューブを探し、上の白面に向かって揃えていきましょう。
-      </B>
+      <B>次に白色を含むエッジキューブを探し、上の白面に向かって揃えていきましょう。</B>
       <BorderBox>
         <ST>パターン1：入れたいキューブが中央の段にある場合</ST>
         <B>上の白面に向かって1回まわすだけで揃う、一番簡単なパターンです</B>
@@ -49,12 +41,8 @@ export const Step1Presenter = () => {
       </BorderBox>
 
       <BorderBox>
-        <ST>
-          パターン2：入れたいキューブが、上の段または下の段にあり、白面が横を向いている場合
-        </ST>
-        <B>
-          入れたいキューブがある面を右か左に回してから、上の白面に向かって回し入れましょう
-        </B>
+        <ST>パターン2：入れたいキューブが、上の段または下の段にあり、白面が横を向いている場合</ST>
+        <B>入れたいキューブがある面を右か左に回してから、上の白面に向かって回し入れましょう</B>
         <StyledScrambleModels
           status="CROSS_BOTTOM_SIDE_EX1"
           scrambleList={["", "F", "R", ""]}
@@ -69,20 +57,14 @@ export const Step1Presenter = () => {
       </BorderBox>
 
       <BorderBox>
-        <ST>
-          パターン3. 入れたいキューブが下の段にあり、白面が下を向いている場合
-        </ST>
-        <B>
-          入れたいキューブの白面が下を向いている場合は、2回転することでその真上に持って来れます
-        </B>
+        <ST>パターン3. 入れたいキューブが下の段にあり、白面が下を向いている場合</ST>
+        <B>入れたいキューブの白面が下を向いている場合は、2回転することでその真上に持って来れます</B>
         <StyledScrambleModels
           status="CROSS_BOTTOM_BOTTOM"
           scrambleList={["", "F2", ""]}
           isKeepRotate={true}
         />
-        <B>
-          入れたい先の真下ではない時は、下の面を回転してから、上に2回転しましょう
-        </B>
+        <B>入れたい先の真下ではない時は、下の面を回転してから、上に2回転しましょう</B>
         <B>
           下の例では下面を動かしてから2回転することで、上面の右側にキューブを持ってくることができてますね
         </B>
@@ -105,9 +87,7 @@ export const Step1Presenter = () => {
         <B>
           以下の例は、白青のキューブを上面に持っていくことはできてますが、青面の隣に緑面があり正しい配置順ではありません。
         </B>
-        <B>
-          さらには、すでに揃っている白赤のキューブまでずらしてしまっています。
-        </B>
+        <B>さらには、すでに揃っている白赤のキューブまでずらしてしまっています。</B>
         <StyledScrambleModels
           status="CROSS_PRACTICE_1"
           scrambleList={["", "R", ""]}
@@ -162,9 +142,7 @@ export const Step1Presenter = () => {
       <B>
         もし何度上段を回しても十字ができない場合は、白を含む4キューブを正しい配置に置けていません
       </B>
-      <B>
-        4箇所すでに入れてしまった場合は以下のような手順で正しい位置に直しましょう
-      </B>
+      <B>4箇所すでに入れてしまった場合は以下のような手順で正しい位置に直しましょう</B>
       <BorderBox>
         <ST>例：オレンジと青のエッジキューブの位置の入れ替え</ST>
         <B>
@@ -176,19 +154,11 @@ export const Step1Presenter = () => {
           isKeepRotate={true}
         />
       </BorderBox>
-      <StyledRubicModel
-        status="CROSS"
-        canvasCamera={{ position: [2.5, 3, 2.5] }}
-        isRotate={true}
-      />
+      <StyledRubicModel status="CROSS" canvasCamera={{ position: [2.5, 3, 2.5] }} isRotate={true} />
 
       <B>
         無事十字が揃えられたら、次の
-        <Typography
-          component={Link}
-          to="/procedure/2"
-          sx={{ fontWeight: "bold" }}
-        >
+        <Typography component={Link} to="/procedure/2" sx={{ fontWeight: "bold" }}>
           ステップ2
         </Typography>
         に進みましょう！

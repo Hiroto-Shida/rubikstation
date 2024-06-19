@@ -4,6 +4,7 @@ import { MutableRefObject, useEffect, useMemo, useRef } from "react";
 import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
 import { Html } from "@react-three/drei";
 import { useTheme } from "@mui/material";
+import { Arrow } from "../Arrow/container";
 
 const Cube = ({
   position,
@@ -48,11 +49,7 @@ const Cube = ({
       <group position={position}>
         <mesh ref={cubeRef} geometry={roundedBoxGeometry}>
           {colorList.map((value, index) => (
-            <meshBasicMaterial
-              key={index}
-              attach={`material-${index}`}
-              color={colorsDic[value]}
-            />
+            <meshBasicMaterial key={index} attach={`material-${index}`} color={colorsDic[value]} />
           ))}
         </mesh>
         <lineSegments ref={edgesRef}>
@@ -153,8 +150,7 @@ const SupportText = ({ supportText }: { supportText: string }) => {
 };
 
 const model = (status: string, z: number, y: number, x: number) => {
-  const colorDic: { [key: number]: string[] | undefined } =
-    surfaceColorList(status);
+  const colorDic: { [key: number]: string[] | undefined } = surfaceColorList(status);
   // if (!colorDic) {
   //   return DEFAULT;
   // }
@@ -172,11 +168,13 @@ type Props = {
   moveTextRef: MutableRefObject<THREE.Group<THREE.Object3DEventMap>>;
   moveChar?: string;
   rotationGroupRef: MutableRefObject<THREE.Group<THREE.Object3DEventMap>>;
+  hiddenGroupRef: MutableRefObject<THREE.Group<THREE.Object3DEventMap>>;
   braketRef: MutableRefObject<THREE.Group<THREE.Object3DEventMap>>;
   supportText: string | undefined;
   supportTextRef: MutableRefObject<THREE.Group<THREE.Object3DEventMap>>;
   braketNeed: { start: boolean; end: boolean };
   status?: string;
+  arrowRefList: MutableRefObject<THREE.Group<THREE.Object3DEventMap>>[];
 };
 
 export const CubesPresenter = ({
@@ -184,11 +182,13 @@ export const CubesPresenter = ({
   moveTextRef,
   moveChar,
   rotationGroupRef,
+  hiddenGroupRef,
   braketRef,
   supportText,
   supportTextRef,
   braketNeed,
   status = "default",
+  arrowRefList,
 }: Props) => {
   return (
     <>
@@ -226,6 +226,13 @@ export const CubesPresenter = ({
         </group>
       )}
       <group ref={rotationGroupRef}></group>
+      <group ref={hiddenGroupRef} visible={false}>
+        {arrowRefList.map((arrowRef, index) => (
+          <group ref={arrowRef} scale={0.9} key={index}>
+            <Arrow index={index} moveChar={moveChar} />
+          </group>
+        ))}
+      </group>
     </>
   );
 };
