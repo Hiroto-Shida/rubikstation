@@ -104,7 +104,7 @@ export const IntroductionPresenter = () => {
       <BorderBox>
         <ST>回転記号例(一部)</ST>
         <B>RはRight、LはLeft、UはUp、の頭文字</B>
-        <B>プライム(')がついてると半時計周りになります(意外と覚えやすいかも？)</B>
+        <B>プライム(')がついてると反時計周りになります(意外と覚えやすいかも？)</B>
         <StyledScrambleModels status="WORLD_ALL" scrambleList={["R", "R'", "L", "U"]} />
       </BorderBox>
 

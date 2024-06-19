@@ -37,12 +37,21 @@ export const Cubes = ({
 
   const cubeGroupRef = useRef<THREE.Group>(null!);
   const rotationGroupRef = useRef<THREE.Group>(null!);
+  const hiddenGroupRef = useRef<THREE.Group>(null!);
   const moveTextRef = useRef<THREE.Group>(null!);
   const supportTextRef = useRef<THREE.Group>(null!);
   const braketRef = useRef<THREE.Group>(null!);
 
   const prevCanvasWidth = useRef<number>(0);
   const isSetupCompletion = useRef<boolean>(false);
+
+  // 矢印2本(面)分のrefを用意
+  const arrowRef1 = useRef<THREE.Group>(null!);
+  const arrowRef2 = useRef<THREE.Group>(null!);
+  const arrowRefList = useRef<MutableRefObject<THREE.Group<THREE.Object3DEventMap>>[]>([
+    arrowRef1,
+    arrowRef2,
+  ]);
 
   // リサイズ時(canvasWidth.currentが変化した時)に各キューブの位置を再調整
   useFrame(() => {
@@ -90,20 +99,18 @@ export const Cubes = ({
       moveCharList.forEach((moveChar, movingIndex) => {
         const regexMoveChar = /2/;
         const removedTwoMoveChar = moveChar.replace(regexMoveChar, "");
-        const cubePos = getCubeGroupPosition(
-          index,
-          cubesNum,
-          canvasWindowSize.current.width
-        );
+        const cubePos = getCubeGroupPosition(index, cubesNum, canvasWindowSize.current.width);
         if (ROTATE_DIRECTION[removedTwoMoveChar]) {
           rotate(
             cubeGroupRef.current,
             rotationGroupRef.current,
+            hiddenGroupRef.current,
             cubePos,
             ROTATE_DIRECTION[removedTwoMoveChar],
             moveChar.match(/2/) ? true : false,
             movingIndex !== moveCharList.length - 1,
-            isHighlightRotateGroup
+            isHighlightRotateGroup,
+            arrowRefList.current
           );
         }
       });
@@ -127,8 +134,7 @@ export const Cubes = ({
   ]);
 
   const supportText = supportTextList
-    ? supportTextList[needBraketIndex?.start.indexOf(index)] ??
-      supportTextList[0]
+    ? supportTextList[needBraketIndex?.start.indexOf(index)] ?? supportTextList[0]
     : undefined;
 
   return (
@@ -136,21 +142,19 @@ export const Cubes = ({
       cubeGroupRef={cubeGroupRef}
       moveTextRef={moveTextRef}
       moveChar={
-        moveCharList && moveCharList.length > 0
-          ? moveCharList[moveCharList.length - 1]
-          : undefined
+        moveCharList && moveCharList.length > 0 ? moveCharList[moveCharList.length - 1] : undefined
       }
       rotationGroupRef={rotationGroupRef}
+      hiddenGroupRef={hiddenGroupRef}
       braketRef={braketRef}
-      supportText={
-        needBraketIndex?.start.includes(index) ? supportText : undefined
-      }
+      supportText={needBraketIndex?.start.includes(index) ? supportText : undefined}
       supportTextRef={supportTextRef}
       braketNeed={{
         start: needBraketIndex?.start.includes(index),
         end: needBraketIndex?.end.includes(index),
       }}
       status={status}
+      arrowRefList={arrowRefList.current}
     />
   );
 };
