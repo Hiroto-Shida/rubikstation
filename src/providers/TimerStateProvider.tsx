@@ -50,19 +50,20 @@ export const TimerStateProvider = ({ children }: Props) => {
           }));
           return;
         }
+      }
 
-        if (timerState.isStarted) {
-          isKeyDownSpaceInPause.current = false;
-          setTimerState((preTimerState) => ({
-            ...preTimerState,
-            isStarted: false,
-            startingState: {
-              isKeyDownSpace: true,
-              isCanStart: false,
-            },
-          }));
-          return;
-        }
+      // タイマーストップ(任意のキーでOK)
+      if (timerState.isStarted) {
+        isKeyDownSpaceInPause.current = false;
+        setTimerState((preTimerState) => ({
+          ...preTimerState,
+          isStarted: false,
+          startingState: {
+            isKeyDownSpace: true,
+            isCanStart: false,
+          },
+        }));
+        return;
       }
 
       // タイマーが停止した画面から、spaceキー押してから一定時間経過した時
