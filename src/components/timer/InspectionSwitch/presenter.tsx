@@ -26,18 +26,22 @@ export const InspectionSwitchPresenter = ({ handleChange, inspection, animate }:
       sx={{
         position: "absolute",
         right: 0,
-        top: "40%",
-        transform: "translate(125%, -50%)",
+        top: "60%",
+        transform: "translate(120%, -50%)",
         width: "110px",
         height: "50px",
       }}
     >
-      {animate ? (
-        <StyledTypography>{inspection ? "Inspection On" : "Inspection Off"}</StyledTypography>
-      ) : (
-        <Typography></Typography>
-      )}
-      <Switch onChange={handleChange} sx={{ bottom: 0 }} />
+      <Box component="div" sx={{ position: "relative" }}>
+        <Box component="div" sx={{ position: "absolute", top: "-50%" }}>
+          {animate ? (
+            <StyledTypography>{inspection ? "Inspection On" : "Inspection Off"}</StyledTypography>
+          ) : (
+            <Typography></Typography>
+          )}
+        </Box>
+        <Switch onChange={handleChange} sx={{}} />
+      </Box>
     </Box>
   );
 };
