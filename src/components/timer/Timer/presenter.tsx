@@ -1,7 +1,8 @@
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { TimerState } from "../../../providers/TimerStateProvider";
 import { styled } from "@mui/material/styles";
 import { convertToTimerText } from "../convertToTimerText";
+import { InspectionSwitch } from "../InspectionSwitch/container";
 type Props = {
   time: number;
   timerState: TimerState;
@@ -27,27 +28,27 @@ const StyledTypography = styled(Typography)({
 export const TimerPresenter = ({ time, timerState, isNewRecord }: Props) => {
   return (
     <>
-      {isNewRecord &&
-        !timerState.isStarted &&
-        !timerState.startingState.isCanStart && (
-          <StyledTypography variant="h6">New Record !!!</StyledTypography>
-        )}
-      <Typography
-        variant={
-          timerState.isStarted || timerState.startingState.isCanStart
-            ? "h1"
-            : "h2"
-        }
-        color={
-          timerState.startingState.isKeyDownSpace
-            ? timerState.startingState.isCanStart
-              ? "themeBase.green"
-              : "themeBase.red"
-            : "text.primary"
-        }
-      >
-        {convertToTimerText(time)}
-      </Typography>
+      {isNewRecord && !timerState.isStarted && !timerState.startingState.isCanStart && (
+        <StyledTypography variant="h6">New Record !!!</StyledTypography>
+      )}
+      <Box component="div" sx={{ display: "flex", justifyContent: "center" }}>
+        <Box component="div" sx={{ position: "relative" }}>
+          <Typography
+            variant={timerState.isStarted || timerState.startingState.isCanStart ? "h1" : "h2"}
+            color={
+              timerState.startingState.isKeyDownSpace
+                ? timerState.startingState.isCanStart
+                  ? "themeBase.green"
+                  : "themeBase.red"
+                : "text.primary"
+            }
+            // sx={{ position: "relative" }}
+          >
+            {convertToTimerText(time)}
+          </Typography>
+          <InspectionSwitch />
+        </Box>
+      </Box>
     </>
   );
 };
