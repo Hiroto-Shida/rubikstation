@@ -4,25 +4,27 @@ import { useRef, useState } from "react";
 
 export const InspectionSwitch = () => {
   const { inspection, setInspection } = useInspectionStore();
-  const [animate, setAnimate] = useState(false);
+  // const [checked, setChecked] = useState<boolean>(false);
+  const [activeClass, setActiveClass] = useState<string>("");
   const timeRef = useRef<NodeJS.Timeout>();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // console.log(event.target.checked);
     setInspection(event.target.checked);
+    setActiveClass("visible");
 
-    setAnimate(true);
     clearTimeout(timeRef.current);
+    // visibleに一旦して反映させた後、時間差でフェードアウトをつける
     timeRef.current = setTimeout(() => {
-      setAnimate(false);
-    }, 1000); // アニメーションの時間に合わせる
+      setActiveClass("fade");
+    }, 50);
   };
 
   return (
     <InspectionSwitchPresenter
       handleChange={handleChange}
       inspection={inspection}
-      animate={animate}
+      // checked={checked}
+      activeClass={activeClass}
     />
   );
 };

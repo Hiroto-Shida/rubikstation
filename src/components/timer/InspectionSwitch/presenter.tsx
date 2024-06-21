@@ -1,25 +1,20 @@
-import { Box, styled, Switch, Typography } from "@mui/material";
-
-const StyledTypography = styled(Typography)({
-  fontWeight: "bold",
-  animation: "fancyBorder 1s ease",
-  "@keyframes fancyBorder": {
-    "0%": {
-      opacity: "100%",
-    },
-    "100%": {
-      opacity: "0",
-    },
-  },
-});
+import { Box, Switch, Typography } from "@mui/material";
+import "./styles.css"; // スタイルシートをインポート
+import React from "react";
 
 type Props = {
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   inspection: boolean;
-  animate: boolean;
+  // checked: boolean;
+  activeClass: string;
 };
 
-export const InspectionSwitchPresenter = ({ handleChange, inspection, animate }: Props) => {
+export const InspectionSwitchPresenter = ({
+  handleChange,
+  inspection,
+  // checked,
+  activeClass,
+}: Props) => {
   return (
     <Box
       component="div"
@@ -34,13 +29,20 @@ export const InspectionSwitchPresenter = ({ handleChange, inspection, animate }:
     >
       <Box component="div" sx={{ position: "relative" }}>
         <Box component="div" sx={{ position: "absolute", top: "-50%" }}>
-          {animate ? (
-            <StyledTypography>{inspection ? "Inspection On" : "Inspection Off"}</StyledTypography>
-          ) : (
-            <Typography></Typography>
-          )}
+          <Typography
+            className={`message ${activeClass}`}
+            sx={{
+              fontWeight: inspection ? "bold" : "normal",
+            }}
+          >
+            {inspection ? "Inspection On" : "Inspection Off"}
+          </Typography>
         </Box>
-        <Switch onChange={handleChange} sx={{}} />
+        <Switch
+          // checked={checked}
+          onChange={handleChange}
+          sx={{}}
+        />
       </Box>
     </Box>
   );

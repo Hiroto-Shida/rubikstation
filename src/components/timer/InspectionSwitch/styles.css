@@ -1,0 +1,19 @@
+.message {
+    opacity: 0;
+}
+.message.visible {
+    opacity: 1;
+}
+.message.fade {
+    opacity: 0;
+    animation: fadeOut 1s ease;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
