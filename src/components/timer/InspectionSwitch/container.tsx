@@ -1,19 +1,31 @@
 import { InspectionSwitchPresenter } from "./presenter";
 import { useInspectionStore } from "../../../stores/inspectionStore";
 import { useRef, useState } from "react";
+import Cookies from "js-cookie";
 
 export const InspectionSwitch = () => {
   const { inspection, setInspection } = useInspectionStore();
-  // const [checked, setChecked] = useState<boolean>(false);
   const [activeClass, setActiveClass] = useState<string>("");
   const timeRef = useRef<NodeJS.Timeout>();
 
+  const storeToCookie = (isInspection: boolean) => {
+    const cookieIsInspection = Cookies.get("inspection");
+    if (!cookieIsInspection) {
+      Cookies.set("inspection", `${inspection}`);
+    }
+
+    if (cookieIsInspection !== `${isInspection}`) {
+      Cookies.set("inspection", `${isInspection}`);
+    }
+  };
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInspection(event.target.checked);
-    setActiveClass("visible");
+    storeToCookie(event.target.checked);
 
     clearTimeout(timeRef.current);
     // visibleに一旦して反映させた後、時間差でフェードアウトをつける
+    setActiveClass("visible");
     timeRef.current = setTimeout(() => {
       setActiveClass("fade");
     }, 50);
@@ -23,7 +35,6 @@ export const InspectionSwitch = () => {
     <InspectionSwitchPresenter
       handleChange={handleChange}
       inspection={inspection}
-      // checked={checked}
       activeClass={activeClass}
     />
   );
