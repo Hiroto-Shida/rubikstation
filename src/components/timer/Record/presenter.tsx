@@ -93,7 +93,10 @@ export const RecordPresenter = React.memo(
       }
     }
 
-    const isDisplay: boolean = !timerState.isStarted && !timerState.startingState.isCanStart;
+    const isDisplay: boolean =
+      !timerState.startingState.isStarted &&
+      !timerState.startingState.isStartedInspection &&
+      !timerState.standbyState.isCanStart;
 
     return (
       isDisplay && (

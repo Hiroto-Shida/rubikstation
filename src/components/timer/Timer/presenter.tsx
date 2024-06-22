@@ -7,6 +7,7 @@ type Props = {
   time: number;
   timerState: TimerState;
   isNewRecord: boolean;
+  isInspectionStyle: boolean;
 };
 
 const StyledTypography = styled(Typography)({
@@ -25,26 +26,41 @@ const StyledTypography = styled(Typography)({
   },
 });
 
-export const TimerPresenter = ({ time, timerState, isNewRecord }: Props) => {
+export const TimerPresenter = ({ time, timerState, isNewRecord, isInspectionStyle }: Props) => {
   return (
     <>
-      {isNewRecord && !timerState.isStarted && !timerState.startingState.isCanStart && (
-        <StyledTypography variant="h6">New Record !!!</StyledTypography>
-      )}
+      {isNewRecord &&
+        !timerState.startingState.isStarted &&
+        !timerState.startingState.isStartedInspection &&
+        !timerState.standbyState.isCanStart && (
+          <StyledTypography variant="h6">New Record !!!</StyledTypography>
+        )}
       <Box component="div" sx={{ display: "flex", justifyContent: "center" }}>
         <Box component="div" sx={{ position: "relative" }}>
           <Typography
-            variant={timerState.isStarted || timerState.startingState.isCanStart ? "h1" : "h2"}
+            variant={
+              timerState.startingState.isStarted ||
+              timerState.startingState.isStartedInspection ||
+              timerState.standbyState.isCanStart
+                ? "h1"
+                : "h2"
+            }
             color={
-              timerState.startingState.isKeyDownSpace
-                ? timerState.startingState.isCanStart
+              timerState.standbyState.isKeyDownSpace
+                ? timerState.standbyState.isCanStart
                   ? "themeBase.green"
                   : "themeBase.red"
                 : "text.primary"
             }
-            // sx={{ position: "relative" }}
           >
-            {convertToTimerText(time)}
+            {(isInspectionStyle &&
+              !timerState.startingState.isStartedInspection &&
+              timerState.standbyState.isCanStart) ||
+            (isInspectionStyle &&
+              timerState.startingState.isStartedInspection &&
+              !timerState.standbyState.isCanStart)
+              ? time / 1000
+              : convertToTimerText(time)}
           </Typography>
           <InspectionSwitch />
         </Box>

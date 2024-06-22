@@ -15,7 +15,10 @@ const marginTopStyle = (theme: Theme) => ({
 });
 
 export const ScramblePresenter = React.memo(({ timerState, scrambleList }: Props) => {
-  const isDisplay: boolean = !timerState.isStarted && !timerState.startingState.isCanStart;
+  const isDisplay: boolean =
+    !timerState.startingState.isStarted &&
+    !timerState.startingState.isStartedInspection &&
+    !timerState.standbyState.isCanStart;
   return (
     isDisplay &&
     scrambleList.length > 1 && (

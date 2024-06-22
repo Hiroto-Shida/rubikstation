@@ -41,7 +41,7 @@ export const Record = () => {
 
       setRecordList(tmpRecordList);
     }
-  }, [timerState.isStarted]);
+  }, [timerState.startingState.isStarted]);
 
   return (
     <RecordPresenter

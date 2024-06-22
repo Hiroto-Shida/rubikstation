@@ -79,12 +79,17 @@ export const Scramble = () => {
   }, []);
 
   useEffect(() => {
-    if (!timerState.isStarted) {
+    // 本タイマーもインスペクションも始まってない時はスクランブルをセッティング
+    if (!timerState.startingState.isStarted && !timerState.startingState.isStartedInspection) {
       setScrambleList(generateScrambleText());
     } else {
       setScrambleList([]);
     }
-  }, [cookieSetting, timerState.isStarted]);
+  }, [
+    cookieSetting,
+    timerState.startingState.isStarted,
+    timerState.startingState.isStartedInspection,
+  ]);
 
   useEffect(() => {
     return () => {

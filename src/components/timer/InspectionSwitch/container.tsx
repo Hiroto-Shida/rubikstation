@@ -1,9 +1,11 @@
 import { InspectionSwitchPresenter } from "./presenter";
 import { useInspectionStore } from "../../../stores/inspectionStore";
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import Cookies from "js-cookie";
+import { TimerStateContext } from "../../../providers/TimerStateProvider";
 
 export const InspectionSwitch = () => {
+  const timerState = useContext(TimerStateContext);
   const { inspection, setInspection } = useInspectionStore();
   const [activeClass, setActiveClass] = useState<string>("");
   const timeRef = useRef<NodeJS.Timeout>();
@@ -36,6 +38,7 @@ export const InspectionSwitch = () => {
       handleChange={handleChange}
       inspection={inspection}
       activeClass={activeClass}
+      timerState={timerState}
     />
   );
 };

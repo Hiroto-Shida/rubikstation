@@ -1,19 +1,28 @@
 import { createContext, ReactNode, useEffect, useRef, useState } from "react";
 import { useKeyEvent } from "../hooks/useKeyEvent";
 import { useModalOpenStore } from "../stores/modalOpenStore";
+import { useInspectionStore } from "../stores/inspectionStore";
 
 export type TimerState = {
-  isStarted: boolean; // タイマーがスタートしたか
-  startingState: StartingState; // spaceキーを押した時の処理
+  startingState: StartingState;
+  standbyState: StandbyState; // spaceキーを押した時の処理
 };
+
 export type StartingState = {
+  isStartedInspection: boolean; // インスペクションタイマーがスタートしたか
+  isStarted: boolean; // タイマーがスタートしたか
+};
+export type StandbyState = {
   isKeyDownSpace: boolean; // spaceキーを押してる状態か
   isCanStart: boolean; // spaceキーを一定時間押して、離したらタイマースタートできる状態か
 };
 
 const initialTimerState: TimerState = {
-  isStarted: false,
   startingState: {
+    isStartedInspection: false,
+    isStarted: false,
+  },
+  standbyState: {
     isKeyDownSpace: false,
     isCanStart: false,
   },
@@ -27,6 +36,7 @@ type Props = {
 
 export const TimerStateProvider = ({ children }: Props) => {
   const [timerState, setTimerState] = useState<TimerState>(initialTimerState);
+  const { inspection } = useInspectionStore();
   const isKeyDownSpaceInPause = useRef<boolean>(false);
   const { modalOpen } = useModalOpenStore();
 
@@ -37,13 +47,13 @@ export const TimerStateProvider = ({ children }: Props) => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (modalOpen) return;
 
-      // spaceキー押し始めの時
+      // spaceキー押し始めの時、isKeyDownSpaceをtrueに
       if (isKeyDownSpaceStart(e)) {
-        if (!timerState.isStarted) {
+        if (!timerState.startingState.isStarted) {
           isKeyDownSpaceInPause.current = true;
           setTimerState((preTimerState) => ({
             ...preTimerState,
-            startingState: {
+            standbyState: {
               isKeyDownSpace: true,
               isCanStart: false,
             },
@@ -53,12 +63,15 @@ export const TimerStateProvider = ({ children }: Props) => {
       }
 
       // タイマーストップ(任意のキーでOK)
-      if (timerState.isStarted) {
+      if (timerState.startingState.isStarted) {
         isKeyDownSpaceInPause.current = false;
         setTimerState((preTimerState) => ({
           ...preTimerState,
-          isStarted: false,
           startingState: {
+            isStartedInspection: false,
+            isStarted: false,
+          },
+          standbyState: {
             isKeyDownSpace: true,
             isCanStart: false,
           },
@@ -66,12 +79,12 @@ export const TimerStateProvider = ({ children }: Props) => {
         return;
       }
 
-      // タイマーが停止した画面から、spaceキー押してから一定時間経過した時
-      if (!timerState.isStarted && isKeyDownSpaceInPause.current) {
+      // 本タイマーが始まってない画面から、spaceキー押してから一定時間経過した時
+      if (!timerState.startingState.isStarted && isKeyDownSpaceInPause.current) {
         if (isCanStartByKeyUpSpace(e)) {
           setTimerState((preTimerState) => ({
             ...preTimerState,
-            startingState: {
+            standbyState: {
               isKeyDownSpace: true,
               isCanStart: true,
             },
@@ -86,16 +99,30 @@ export const TimerStateProvider = ({ children }: Props) => {
 
       // タイマーが停止した画面から、spaceキーを一定時間押した後、キーを話したとき
       if (isKeyUpSpaceHeldAndReleased(e) && isKeyDownSpaceInPause.current) {
-        if (!timerState.isStarted) {
-          setTimerState((preTimerState) => ({
-            ...preTimerState,
-            isStarted: true,
-          }));
+        if (!timerState.startingState.isStarted) {
+          // インスペクション ON かつまだインスペクションが始まってない時のみインスペクションスタート
+          if (inspection && !timerState.startingState.isStartedInspection) {
+            setTimerState((preTimerState) => ({
+              ...preTimerState,
+              startingState: {
+                isStartedInspection: true,
+                isStarted: false,
+              },
+            }));
+          } else {
+            setTimerState((preTimerState) => ({
+              ...preTimerState,
+              startingState: {
+                isStartedInspection: false,
+                isStarted: true,
+              },
+            }));
+          }
         }
       }
       setTimerState((preTimerState) => ({
         ...preTimerState,
-        startingState: {
+        standbyState: {
           isKeyDownSpace: false,
           isCanStart: false,
         },
@@ -114,7 +141,7 @@ export const TimerStateProvider = ({ children }: Props) => {
     isKeyDownSpaceStart,
     isKeyUpSpaceHeldAndReleased,
     modalOpen,
-    timerState.isStarted,
+    timerState.startingState.isStarted,
   ]);
 
   return <TimerStateContext.Provider value={timerState}>{children}</TimerStateContext.Provider>;
