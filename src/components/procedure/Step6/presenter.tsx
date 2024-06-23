@@ -1,7 +1,7 @@
 import { BodyTypography as B } from "../../parts/BodyTypography/container";
 import { TitleTypography as T } from "../../parts/TitleTypography/container";
 import { SubTitleTypography as ST } from "../../parts/SubTitleTypography/container";
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Stack, Theme, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { BorderBox } from "../BorderBox/container";
 import { StyledRubicModel } from "../StyledRubicModel/container";
@@ -10,7 +10,7 @@ import { OllModel } from "../../rubicModel/OllModel/container";
 
 const STandOllModel = ({ st, status }: { st: string; status: string }) => {
   return (
-    <Stack m={(theme) => theme.spacing(1)}>
+    <Stack m={(theme: Theme) => theme.spacing(1)}>
       <ST>{st}</ST>
       <OllModel status={status} />
     </Stack>
@@ -43,11 +43,7 @@ export const Step6Presenter = () => {
 
       <B>
         すでに「4ペア揃ってる」パターンの人はこのステップはスキップして
-        <Typography
-          component={Link}
-          to="/procedure/7"
-          sx={{ fontWeight: "bold" }}
-        >
+        <Typography component={Link} to="/procedure/7" sx={{ fontWeight: "bold" }}>
           ステップ7
         </Typography>
         に進みましょう！
@@ -58,16 +54,10 @@ export const Step6Presenter = () => {
         <ST>ペアなしのパターン</ST>
         <OllModel status="PLL_CORNER_0_PAIRS" />
 
-        <B>
-          黄色面を上にして持ち、以下の手順を回しましょう（向きはどこでも大丈夫です）
-        </B>
+        <B>黄色面を上にして持ち、以下の手順を回しましょう（向きはどこでも大丈夫です）</B>
         <StyledScrambleModels
           status="PLL_CORNER_0_PAIRS"
-          supportTextList={[
-            "右回りの,逆セクシー",
-            "スーン1回目,(3手目まで)",
-            "スーン,2回目",
-          ]}
+          supportTextList={["右回りの,逆セクシー", "スーン1回目,(3手目まで)", "スーン,2回目"]}
           scrambleList={[
             "",
             "L'",
@@ -107,16 +97,10 @@ export const Step6Presenter = () => {
         <ST>「1ペア揃ってる」パターン</ST>
         <OllModel status="PLL_CORNER_1_PAIRS" />
 
-        <B>
-          黄色面を上にし、揃っているペアの面を左にして持ち、以下の手順を回しましょう
-        </B>
+        <B>黄色面を上にし、揃っているペアの面を左にして持ち、以下の手順を回しましょう</B>
         <StyledScrambleModels
           status="PLL_CORNER_1_PAIRS"
-          supportTextList={[
-            "右回りの,逆セクシー",
-            "スーン1回目,(3手目まで)",
-            "スーン,2回目",
-          ]}
+          supportTextList={["右回りの,逆セクシー", "スーン1回目,(3手目まで)", "スーン,2回目"]}
           scrambleList={[
             "",
             "L'",
@@ -151,11 +135,7 @@ export const Step6Presenter = () => {
 
       <B>
         無事「4ペア揃ってる」パターンになったら、最後の
-        <Typography
-          component={Link}
-          to="/procedure/7"
-          sx={{ fontWeight: "bold" }}
-        >
+        <Typography component={Link} to="/procedure/7" sx={{ fontWeight: "bold" }}>
           ステップ7
         </Typography>
         に進みましょう！

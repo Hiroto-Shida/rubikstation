@@ -19,6 +19,7 @@ import {
   ListItemButton,
   ListItemIcon,
   ListSubheader,
+  Theme,
   Toolbar,
   Typography,
 } from "@mui/material";
@@ -34,12 +35,7 @@ type Props = ComponentProps<typeof Layout> & {
 
 const drawerWidth = 240;
 
-export const LayoutPresenter = ({
-  children,
-  procedureOpen,
-  setProcedureOpen,
-  pathname,
-}: Props) => {
+export const LayoutPresenter = ({ children, procedureOpen, setProcedureOpen, pathname }: Props) => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
@@ -64,7 +60,7 @@ export const LayoutPresenter = ({
     <>
       <ListItem component={Link} to={to} disablePadding>
         <ListItemButton
-          sx={(theme) => ({
+          sx={(theme: Theme) => ({
             p: `${theme.spacing(small ? 1.5 : 2)} ${theme.spacing(1)}`,
             color: to === pathname ? "themeBase.primary" : "text.primary",
             position: "relative",
@@ -77,9 +73,7 @@ export const LayoutPresenter = ({
               height: "100%",
               display: "block",
               borderLeft:
-                to === pathname
-                  ? `10px ${theme.palette.themeBase.primary} solid`
-                  : "none",
+                to === pathname ? `10px ${theme.palette.themeBase.primary} solid` : "none",
             },
           })}
         >
@@ -112,7 +106,7 @@ export const LayoutPresenter = ({
     <>
       <ListItem disablePadding>
         <ListItemButton
-          sx={(theme) => ({
+          sx={(theme: Theme) => ({
             p: `${theme.spacing(small ? 1.5 : 2)} ${theme.spacing(1)}`,
           })}
           onClick={onClick}
@@ -120,11 +114,7 @@ export const LayoutPresenter = ({
           <ListItemIcon>{icon}</ListItemIcon>
           <Typography>{primaryText}</Typography>
           <ListItemIcon>
-            {procedureOpen ? (
-              <KeyboardArrowDownIcon />
-            ) : (
-              <KeyboardArrowRightIcon />
-            )}
+            {procedureOpen ? <KeyboardArrowDownIcon /> : <KeyboardArrowRightIcon />}
           </ListItemIcon>
         </ListItemButton>
       </ListItem>
@@ -148,11 +138,7 @@ export const LayoutPresenter = ({
         />
         {procedureOpen && (
           <>
-            <AppListItem
-              small
-              to={"/procedure/introduction"}
-              primaryText="はじめに"
-            />
+            <AppListItem small to={"/procedure/introduction"} primaryText="はじめに" />
             <AppListItem small to={"/procedure/1"} primaryText="ステップ1" />
             <AppListItem small to={"/procedure/2"} primaryText="ステップ2" />
             <AppListItem small to={"/procedure/3"} primaryText="ステップ3" />
@@ -164,11 +150,7 @@ export const LayoutPresenter = ({
         )}
         <ListSubheader>その他</ListSubheader>
         <Divider />
-        <AppListItem
-          to={"/release"}
-          primaryText="リリース情報"
-          icon={<NewReleasesIcon />}
-        />
+        <AppListItem to={"/release"} primaryText="リリース情報" icon={<NewReleasesIcon />} />
         <AppListItem to={"/help"} primaryText="ヘルプ" icon={<HelpIcon />} />
       </List>
     </Box>
@@ -195,21 +177,13 @@ export const LayoutPresenter = ({
           >
             <MenuIcon />
           </IconButton>
-          <Typography
-            variant="h5"
-            noWrap
-            component="div"
-            sx={{ fontWeight: "bold" }}
-          >
+          <Typography variant="h5" noWrap component="div" sx={{ fontWeight: "bold" }}>
             RubikStation
           </Typography>
         </Toolbar>
       </AppBar>
 
-      <Box
-        component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-      >
+      <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}>
         <Drawer
           container={window?.document?.body}
           variant="temporary"

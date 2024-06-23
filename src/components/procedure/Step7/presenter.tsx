@@ -1,7 +1,7 @@
 import { BodyTypography as B } from "../../parts/BodyTypography/container";
 import { TitleTypography as T } from "../../parts/TitleTypography/container";
 import { SubTitleTypography as ST } from "../../parts/SubTitleTypography/container";
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Stack, Theme, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import { BorderBox } from "../BorderBox/container";
 import { StyledRubicModel } from "../StyledRubicModel/container";
@@ -10,7 +10,7 @@ import { OllModel } from "../../rubicModel/OllModel/container";
 
 const STandOllModel = ({ st, status }: { st: string; status: string }) => {
   return (
-    <Stack m={(theme) => theme.spacing(1)}>
+    <Stack m={(theme: Theme) => theme.spacing(1)}>
       <ST>{st}</ST>
       <OllModel status={status} />
     </Stack>
