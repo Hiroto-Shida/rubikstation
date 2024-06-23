@@ -23,9 +23,9 @@ export const ScramblePresenter = React.memo(({ timerState, scrambleList }: Props
     isDisplay &&
     scrambleList.length > 1 && (
       <>
-        <Box component="div" sx={(theme) => marginTopStyle(theme)} />
+        <Box component="div" sx={(theme: Theme) => marginTopStyle(theme)} />
         <ScrambleText scrambleList={scrambleList} />
-        <Box component="div" sx={(theme) => marginTopStyle(theme)} />
+        <Box component="div" sx={(theme: Theme) => marginTopStyle(theme)} />
         <ScrambleModels scrambleList={scrambleList} />
       </>
     )

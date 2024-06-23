@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Theme, Typography } from "@mui/material";
 import { ComponentProps } from "react";
 import { SubTitleTypography } from "./container";
 
@@ -9,7 +9,7 @@ export const SubTitleTypographyPresenter = ({ children, variant = "h6" }: Props)
     <>
       <Box
         component="div"
-        sx={(theme) => ({
+        sx={(theme: Theme) => ({
           padding: `${theme.spacing(1)} 0`,
         })}
       >
