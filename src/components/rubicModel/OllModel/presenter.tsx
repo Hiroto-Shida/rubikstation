@@ -3,6 +3,8 @@ import * as THREE from "three";
 import { ComponentProps } from "react";
 import { OllModel } from "./container";
 import { OllCubes } from "../OllCubes/container";
+import { useInView } from "react-intersection-observer";
+import { Box } from "@mui/material";
 
 type Props = ComponentProps<typeof OllModel>;
 
@@ -11,20 +13,27 @@ export const OllPresenter = ({
   canvasStyle = { width: "150px", height: "150px" },
   canvasCamera = { position: [0, 0, 3] },
 }: Props) => {
+  const { ref, inView } = useInView({
+    rootMargin: "0px", // ref要素が現れてから50px過ぎたら
+    triggerOnce: true, // 最初の一度だけ実行
+  });
   return (
-    <>
-      <Canvas
-        camera={{ position: canvasCamera.position, zoom: 0.7 }}
-        onCreated={({ gl }) => {
-          gl.setClearColor(new THREE.Color("#bdbdbd"));
-        }}
-        gl={{ antialias: true }}
-        style={canvasStyle}
-      >
-        <OllCubes status={status} />
+    <Box component="div" ref={ref}>
+      {inView && (
+        <Canvas
+          ref={ref}
+          camera={{ position: canvasCamera.position, zoom: 0.7 }}
+          onCreated={({ gl }) => {
+            gl.setClearColor(new THREE.Color("#bdbdbd"));
+          }}
+          gl={{ antialias: true }}
+          style={canvasStyle}
+        >
+          <OllCubes status={status} />
 
-        {/* X:red, Y:green, Z:blue. args:長さ */}
-      </Canvas>
-    </>
+          {/* X:red, Y:green, Z:blue. args:長さ */}
+        </Canvas>
+      )}
+    </Box>
   );
 };

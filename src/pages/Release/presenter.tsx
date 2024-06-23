@@ -35,6 +35,9 @@ export const ReleasePagePresenter = () => {
         <StyledListItemText tab={1}>
           17 秒以内に開始しなければいけない(罰則: DNF 記録無効)
         </StyledListItemText>
+        <StyledListItemText>
+          6面までの手順ページの各画像を遅延ローディングするように設定
+        </StyledListItemText>
       </List>
 
       <StyledVersionTitle>[2.1.1] - 2024-06-20</StyledVersionTitle>
