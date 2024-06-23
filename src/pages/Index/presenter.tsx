@@ -11,7 +11,10 @@ export const IndexPagePresenter = () => {
     <Box
       component="div"
       sx={
-        timerState.isStarted || timerState.startingState.isCanStart
+        // タイマーの状態で中央揃えにするかの設定
+        timerState.startingState.isStarted ||
+        timerState.startingState.isStartedInspection ||
+        timerState.standbyState.isCanStart
           ? {
               height: "100%",
               display: "flex",

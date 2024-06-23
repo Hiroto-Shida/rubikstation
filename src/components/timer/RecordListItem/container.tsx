@@ -3,28 +3,25 @@ import { RecordListItemPresenter } from "./presenter";
 
 type Props = {
   record: RecordType;
-  index: number;
   recordListLength: number;
-  fastestTimeIndex: number | null;
-  latestTimeIndex: number | null;
+  fastestTimeId: number | null;
+  latestTimeId: number | null;
   handleDeleteRecord: (index: number) => void;
 };
 
 export const RecordListItem = ({
   record,
-  index,
   recordListLength,
-  fastestTimeIndex,
-  latestTimeIndex,
+  fastestTimeId,
+  latestTimeId,
   handleDeleteRecord,
 }: Props) => {
   return (
     <RecordListItemPresenter
       record={record}
-      index={index}
       recordListLength={recordListLength}
-      fastestTimeIndex={fastestTimeIndex}
-      latestTimeIndex={latestTimeIndex}
+      fastestTimeId={fastestTimeId}
+      latestTimeId={latestTimeId}
       handleDeleteRecord={handleDeleteRecord}
     />
   );

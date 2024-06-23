@@ -1,4 +1,4 @@
-import { Box, Button, Dialog, List, Slide, Typography } from "@mui/material";
+import { Box, Button, Dialog, List, Slide, Theme, Typography } from "@mui/material";
 import { TimerState } from "../../../providers/TimerStateProvider";
 import React, { useState } from "react";
 import { TransitionProps } from "@mui/material/transitions";
@@ -24,6 +24,31 @@ type Props = {
 
 const aryMin = (a: number, b: number) => Math.min(a, b);
 const aryMax = (a: number, b: number) => Math.max(a, b);
+
+// 記録リスト(recordList: RecordType[])から最速タイムのIdを取得
+const findFastestTimeId = (recordList: RecordType[]) => {
+  let minTime = recordList[0].time;
+  let minTimeId = recordList[0].id;
+  recordList.forEach((record) => {
+    if (record.time < minTime) {
+      minTime = record.time;
+      minTimeId = record.id;
+    }
+  });
+  return minTimeId;
+};
+// 記録リスト(recordList: RecordType[])から最遅タイムのIdを取得
+const findLatestTimeId = (recordList: RecordType[]) => {
+  let maxTime = recordList[0].time;
+  let maxTimeId = recordList[0].id;
+  recordList.forEach((record) => {
+    if (record.time > maxTime) {
+      maxTime = record.time;
+      maxTimeId = record.id;
+    }
+  });
+  return maxTimeId;
+};
 
 // MO5, MO12の計算
 const culcMoTime = (timeList: number[]) => {
@@ -67,33 +92,33 @@ export const RecordPresenter = React.memo(
       setModalOpen(false);
     };
 
-    let fastestTimeIndex: number | null = null;
-    let latestTimeIndex: number | null = null;
+    let fastestTimeId: number | null = null;
+    let latestTimeId: number | null = null;
     let ao5: number | null = null;
     let ao12: number | null = null;
     let mo3: number | null = null;
-    let removeTimeIndexListOfAo5: number[] = [];
-    let removeTimeIndexListOfAo12: number[] = [];
-    if (recordList.length !== 0) {
-      const timeList = recordList.map((record) => record.time);
-      fastestTimeIndex = timeList.indexOf(timeList.reduce(aryMin));
-      latestTimeIndex = timeList.indexOf(timeList.reduce(aryMax));
+    const recordListWithoutDNF = recordList.filter((record) => record.penalty !== "(DNF)");
+    if (recordListWithoutDNF.length !== 0) {
+      const timeList = recordListWithoutDNF.map((record) => record.time);
+      fastestTimeId = findFastestTimeId(recordListWithoutDNF);
+      latestTimeId = findLatestTimeId(recordListWithoutDNF);
 
       if (timeList.length >= 3) {
         mo3 = culcMoTime(timeList.slice(0, 3));
       }
 
       if (timeList.length >= 5) {
-        removeTimeIndexListOfAo5 = findMinMaxTimeIndex(timeList.slice(0, 5));
-        ao5 = culcAoTime(timeList.slice(0, 5), removeTimeIndexListOfAo5);
+        ao5 = culcAoTime(timeList.slice(0, 5), findMinMaxTimeIndex(timeList.slice(0, 5)));
       }
       if (timeList.length >= 12) {
-        removeTimeIndexListOfAo12 = findMinMaxTimeIndex(timeList.slice(0, 12));
-        ao12 = culcAoTime(timeList.slice(0, 12), removeTimeIndexListOfAo12);
+        ao12 = culcAoTime(timeList.slice(0, 12), findMinMaxTimeIndex(timeList.slice(0, 12)));
       }
     }
 
-    const isDisplay: boolean = !timerState.isStarted && !timerState.startingState.isCanStart;
+    const isDisplay: boolean =
+      !timerState.startingState.isStarted &&
+      !timerState.startingState.isStartedInspection &&
+      !timerState.standbyState.isCanStart;
 
     return (
       isDisplay && (
@@ -102,7 +127,7 @@ export const RecordPresenter = React.memo(
             <Typography variant="h6">MO3: {mo3 ? convertToTimerText(mo3) : "-"}</Typography>
             <Typography
               variant="h6"
-              sx={(theme) => ({
+              sx={(theme: Theme) => ({
                 ml: theme.spacing(3),
               })}
             >
@@ -110,7 +135,7 @@ export const RecordPresenter = React.memo(
             </Typography>
             <Typography
               variant="h6"
-              sx={(theme) => ({
+              sx={(theme: Theme) => ({
                 ml: theme.spacing(3),
               })}
             >
@@ -120,7 +145,7 @@ export const RecordPresenter = React.memo(
               variant="outlined"
               onClick={handleClickOpenRecord}
               size="small"
-              sx={(theme) => ({
+              sx={(theme: Theme) => ({
                 ml: theme.spacing(3),
               })}
             >
@@ -138,7 +163,7 @@ export const RecordPresenter = React.memo(
             {recordList.length === 0 ? (
               <Box
                 component="div"
-                sx={(theme) => ({
+                sx={(theme: Theme) => ({
                   display: "flex",
                   justifyContent: "center",
                   p: `${theme.spacing(2)} ${theme.spacing(5)}`,
@@ -153,10 +178,9 @@ export const RecordPresenter = React.memo(
                 {recordList.map((record, index) => (
                   <RecordListItem
                     record={record}
-                    index={index}
                     recordListLength={recordList.length}
-                    fastestTimeIndex={fastestTimeIndex}
-                    latestTimeIndex={latestTimeIndex}
+                    fastestTimeId={fastestTimeId}
+                    latestTimeId={latestTimeId}
                     handleDeleteRecord={handleDeleteRecord}
                     key={index}
                   />
