@@ -1,4 +1,4 @@
-import { Typography, Divider, List, ListItem, ListItemText, Box } from "@mui/material";
+import { Typography, Divider, List, ListItem, ListItemText, Box, Theme } from "@mui/material";
 import { ReactNode } from "react";
 
 const StyledVersionTitle = ({ children }: { children: ReactNode }) => {
@@ -9,9 +9,9 @@ const StyledVersionTitle = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const StyledListItemText = ({ children }: { children: ReactNode }) => {
+const StyledListItemText = ({ children, tab = 0 }: { children: ReactNode; tab?: number }) => {
   return (
-    <ListItem sx={{ m: 0, p: 0 }}>
+    <ListItem sx={(theme: Theme) => ({ m: 0, p: 0, pl: theme.spacing(tab * 2) })}>
       -
       <ListItemText primary={children} />
     </ListItem>
@@ -25,6 +25,17 @@ export const ReleasePagePresenter = () => {
         リリース情報
       </Typography>
       <Divider sx={{ mb: 2 }} />
+
+      <StyledVersionTitle>[2.2.0] - 2024-06-23</StyledVersionTitle>
+      <List>
+        <StyledListItemText>インスペクション機能の追加</StyledListItemText>
+        <StyledListItemText tab={1}>
+          15 秒以内に開始しなければいけない(罰則: +2 秒ペナルティ)
+        </StyledListItemText>
+        <StyledListItemText tab={1}>
+          17 秒以内に開始しなければいけない(罰則: DNF 記録無効)
+        </StyledListItemText>
+      </List>
 
       <StyledVersionTitle>[2.1.1] - 2024-06-20</StyledVersionTitle>
       <List>

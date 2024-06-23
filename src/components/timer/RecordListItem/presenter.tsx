@@ -1,4 +1,4 @@
-import { Box, Divider, IconButton, ListItem } from "@mui/material";
+import { Box, Divider, IconButton, ListItem, Theme } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { VCenterTypography } from "../../parts/VCenterTypography/container";
 import { convertToTimerText } from "../convertToTimerText";
@@ -9,45 +9,43 @@ type Props = ComponentProps<typeof RecordListItem>;
 
 export const RecordListItemPresenter = ({
   record,
-  index,
   recordListLength,
-  fastestTimeIndex,
-  latestTimeIndex,
+  fastestTimeId,
+  latestTimeId,
   handleDeleteRecord,
 }: Props) => {
   return (
     <>
-      {index === 0 && (
+      {record.id === 0 && (
         <Box
           component="div"
-          sx={(theme) => ({
+          sx={(theme: Theme) => ({
             p: `${theme.spacing(0)} ${theme.spacing(2)}`,
           })}
         >
           previous time
         </Box>
       )}
-      {index === 1 && <Divider component="li" />}
+      {record.id === 1 && <Divider component="li" />}
       <ListItem
         secondaryAction={
           <IconButton
             edge="end"
             aria-label="delete"
-            onClick={() => handleDeleteRecord(index)}
+            onClick={() => handleDeleteRecord(record.id)}
             sx={{ "&:hover": { color: "themeBase.red" } }}
           >
             <DeleteIcon />
           </IconButton>
         }
-        key={index}
       >
         <Box component="div" sx={{ display: "flex" }}>
           <VCenterTypography
             variant="h6"
             color={
-              index === fastestTimeIndex
+              record.id === fastestTimeId
                 ? "themeBase.blue"
-                : index === latestTimeIndex
+                : record.id === latestTimeId
                 ? "themeBase.red"
                 : "themeText.primary"
             }
@@ -56,20 +54,23 @@ export const RecordListItemPresenter = ({
               textAlign: "right",
             }}
           >
-            {recordListLength - index}
+            {recordListLength - record.id}
           </VCenterTypography>
           <VCenterTypography
             variant="h5"
-            sx={(theme) => ({
+            sx={(theme: Theme) => ({
               ml: theme.spacing(1),
-              fontWeight: index === fastestTimeIndex ? "bold" : "normal",
+              fontWeight: record.id === fastestTimeId ? "bold" : "normal",
               minWidth: "100px",
               textAlign: "right",
+              textDecoration: record.penalty === "(DNF)" ? "line-through" : "none",
             })}
             color={
-              index === fastestTimeIndex
+              record.penalty === "(DNF)"
+                ? "themeText.secondary"
+                : record.id === fastestTimeId
                 ? "themeBase.blue"
-                : index === latestTimeIndex
+                : record.id === latestTimeId
                 ? "themeBase.red"
                 : "themeText.primary"
             }
@@ -78,11 +79,27 @@ export const RecordListItemPresenter = ({
           </VCenterTypography>
           <VCenterTypography
             variant="h6"
-            sx={(theme) => ({ ml: theme.spacing(3) })}
+            sx={(theme: Theme) => ({
+              ml: theme.spacing(1),
+              fontWeight: record.id === fastestTimeId ? "bold" : "normal",
+            })}
             color={
-              index === fastestTimeIndex
+              record.id === fastestTimeId
                 ? "themeBase.blue"
-                : index === latestTimeIndex
+                : record.id === latestTimeId
+                ? "themeBase.red"
+                : "themeText.primary"
+            }
+          >
+            {record.penalty ?? ""}
+          </VCenterTypography>
+          <VCenterTypography
+            variant="h6"
+            sx={(theme: Theme) => ({ ml: theme.spacing(3) })}
+            color={
+              record.id === fastestTimeId
+                ? "themeBase.blue"
+                : record.id === latestTimeId
                 ? "themeBase.red"
                 : "themeText.primary"
             }
