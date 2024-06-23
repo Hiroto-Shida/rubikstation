@@ -137,11 +137,13 @@ export const TimerStateProvider = ({ children }: Props) => {
       document.removeEventListener("keyup", handleKeyUp);
     };
   }, [
+    inspection,
     isCanStartByKeyUpSpace,
     isKeyDownSpaceStart,
     isKeyUpSpaceHeldAndReleased,
     modalOpen,
     timerState.startingState.isStarted,
+    timerState.startingState.isStartedInspection,
   ]);
 
   return <TimerStateContext.Provider value={timerState}>{children}</TimerStateContext.Provider>;

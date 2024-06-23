@@ -31,6 +31,9 @@ export const InspectionSwitch = () => {
     timeRef.current = setTimeout(() => {
       setActiveClass("fade");
     }, 50);
+    timeRef.current = setTimeout(() => {
+      setActiveClass("");
+    }, 1000);
   };
 
   return (

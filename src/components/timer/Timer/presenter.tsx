@@ -3,11 +3,15 @@ import { TimerState } from "../../../providers/TimerStateProvider";
 import { styled } from "@mui/material/styles";
 import { convertToTimerText } from "../convertToTimerText";
 import { InspectionSwitch } from "../InspectionSwitch/container";
+import { InspectionState } from "./container";
+import TimerOutlinedIcon from "@mui/icons-material/TimerOutlined";
+import React from "react";
 type Props = {
   time: number;
   timerState: TimerState;
   isNewRecord: boolean;
-  isInspectionStyle: boolean;
+  inspection: boolean;
+  inspectionState: InspectionState;
 };
 
 const StyledTypography = styled(Typography)({
@@ -26,45 +30,65 @@ const StyledTypography = styled(Typography)({
   },
 });
 
-export const TimerPresenter = ({ time, timerState, isNewRecord, isInspectionStyle }: Props) => {
-  return (
-    <>
-      {isNewRecord &&
-        !timerState.startingState.isStarted &&
-        !timerState.startingState.isStartedInspection &&
-        !timerState.standbyState.isCanStart && (
-          <StyledTypography variant="h6">New Record !!!</StyledTypography>
-        )}
-      <Box component="div" sx={{ display: "flex", justifyContent: "center" }}>
-        <Box component="div" sx={{ position: "relative" }}>
-          <Typography
-            variant={
-              timerState.startingState.isStarted ||
-              timerState.startingState.isStartedInspection ||
-              timerState.standbyState.isCanStart
-                ? "h1"
-                : "h2"
-            }
-            color={
-              timerState.standbyState.isKeyDownSpace
-                ? timerState.standbyState.isCanStart
-                  ? "themeBase.green"
-                  : "themeBase.red"
-                : "text.primary"
-            }
-          >
-            {(isInspectionStyle &&
-              !timerState.startingState.isStartedInspection &&
-              timerState.standbyState.isCanStart) ||
-            (isInspectionStyle &&
-              timerState.startingState.isStartedInspection &&
-              !timerState.standbyState.isCanStart)
-              ? time / 1000
-              : convertToTimerText(time)}
-          </Typography>
-          <InspectionSwitch />
+export const TimerPresenter = React.memo(
+  ({ time, timerState, isNewRecord, inspection, inspectionState }: Props) => {
+    const isDisplayInspectionTimer =
+      inspection &&
+      timerState.startingState.isStartedInspection &&
+      !timerState.startingState.isStarted;
+    const isDisplayInspectionIcon =
+      inspection &&
+      (timerState.startingState.isStartedInspection ||
+        timerState.startingState.isStarted ||
+        timerState.standbyState.isCanStart);
+    return (
+      <>
+        {isNewRecord &&
+          !timerState.startingState.isStarted &&
+          !timerState.startingState.isStartedInspection &&
+          !timerState.standbyState.isCanStart && (
+            <StyledTypography variant="h6">New Record !!!</StyledTypography>
+          )}
+        <Box component="div" sx={{ display: "flex", justifyContent: "center" }}>
+          <Box component="div" sx={{ position: "relative" }}>
+            <Typography
+              variant={
+                timerState.startingState.isStarted ||
+                timerState.startingState.isStartedInspection ||
+                timerState.standbyState.isCanStart
+                  ? "h1"
+                  : "h2"
+              }
+              color={
+                timerState.standbyState.isKeyDownSpace
+                  ? timerState.standbyState.isCanStart
+                    ? "themeBase.green"
+                    : "themeBase.red"
+                  : "text.primary"
+              }
+            >
+              {isDisplayInspectionTimer
+                ? inspectionState === "normal"
+                  ? time / 1000
+                  : inspectionState === "penalty"
+                  ? "+2.0"
+                  : "DNF"
+                : convertToTimerText(time)}
+            </Typography>
+            <InspectionSwitch />
+            {isDisplayInspectionIcon && (
+              <TimerOutlinedIcon
+                sx={{
+                  position: "absolute",
+                  top: 0,
+                  transform: "translate(250%, -50%)",
+                  fontSize: "50px",
+                }}
+              />
+            )}
+          </Box>
         </Box>
-      </Box>
-    </>
-  );
-};
+      </>
+    );
+  }
+);

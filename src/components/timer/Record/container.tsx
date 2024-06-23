@@ -4,24 +4,32 @@ import { RecordPresenter } from "./presenter";
 import Cookies from "js-cookie";
 
 export type RecordType = {
+  id: number;
   scramble: string;
   time: number;
+  penalty: string | undefined;
 };
 
 export const Record = () => {
   const timerState = useContext(TimerStateContext);
   const [recordList, setRecordList] = useState<RecordType[]>([]);
 
-  const handleDeleteRecord = (index: number) => {
+  const handleDeleteRecord = (id: number) => {
     setRecordList((prevRecordList) => {
       Cookies.set(
         "time_record",
         prevRecordList
-          .filter((_, i) => i !== index)
-          .map((record) => `scramble:${record.scramble}-time:${record.time}`)
+          .filter((record) => record.id !== id)
+          .map((record) => `scramble:${record.scramble}-time:${record.time}${record.penalty ?? ""}`)
           .join()
       );
-      return prevRecordList.filter((_, i) => i !== index);
+      // 再セットsetする時に、idを振り直し
+      return prevRecordList
+        .filter((record) => record.id !== id)
+        .map((record, index) => {
+          record.id = index;
+          return record;
+        });
     });
   };
 
@@ -29,12 +37,14 @@ export const Record = () => {
     const cookie_time_record = Cookies.get("time_record");
     if (cookie_time_record) {
       const tmpRecordList: RecordType[] = [];
-      cookie_time_record.split(",").forEach((txt) => {
-        const matchTime = txt.match(/^scramble:(.*)-time:([0-9]+)$/);
+      cookie_time_record.split(",").forEach((txt, index) => {
+        const matchTime = txt.match(/^scramble:(.*)-time:([0-9]+)(\(.+\))*$/);
         if (matchTime && matchTime[1] && matchTime[2]) {
           tmpRecordList.push({
+            id: index,
             scramble: matchTime[1],
             time: Number(matchTime[2]),
+            penalty: matchTime[3],
           });
         }
       });
