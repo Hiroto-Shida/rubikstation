@@ -1,9 +1,9 @@
 import { Box, Divider, IconButton, ListItem, Theme } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { VCenterTypography } from "../../parts/VCenterTypography/container";
-import { convertToTimerText } from "../convertToTimerText";
 import { ComponentProps } from "react";
 import { RecordListItem } from "./container";
+import { convertToTimerText } from "../../timer/convertToTimerText";
 
 type Props = ComponentProps<typeof RecordListItem>;
 
@@ -27,19 +27,9 @@ export const RecordListItemPresenter = ({
         </Box>
       )}
       {record.id === 1 && <Divider component="li" />}
-      <ListItem
-        secondaryAction={
-          <IconButton
-            edge="end"
-            aria-label="delete"
-            onClick={() => handleDeleteRecord(record.id)}
-            sx={{ "&:hover": { color: "themeBase.red" } }}
-          >
-            <DeleteIcon />
-          </IconButton>
-        }
-      >
-        <Box component="div" sx={{ display: "flex" }}>
+      <ListItem sx={{ p: 0 }}>
+        <Box component="div" sx={{ display: "flex", width: "100%" }}>
+          {/* インデックス */}
           <VCenterTypography
             variant="h6"
             color={
@@ -56,6 +46,8 @@ export const RecordListItemPresenter = ({
           >
             {recordListLength - record.id}
           </VCenterTypography>
+
+          {/* タイム */}
           <VCenterTypography
             variant="h5"
             sx={(theme: Theme) => ({
@@ -77,9 +69,12 @@ export const RecordListItemPresenter = ({
           >
             {convertToTimerText(record.time)}
           </VCenterTypography>
+
+          {/* ペナルティ */}
           <VCenterTypography
             variant="h6"
             sx={(theme: Theme) => ({
+              minWidth: "60px",
               ml: theme.spacing(1),
               fontWeight: record.id === fastestTimeId ? "bold" : "normal",
             })}
@@ -93,9 +88,11 @@ export const RecordListItemPresenter = ({
           >
             {record.penalty ?? ""}
           </VCenterTypography>
+
+          {/* スクランブル */}
           <VCenterTypography
             variant="h6"
-            sx={(theme: Theme) => ({ ml: theme.spacing(3) })}
+            sx={(theme: Theme) => ({ ml: theme.spacing(1), flexGrow: 1 })}
             color={
               record.id === fastestTimeId
                 ? "themeBase.blue"
@@ -106,6 +103,16 @@ export const RecordListItemPresenter = ({
           >
             {record.scramble}
           </VCenterTypography>
+
+          {/* 削除ボタン */}
+          <IconButton
+            // edge="end"
+            aria-label="delete"
+            onClick={() => handleDeleteRecord(record.id)}
+            sx={{ "&:hover": { color: "themeBase.red" } }}
+          >
+            <DeleteIcon />
+          </IconButton>
         </Box>
       </ListItem>
     </>

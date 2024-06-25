@@ -1,11 +1,12 @@
-import { Box, Button, Dialog, List, Slide, Theme, Typography } from "@mui/material";
+import { Box, Button, Dialog, Divider, List, Slide, Stack, Theme, Typography } from "@mui/material";
 import { TimerState } from "../../../providers/TimerStateProvider";
 import React, { useState } from "react";
 import { TransitionProps } from "@mui/material/transitions";
 import { RecordType } from "./container";
-import { convertToTimerText } from "../convertToTimerText";
 import { RecordListItem } from "../RecordListItem/container";
 import { useModalOpenStore } from "../../../stores/modalOpenStore";
+import { convertToTimerText } from "../../timer/convertToTimerText";
+import { Chart } from "../Chart/container";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -174,18 +175,22 @@ export const RecordPresenter = React.memo(
                 </Typography>
               </Box>
             ) : (
-              <List>
-                {recordList.map((record, index) => (
-                  <RecordListItem
-                    record={record}
-                    recordListLength={recordList.length}
-                    fastestTimeId={fastestTimeId}
-                    latestTimeId={latestTimeId}
-                    handleDeleteRecord={handleDeleteRecord}
-                    key={index}
-                  />
-                ))}
-              </List>
+              <>
+                <Chart recordList={recordList} />
+                <Divider />
+                <List>
+                  {recordList.map((record, index) => (
+                    <RecordListItem
+                      record={record}
+                      recordListLength={recordList.length}
+                      fastestTimeId={fastestTimeId}
+                      latestTimeId={latestTimeId}
+                      handleDeleteRecord={handleDeleteRecord}
+                      key={index}
+                    />
+                  ))}
+                </List>
+              </>
             )}
           </Dialog>
         </>
