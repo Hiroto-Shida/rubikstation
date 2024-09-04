@@ -1,4 +1,13 @@
-import { Box, Button, Dialog, Divider, List, Slide, Stack, Theme, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Dialog,
+  Divider,
+  List,
+  Slide,
+  Theme,
+  Typography,
+} from "@mui/material";
 import { TimerState } from "../../../providers/TimerStateProvider";
 import React, { useState } from "react";
 import { TransitionProps } from "@mui/material/transitions";
@@ -98,7 +107,9 @@ export const RecordPresenter = React.memo(
     let ao5: number | null = null;
     let ao12: number | null = null;
     let mo3: number | null = null;
-    const recordListWithoutDNF = recordList.filter((record) => record.penalty !== "(DNF)");
+    const recordListWithoutDNF = recordList.filter(
+      (record) => record.penalty !== "(DNF)"
+    );
     if (recordListWithoutDNF.length !== 0) {
       const timeList = recordListWithoutDNF.map((record) => record.time);
       fastestTimeId = findFastestTimeId(recordListWithoutDNF);
@@ -109,10 +120,16 @@ export const RecordPresenter = React.memo(
       }
 
       if (timeList.length >= 5) {
-        ao5 = culcAoTime(timeList.slice(0, 5), findMinMaxTimeIndex(timeList.slice(0, 5)));
+        ao5 = culcAoTime(
+          timeList.slice(0, 5),
+          findMinMaxTimeIndex(timeList.slice(0, 5))
+        );
       }
       if (timeList.length >= 12) {
-        ao12 = culcAoTime(timeList.slice(0, 12), findMinMaxTimeIndex(timeList.slice(0, 12)));
+        ao12 = culcAoTime(
+          timeList.slice(0, 12),
+          findMinMaxTimeIndex(timeList.slice(0, 12))
+        );
       }
     }
 
@@ -124,8 +141,13 @@ export const RecordPresenter = React.memo(
     return (
       isDisplay && (
         <>
-          <Box component="div" sx={{ display: "flex", justifyContent: "center" }}>
-            <Typography variant="h6">MO3: {mo3 ? convertToTimerText(mo3) : "-"}</Typography>
+          <Box
+            component="div"
+            sx={{ display: "flex", justifyContent: "center" }}
+          >
+            <Typography variant="h6">
+              MO3: {mo3 ? convertToTimerText(mo3) : "-"}
+            </Typography>
             <Typography
               variant="h6"
               sx={(theme: Theme) => ({
@@ -158,7 +180,7 @@ export const RecordPresenter = React.memo(
             TransitionComponent={Transition}
             keepMounted
             onClose={handleCloseRecord}
-            aria-describedby="alert-dialog-slide-description"
+            aria-describedby="record-dialog"
             sx={{ zIndex: 16777272 }} // react-three/dreiのHtmlのzIndexRange={[16777271, 0]}の上に配置するため
           >
             {recordList.length === 0 ? (
