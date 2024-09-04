@@ -3,7 +3,7 @@ import { Scramble } from "../../components/scramble/Scramble/container";
 import { Timer } from "../../components/timer/Timer/container";
 import { useContext } from "react";
 import { TimerStateContext } from "../../providers/TimerStateProvider";
-import { Record } from "../../components/timer/Record/container";
+import { Record } from "../../components/record/Record/container";
 
 export const IndexPagePresenter = () => {
   const timerState = useContext(TimerStateContext);
