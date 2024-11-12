@@ -19,6 +19,13 @@ export const IndexPage = () => {
         Cookies.set("time_record", no_null_record_list.join());
       }
     }
+    const preventContextMenu = (e: Event) => {
+      e.preventDefault();
+    };
+    document.addEventListener("contextmenu", preventContextMenu);
+    return () => {
+      document.removeEventListener("contextmenu", preventContextMenu);
+    };
   }, []);
 
   return (

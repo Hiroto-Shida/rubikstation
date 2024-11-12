@@ -170,6 +170,7 @@ export const RecordPresenter = React.memo(
               size="small"
               sx={(theme: Theme) => ({
                 ml: theme.spacing(3),
+                zIndex: 16777273,
               })}
             >
               記録
@@ -181,7 +182,10 @@ export const RecordPresenter = React.memo(
             keepMounted
             onClose={handleCloseRecord}
             aria-describedby="record-dialog"
-            sx={{ zIndex: 16777272 }} // react-three/dreiのHtmlのzIndexRange={[16777271, 0]}の上に配置するため
+            sx={{
+              // react-three/dreiのHtmlのzIndexRange={[16777271, 0]}の上に配置するため
+              zIndex: 16777274,
+            }}
           >
             {recordList.length === 0 ? (
               <Box
