@@ -31,13 +31,21 @@ export const Step4Presenter = () => {
 
       <T>上面十字のパターン</T>
       <B>上面の黄色の並び方のパターンは大きく分けて以下の4つに分かれます</B>
-      <Box component="div" display="flex">
+      <Box
+        component="div"
+        display="flex"
+        style={{
+          flexWrap: "wrap",
+        }}
+      >
         <STandOllModel st="ドット型" status="DOT" />
         <STandOllModel st="ライン型" status="LINE" />
         <STandOllModel st="L字型" status="L" />
         <STandOllModel st="十字型" status="TOP_CROSS" />
       </Box>
-      <B>ここでのパターンとは「少なくともそのパターンは揃ってる」状態のことを指します</B>
+      <B>
+        ここでのパターンとは「少なくともそのパターンは揃ってる」状態のことを指します
+      </B>
       <B>なので例えば以下のような場合もそれぞれのパターンに当てはまります</B>
       <Box component="div" display="flex">
         <STandOllModel st="ドット型" status="DOT_EX" />
@@ -46,7 +54,11 @@ export const Step4Presenter = () => {
 
       <B>
         また、すでに[十字型]になっている人はこのステップはスキップして
-        <Typography component={Link} to="/procedure/5" sx={{ fontWeight: "bold" }}>
+        <Typography
+          component={Link}
+          to="/procedure/5"
+          sx={{ fontWeight: "bold" }}
+        >
           ステップ5
         </Typography>
         に進みましょう！
@@ -82,7 +94,9 @@ export const Step4Presenter = () => {
       <BorderBox>
         <ST>L字型の場合</ST>
         <OllModel status="L" />
-        <B>黄色面を上にし、かつL字が9時(🕘)の形にして持ってから、回しましょう</B>
+        <B>
+          黄色面を上にし、かつL字が9時(🕘)の形にして持ってから、回しましょう
+        </B>
         <StyledScrambleModels
           status="TOP_L"
           supportTextList={["右回りの,逆セクシー"]}
@@ -93,7 +107,11 @@ export const Step4Presenter = () => {
 
       <B>
         無事上面十字が揃えられたら、次の
-        <Typography component={Link} to="/procedure/5" sx={{ fontWeight: "bold" }}>
+        <Typography
+          component={Link}
+          to="/procedure/5"
+          sx={{ fontWeight: "bold" }}
+        >
           ステップ5
         </Typography>
         に進みましょう！

@@ -23,6 +23,9 @@ export const IndexPage = () => {
       e.preventDefault();
     };
     document.addEventListener("contextmenu", preventContextMenu);
+
+    window.scrollTo(0, 0);
+
     return () => {
       document.removeEventListener("contextmenu", preventContextMenu);
     };

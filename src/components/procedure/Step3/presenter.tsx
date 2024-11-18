@@ -120,7 +120,13 @@ export const Step3Presenter = () => {
       <B>
         右の例は他の箇所に入れたい緑赤のエッジキューブが入ってしまっています
       </B>
-      <Box component="div" display="flex">
+      <Box
+        component="div"
+        display="flex"
+        sx={{
+          flexWrap: "wrap",
+        }}
+      >
         <StyledScrambleModels
           status="F2L_NG1"
           scrambleList={[""]}

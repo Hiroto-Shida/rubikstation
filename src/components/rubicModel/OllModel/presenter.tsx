@@ -10,11 +10,11 @@ type Props = ComponentProps<typeof OllModel>;
 
 export const OllPresenter = ({
   status,
-  canvasStyle = { width: "150px", height: "150px" },
+  canvasStyle = { width: "100px", height: "100px" },
   canvasCamera = { position: [0, 0, 3] },
 }: Props) => {
   const { ref, inView } = useInView({
-    rootMargin: "0px", // ref要素が現れてから50px過ぎたら
+    rootMargin: "600px", // ref要素が現れてから N px過ぎたら
     triggerOnce: true, // 最初の一度だけ実行
   });
   return (

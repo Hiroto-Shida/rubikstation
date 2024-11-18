@@ -34,16 +34,20 @@ export const Step6Presenter = () => {
 
       <Box component="div" display="flex">
         <STandOllModel st="ペアなし" status="PLL_CORNER_0_PAIRS" />
-        <STandOllModel st="1ペア揃ってる" status="PLL_CORNER_1_PAIRS" />
-        <STandOllModel st="4ペア揃ってる" status="PLL_CORNER" />
+        <STandOllModel st="1ペア" status="PLL_CORNER_1_PAIRS" />
+        <STandOllModel st="4ペア" status="PLL_CORNER" />
       </Box>
       <B>
-        例えば真ん中の「1ペア揃ってる」パターンは左のオレンジだけが揃っています。各真ん中の色は関係ありません。
+        例えば真ん中の「1ペア」パターンは左のオレンジだけが揃っています。各真ん中の色は関係ありません。
       </B>
 
       <B>
-        すでに「4ペア揃ってる」パターンの人はこのステップはスキップして
-        <Typography component={Link} to="/procedure/7" sx={{ fontWeight: "bold" }}>
+        すでに「4ペア」パターンの人はこのステップはスキップして
+        <Typography
+          component={Link}
+          to="/procedure/7"
+          sx={{ fontWeight: "bold" }}
+        >
           ステップ7
         </Typography>
         に進みましょう！
@@ -54,10 +58,16 @@ export const Step6Presenter = () => {
         <ST>ペアなしのパターン</ST>
         <OllModel status="PLL_CORNER_0_PAIRS" />
 
-        <B>黄色面を上にして持ち、以下の手順を回しましょう（向きはどこでも大丈夫です）</B>
+        <B>
+          黄色面を上にして持ち、以下の手順を回しましょう（向きはどこでも大丈夫です）
+        </B>
         <StyledScrambleModels
           status="PLL_CORNER_0_PAIRS"
-          supportTextList={["右回りの,逆セクシー", "スーン1回目,(3手目まで)", "スーン,2回目"]}
+          supportTextList={[
+            "右回りの,逆セクシー",
+            "スーン1回目,(3手目まで)",
+            "スーン,2回目",
+          ]}
           scrambleList={[
             "",
             "L'",
@@ -89,18 +99,24 @@ export const Step6Presenter = () => {
           isKeepRotate={true}
         />
         <B>
-          ペアなしの状態から上記手順を回すと、「1ペア揃ってる」パターンになるはずです（上記例だとオレンジが揃ってますね）
+          ペアなしの状態から上記手順を回すと、「1ペア」パターンになるはずです（上記例だとオレンジが揃ってますね）
         </B>
       </BorderBox>
 
       <BorderBox>
-        <ST>「1ペア揃ってる」パターン</ST>
+        <ST>「1ペア」パターン</ST>
         <OllModel status="PLL_CORNER_1_PAIRS" />
 
-        <B>黄色面を上にし、揃っているペアの面を左にして持ち、以下の手順を回しましょう</B>
+        <B>
+          黄色面を上にし、揃っているペアの面を左にして持ち、以下の手順を回しましょう
+        </B>
         <StyledScrambleModels
           status="PLL_CORNER_1_PAIRS"
-          supportTextList={["右回りの,逆セクシー", "スーン1回目,(3手目まで)", "スーン,2回目"]}
+          supportTextList={[
+            "右回りの,逆セクシー",
+            "スーン1回目,(3手目まで)",
+            "スーン,2回目",
+          ]}
           scrambleList={[
             "",
             "L'",
@@ -134,8 +150,12 @@ export const Step6Presenter = () => {
       </BorderBox>
 
       <B>
-        無事「4ペア揃ってる」パターンになったら、最後の
-        <Typography component={Link} to="/procedure/7" sx={{ fontWeight: "bold" }}>
+        無事「4ペア」パターンになったら、最後の
+        <Typography
+          component={Link}
+          to="/procedure/7"
+          sx={{ fontWeight: "bold" }}
+        >
           ステップ7
         </Typography>
         に進みましょう！
