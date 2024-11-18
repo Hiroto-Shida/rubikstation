@@ -23,6 +23,7 @@ const theme = createTheme({
       green: "#9EDD00",
       white: "#FFFFFF",
       black: "#000000",
+      bgGray: "#f5f5f5",
     },
     themeRubik: {
       green: "#188a28",

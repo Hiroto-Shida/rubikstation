@@ -1,0 +1,21 @@
+.timeAndPenalty {
+  min-width: 100px;
+  text-align: right;
+  margin-right: 10px;
+
+  &.Fastest {
+    font-weight: bold;
+  }
+
+  &.Penalty {
+    text-decoration: line-through;
+  }
+
+  > p {
+    margin: 0;
+  }
+
+  > .penalty {
+    font-size: 15px;
+  }
+}

@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import { TimerState } from "../../../providers/TimerStateProvider";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { TransitionProps } from "@mui/material/transitions";
 import { RecordType } from "./container";
 import { RecordListItem } from "../RecordListItem/container";
@@ -138,6 +138,8 @@ export const RecordPresenter = React.memo(
       !timerState.startingState.isStartedInspection &&
       !timerState.standbyState.isCanStart;
 
+    const dialogRef = useRef<HTMLDivElement | null>(null);
+
     return (
       isDisplay && (
         <>
@@ -186,6 +188,7 @@ export const RecordPresenter = React.memo(
               // react-three/dreiのHtmlのzIndexRange={[16777271, 0]}の上に配置するため
               zIndex: 16777274,
             }}
+            ref={dialogRef}
           >
             {recordList.length === 0 ? (
               <Box
@@ -212,6 +215,7 @@ export const RecordPresenter = React.memo(
                       fastestTimeId={fastestTimeId}
                       latestTimeId={latestTimeId}
                       handleDeleteRecord={handleDeleteRecord}
+                      dialogRef={dialogRef}
                       key={index}
                     />
                   ))}

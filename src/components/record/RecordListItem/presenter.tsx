@@ -4,6 +4,8 @@ import { VCenterTypography } from "../../parts/VCenterTypography/container";
 import { ComponentProps } from "react";
 import { RecordListItem } from "./container";
 import { convertToTimerText } from "../../timer/convertToTimerText";
+import styles from "./index.module.scss";
+import clsx from "clsx";
 
 type Props = ComponentProps<typeof RecordListItem>;
 
@@ -12,8 +14,12 @@ export const RecordListItemPresenter = ({
   recordListLength,
   fastestTimeId,
   latestTimeId,
+  dialogRef,
   handleDeleteRecord,
 }: Props) => {
+  console.log("RecordListItemPresenter");
+  console.log(dialogRef.current ? dialogRef.current.clientWidth : "- null -");
+
   return (
     <>
       {record.id === 0 && (
@@ -27,7 +33,13 @@ export const RecordListItemPresenter = ({
         </Box>
       )}
       {record.id === 1 && <Divider component="li" />}
-      <ListItem sx={{ p: 0 }}>
+      <ListItem
+        sx={{
+          p: 0,
+          backgroundColor:
+            record.id % 2 === 0 ? "themeBase.bgGray" : "themeBase.white",
+        }}
+      >
         <Box component="div" sx={{ display: "flex", width: "100%" }}>
           {/* インデックス */}
           <VCenterTypography
@@ -47,15 +59,12 @@ export const RecordListItemPresenter = ({
             {recordListLength - record.id}
           </VCenterTypography>
 
-          {/* タイム */}
+          {/* タイム & ペナルティ */}
           <VCenterTypography
             variant="h5"
-            sx={(theme: Theme) => ({
-              ml: theme.spacing(1),
-              fontWeight: record.id === fastestTimeId ? "bold" : "normal",
-              minWidth: "100px",
-              textAlign: "right",
-              textDecoration: record.penalty === "(DNF)" ? "line-through" : "none",
+            className={clsx(styles.timeAndPenalty, {
+              [styles.Fastest]: record.id === fastestTimeId,
+              [styles.Penalty]: record.penalty === "(DNF)",
             })}
             color={
               record.penalty === "(DNF)"
@@ -67,26 +76,8 @@ export const RecordListItemPresenter = ({
                 : "themeText.primary"
             }
           >
-            {convertToTimerText(record.time)}
-          </VCenterTypography>
-
-          {/* ペナルティ */}
-          <VCenterTypography
-            variant="h6"
-            sx={(theme: Theme) => ({
-              minWidth: "60px",
-              ml: theme.spacing(1),
-              fontWeight: record.id === fastestTimeId ? "bold" : "normal",
-            })}
-            color={
-              record.id === fastestTimeId
-                ? "themeBase.blue"
-                : record.id === latestTimeId
-                ? "themeBase.red"
-                : "themeText.primary"
-            }
-          >
-            {record.penalty ?? ""}
+            <p>{convertToTimerText(record.time)}</p>
+            <p className={styles.penalty}>{record.penalty ?? ""}</p>
           </VCenterTypography>
 
           {/* スクランブル */}

@@ -7,6 +7,7 @@ type Props = {
   fastestTimeId: number | null;
   latestTimeId: number | null;
   handleDeleteRecord: (index: number) => void;
+  dialogRef: React.MutableRefObject<HTMLDivElement | null>;
 };
 
 export const RecordListItem = ({
@@ -14,6 +15,7 @@ export const RecordListItem = ({
   recordListLength,
   fastestTimeId,
   latestTimeId,
+  dialogRef,
   handleDeleteRecord,
 }: Props) => {
   return (
@@ -22,6 +24,7 @@ export const RecordListItem = ({
       recordListLength={recordListLength}
       fastestTimeId={fastestTimeId}
       latestTimeId={latestTimeId}
+      dialogRef={dialogRef}
       handleDeleteRecord={handleDeleteRecord}
     />
   );
