@@ -6,6 +6,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import HelpIcon from "@mui/icons-material/Help";
+import styles from "./index.module.scss";
 
 import {
   AppBar,
@@ -26,6 +27,7 @@ import {
 import { ComponentProps, ReactElement, useState } from "react";
 import { Link } from "react-router-dom";
 import { Layout } from "./container";
+import clsx from "clsx";
 
 type Props = ComponentProps<typeof Layout> & {
   procedureOpen: boolean;
@@ -176,7 +178,13 @@ export const LayoutPresenter = ({
   );
 
   return (
-    <Box component="div" style={{ display: "flex" }}>
+    <Box
+      component="div"
+      style={{ display: "flex" }}
+      className={clsx({
+        [styles.noSelect]: pathname === "/",
+      })}
+    >
       <CssBaseline />
       <AppBar
         position="fixed"
@@ -250,7 +258,7 @@ export const LayoutPresenter = ({
         component="main"
         sx={{
           flexGrow: 1,
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          width: { xs: "100%", sm: `calc(100% - ${drawerWidth}px)` },
           position: "relative",
         }}
       >

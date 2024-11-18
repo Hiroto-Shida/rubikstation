@@ -1,8 +1,14 @@
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { Cubes } from "../../rubicModel/Cubes/container";
-import React, { ComponentProps, useCallback, useRef } from "react";
-import { useResize } from "../../../hooks/useResize";
+import React, {
+  ComponentProps,
+  MutableRefObject,
+  useCallback,
+  useEffect,
+  useRef,
+} from "react";
+import { CanvasInfo, useResize } from "../../../hooks/useResize";
 import { ScrambleModels } from "./container";
 
 type Props = ComponentProps<typeof ScrambleModels>;
@@ -37,10 +43,7 @@ export const ScrambleModelsPresenter = ({
   });
 
   const canvasDivRef = useRef<HTMLDivElement>(null);
-  const canvasWindowSize = useResize(
-    canvasDivRef,
-    noBracketScrambleList.length
-  );
+  const { canvasInfo } = useResize(canvasDivRef, noBracketScrambleList.length);
   const lookfromRightRef = useRef<boolean>(lookfromRight ?? true);
 
   const changeLookFrom = useCallback(
@@ -52,12 +55,26 @@ export const ScrambleModelsPresenter = ({
     []
   );
 
+  // リサイズ時のzoom調整
+  const CameraController = ({
+    canvasInfo,
+  }: {
+    canvasInfo: MutableRefObject<CanvasInfo>;
+  }) => {
+    const zoom = canvasInfo.current.zoom ?? 20;
+    const { camera } = useThree();
+    useEffect(() => {
+      camera.zoom = zoom;
+      camera.updateProjectionMatrix();
+    }, [zoom, camera]);
+    return null;
+  };
+
   return (
     <div ref={canvasDivRef} style={{ width: "100%" }}>
       <Canvas
         orthographic
         camera={{
-          zoom: 20,
           position: [0, 0, 10],
         }}
         onCreated={({ gl }) => {
@@ -65,6 +82,7 @@ export const ScrambleModelsPresenter = ({
         }}
         gl={{ antialias: true }}
       >
+        <CameraController canvasInfo={canvasInfo} />
         {isKeepRotate
           ? noBracketScrambleList.map((_, index) => {
               changeLookFrom(index, lookChangeIndexList);
@@ -73,7 +91,7 @@ export const ScrambleModelsPresenter = ({
                   <Cubes
                     status={status}
                     moveCharList={noBracketScrambleList.slice(0, index + 1)}
-                    canvasWindowSize={canvasWindowSize}
+                    canvasInfo={canvasInfo}
                     cubesNum={noBracketScrambleList.length}
                     index={index}
                     supportTextList={supportTextList}
@@ -89,7 +107,7 @@ export const ScrambleModelsPresenter = ({
                 <React.Fragment key={index}>
                   <Cubes
                     moveCharList={[moveChar]}
-                    canvasWindowSize={canvasWindowSize}
+                    canvasInfo={canvasInfo}
                     cubesNum={noBracketScrambleList.length}
                     index={index}
                     supportTextList={supportTextList}

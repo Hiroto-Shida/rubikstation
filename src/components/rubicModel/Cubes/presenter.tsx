@@ -1,10 +1,17 @@
 import * as THREE from "three";
 import { BLACK, surfaceColorList } from "../surfaceColors";
-import { MutableRefObject, useEffect, useMemo, useRef } from "react";
+import { MutableRefObject, useEffect, useMemo, useRef, useState } from "react";
 import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
 import { Html } from "@react-three/drei";
 import { useTheme } from "@mui/material";
 import { Arrow } from "../Arrow/container";
+import {
+  CanvasInfo,
+  cubeNeedCanvasWidthZoom20,
+} from "../../../hooks/useResize";
+import styles from "./index.module.scss";
+import clsx from "clsx";
+import { useFrame } from "@react-three/fiber";
 
 const Cube = ({
   position,
@@ -49,7 +56,11 @@ const Cube = ({
       <group position={position}>
         <mesh ref={cubeRef} geometry={roundedBoxGeometry}>
           {colorList.map((value, index) => (
-            <meshBasicMaterial key={index} attach={`material-${index}`} color={colorsDic[value]} />
+            <meshBasicMaterial
+              key={index}
+              attach={`material-${index}`}
+              color={colorsDic[value]}
+            />
           ))}
         </mesh>
         <lineSegments ref={edgesRef}>
@@ -62,44 +73,44 @@ const Cube = ({
 
 type MoveTextProps = {
   moveChar: string;
+  oneCubeNeedWidth: number;
 };
 
-const MoveText = ({ moveChar }: MoveTextProps) => {
+const MoveText = ({ moveChar, oneCubeNeedWidth }: MoveTextProps) => {
   const regexMoveChar = /.2/;
-  const shadowColor = regexMoveChar.test(moveChar)
-    ? "#cc0000"
-    : moveChar.includes("y")
-    ? "#00aa00"
-    : "#000000";
+  const isDoubleMove = regexMoveChar.test(moveChar);
 
   return (
     <>
-      {regexMoveChar.test(moveChar) && (
+      {isDoubleMove && (
         <Html
           as="div"
-          position={new THREE.Vector3(0, 1, 0)}
+          position={new THREE.Vector3(0, 3, 0)}
+          className={clsx(styles.moveChar180)}
           style={{
-            color: "#ffffff",
-            fontSize: "10px",
-            textShadow: `2px 2px 0 ${shadowColor}, -2px -2px 0 ${shadowColor}, -2px 2px 0 ${shadowColor}, 2px -2px 0 ${shadowColor}`,
-            transform: "translate(-50%, -50%)",
-            // zIndex: 0,
+            fontSize: `${oneCubeNeedWidth * 0.15}px`,
           }}
-          // zIndexRange={[16777271, 0]}
         >
-          <h1>180°</h1>
+          <p className={clsx(styles.text, styles.Decoration)}>180°</p>
+          <p className={styles.text}>180°</p>
         </Html>
       )}
       <Html
         as="div"
-        position={new THREE.Vector3(0, -3.3, 0)}
+        position={new THREE.Vector3(0, 0, 0)}
         style={{
-          color: "#ffffff",
-          textShadow: `2px 2px 0 ${shadowColor}, -2px -2px 0 ${shadowColor}, -2px 2px 0 ${shadowColor}, 2px -2px 0 ${shadowColor}`,
-          transform: "translate(-50%, -50%)",
+          fontSize: `${oneCubeNeedWidth * 0.3}px`,
         }}
+        className={clsx(styles.moveChar)}
       >
-        <h1>{moveChar}</h1>
+        <p
+          className={clsx(styles.text, styles.Decoration, {
+            [styles.Double]: isDoubleMove,
+          })}
+        >
+          {moveChar}
+        </p>
+        <p className={styles.text}>{moveChar}</p>
       </Html>
     </>
   );
@@ -126,31 +137,33 @@ const Bracket = ({ start, end }: { start?: boolean; end?: boolean }) => {
   );
 };
 
-const SupportText = ({ supportText }: { supportText: string }) => {
+type SupportTextProps = {
+  supportText: string;
+  oneCubeNeedWidth: number;
+};
+
+const SupportText = ({ supportText, oneCubeNeedWidth }: SupportTextProps) => {
   return (
     <Html
       as="div"
-      position={new THREE.Vector3(-1.7, 5, 0)}
+      position={new THREE.Vector3(-1.7, 4.1, 0)}
+      className={clsx(styles.supportText)}
       style={{
-        color: "#000000",
-        fontWeight: "bold",
-        width: "200px",
-        textAlign: "left",
+        fontSize: `${oneCubeNeedWidth * 0.1}px`,
       }}
     >
-      <h4>
-        {supportText.split(",").map((text, index) => (
-          <div key={index} style={{ lineHeight: 1 }}>
-            {text}
-          </div>
-        ))}
-      </h4>
+      {supportText.split(",").map((text, index) => (
+        <p key={index} className={styles.text}>
+          {text}
+        </p>
+      ))}
     </Html>
   );
 };
 
 const model = (status: string, z: number, y: number, x: number) => {
-  const colorDic: { [key: number]: string[] | undefined } = surfaceColorList(status);
+  const colorDic: { [key: number]: string[] | undefined } =
+    surfaceColorList(status);
   // if (!colorDic) {
   //   return DEFAULT;
   // }
@@ -167,6 +180,7 @@ type Props = {
   cubeGroupRef: MutableRefObject<THREE.Group<THREE.Object3DEventMap>>;
   moveTextRef: MutableRefObject<THREE.Group<THREE.Object3DEventMap>>;
   moveChar?: string;
+  canvasInfo?: MutableRefObject<CanvasInfo>;
   rotationGroupRef: MutableRefObject<THREE.Group<THREE.Object3DEventMap>>;
   hiddenGroupRef: MutableRefObject<THREE.Group<THREE.Object3DEventMap>>;
   braketRef: MutableRefObject<THREE.Group<THREE.Object3DEventMap>>;
@@ -181,6 +195,7 @@ export const CubesPresenter = ({
   cubeGroupRef,
   moveTextRef,
   moveChar,
+  canvasInfo,
   rotationGroupRef,
   hiddenGroupRef,
   braketRef,
@@ -190,6 +205,21 @@ export const CubesPresenter = ({
   status = "default",
   arrowRefList,
 }: Props) => {
+  const prevCanvasWidth = useRef<number>(0);
+  const [oneCubeNeedWidth, setOneCubeNeedWidth] = useState(0);
+
+  useFrame(() => {
+    if (canvasInfo && prevCanvasWidth.current !== canvasInfo.current.width) {
+      setOneCubeNeedWidth(
+        Math.min(
+          canvasInfo.current.width / canvasInfo.current.maxCubeNumInWidth,
+          cubeNeedCanvasWidthZoom20
+        )
+      );
+      prevCanvasWidth.current = canvasInfo.current.width;
+    }
+  });
+
   return (
     <>
       {braketNeed.start && (
@@ -204,7 +234,10 @@ export const CubesPresenter = ({
       )}
       {supportText && (
         <group ref={supportTextRef}>
-          <SupportText supportText={supportText} />
+          <SupportText
+            supportText={supportText}
+            oneCubeNeedWidth={oneCubeNeedWidth}
+          />
         </group>
       )}
       <group ref={cubeGroupRef}>
@@ -222,7 +255,7 @@ export const CubesPresenter = ({
       </group>
       {moveChar && (
         <group ref={moveTextRef}>
-          <MoveText moveChar={moveChar} />
+          <MoveText moveChar={moveChar} oneCubeNeedWidth={oneCubeNeedWidth} />
         </group>
       )}
       <group ref={rotationGroupRef}></group>
