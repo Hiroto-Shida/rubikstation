@@ -5,12 +5,12 @@ import { MutableRefObject, useEffect, useRef } from "react";
 import { useRotateCube } from "../../../hooks/useRotateCube";
 import { useFrame } from "@react-three/fiber";
 import { useCubePosition } from "../../../hooks/useCubePosition";
-import { CanvasWindowSize } from "../../../hooks/useResize";
+import { CanvasInfo } from "../../../hooks/useResize";
 
 type Props = {
   moveCharList?: string[];
   status?: string;
-  canvasWindowSize?: MutableRefObject<CanvasWindowSize>;
+  canvasInfo?: MutableRefObject<CanvasInfo>;
   cubesNum?: number;
   index?: number;
   needBraketIndex?: { start: number[]; end: number[] };
@@ -23,7 +23,7 @@ type Props = {
 export const Cubes = ({
   moveCharList,
   status,
-  canvasWindowSize,
+  canvasInfo,
   cubesNum = 1,
   index = 0,
   supportTextList,
@@ -42,24 +42,24 @@ export const Cubes = ({
   const supportTextRef = useRef<THREE.Group>(null!);
   const braketRef = useRef<THREE.Group>(null!);
 
-  const prevCanvasWidth = useRef<number>(0);
+  // const prevCanvasWidth = useRef<number>(0);
+  const prevMaxCubeNumInWidth = useRef<number>(0);
   const isSetupCompletion = useRef<boolean>(false);
 
   // 矢印2本(面)分のrefを用意
   const arrowRef1 = useRef<THREE.Group>(null!);
   const arrowRef2 = useRef<THREE.Group>(null!);
-  const arrowRefList = useRef<MutableRefObject<THREE.Group<THREE.Object3DEventMap>>[]>([
-    arrowRef1,
-    arrowRef2,
-  ]);
+  const arrowRefList = useRef<
+    MutableRefObject<THREE.Group<THREE.Object3DEventMap>>[]
+  >([arrowRef1, arrowRef2]);
 
   // リサイズ時(canvasWidth.currentが変化した時)に各キューブの位置を再調整
   useFrame(() => {
     if (
       moveCharList &&
       moveCharList.length > 0 &&
-      canvasWindowSize &&
-      prevCanvasWidth.current != canvasWindowSize.current.width &&
+      canvasInfo &&
+      prevMaxCubeNumInWidth.current != canvasInfo.current.maxCubeNumInWidth &&
       cubeGroupRef.current &&
       isSetupCompletion.current
     ) {
@@ -70,9 +70,9 @@ export const Cubes = ({
         supportTextRef.current,
         index,
         cubesNum,
-        canvasWindowSize.current.width
+        canvasInfo.current.maxCubeNumInWidth
       );
-      prevCanvasWidth.current = canvasWindowSize.current.width;
+      prevMaxCubeNumInWidth.current = canvasInfo.current.maxCubeNumInWidth;
     }
     if (!moveCharList && cubeGroupRef.current && isRotate) {
       cubeGroupRef.current.rotation.y += 0.02;
@@ -82,8 +82,8 @@ export const Cubes = ({
   useEffect(() => {
     if (
       cubeGroupRef.current &&
-      canvasWindowSize &&
-      canvasWindowSize.current &&
+      canvasInfo &&
+      canvasInfo.current &&
       moveCharList &&
       moveCharList.length > 0
     ) {
@@ -94,12 +94,16 @@ export const Cubes = ({
         supportTextRef.current,
         index,
         cubesNum,
-        canvasWindowSize.current.width
+        canvasInfo.current.maxCubeNumInWidth
       );
       moveCharList.forEach((moveChar, movingIndex) => {
         const regexMoveChar = /2/;
         const removedTwoMoveChar = moveChar.replace(regexMoveChar, "");
-        const cubePos = getCubeGroupPosition(index, cubesNum, canvasWindowSize.current.width);
+        const cubePos = getCubeGroupPosition(
+          index,
+          cubesNum,
+          canvasInfo.current.maxCubeNumInWidth
+        );
         if (ROTATE_DIRECTION[removedTwoMoveChar]) {
           rotate(
             cubeGroupRef.current,
@@ -122,7 +126,7 @@ export const Cubes = ({
       isSetupCompletion.current = true; // セットアップ完了
     }
   }, [
-    canvasWindowSize,
+    canvasInfo,
     cubesNum,
     getCubeGroupPosition,
     index,
@@ -134,7 +138,8 @@ export const Cubes = ({
   ]);
 
   const supportText = supportTextList
-    ? supportTextList[needBraketIndex?.start.indexOf(index)] ?? supportTextList[0]
+    ? supportTextList[needBraketIndex?.start.indexOf(index)] ??
+      supportTextList[0]
     : undefined;
 
   return (
@@ -142,12 +147,17 @@ export const Cubes = ({
       cubeGroupRef={cubeGroupRef}
       moveTextRef={moveTextRef}
       moveChar={
-        moveCharList && moveCharList.length > 0 ? moveCharList[moveCharList.length - 1] : undefined
+        moveCharList && moveCharList.length > 0
+          ? moveCharList[moveCharList.length - 1]
+          : undefined
       }
+      canvasInfo={canvasInfo}
       rotationGroupRef={rotationGroupRef}
       hiddenGroupRef={hiddenGroupRef}
       braketRef={braketRef}
-      supportText={needBraketIndex?.start.includes(index) ? supportText : undefined}
+      supportText={
+        needBraketIndex?.start.includes(index) ? supportText : undefined
+      }
       supportTextRef={supportTextRef}
       braketNeed={{
         start: needBraketIndex?.start.includes(index),

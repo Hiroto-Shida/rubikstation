@@ -14,20 +14,22 @@ const marginTopStyle = (theme: Theme) => ({
   marginTop: theme.spacing(2),
 });
 
-export const ScramblePresenter = React.memo(({ timerState, scrambleList }: Props) => {
-  const isDisplay: boolean =
-    !timerState.startingState.isStarted &&
-    !timerState.startingState.isStartedInspection &&
-    !timerState.standbyState.isCanStart;
-  return (
-    isDisplay &&
-    scrambleList.length > 1 && (
-      <>
-        <Box component="div" sx={(theme: Theme) => marginTopStyle(theme)} />
-        <ScrambleText scrambleList={scrambleList} />
-        <Box component="div" sx={(theme: Theme) => marginTopStyle(theme)} />
-        <ScrambleModels scrambleList={scrambleList} />
-      </>
-    )
-  );
-});
+export const ScramblePresenter = React.memo(
+  ({ timerState, scrambleList }: Props) => {
+    const isDisplay: boolean =
+      !timerState.startingState.isStarted &&
+      !timerState.startingState.isStartedInspection &&
+      !timerState.standbyState.isCanStart;
+    return (
+      isDisplay &&
+      scrambleList.length > 1 && (
+        <>
+          <Box component="div" sx={(theme: Theme) => marginTopStyle(theme)} />
+          <ScrambleText scrambleList={scrambleList} />
+          <Box component="div" sx={(theme: Theme) => marginTopStyle(theme)} />
+          <ScrambleModels scrambleList={scrambleList} />
+        </>
+      )
+    );
+  }
+);

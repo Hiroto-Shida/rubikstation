@@ -32,6 +32,7 @@ declare module "@mui/material/styles" {
     green?: string;
     white?: string;
     black?: string;
+    bgGray?: string;
   }
   interface ThemeBasePaletteColor {
     primary: string;
@@ -43,6 +44,7 @@ declare module "@mui/material/styles" {
     green: string;
     white: string;
     black: string;
+    bgGray: string;
   }
 
   interface ThemeRubikPaletteColorOptions {

@@ -6,6 +6,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import HelpIcon from "@mui/icons-material/Help";
+import styles from "./index.module.scss";
 
 import {
   AppBar,
@@ -26,6 +27,7 @@ import {
 import { ComponentProps, ReactElement, useState } from "react";
 import { Link } from "react-router-dom";
 import { Layout } from "./container";
+import clsx from "clsx";
 
 type Props = ComponentProps<typeof Layout> & {
   procedureOpen: boolean;
@@ -35,7 +37,12 @@ type Props = ComponentProps<typeof Layout> & {
 
 const drawerWidth = 240;
 
-export const LayoutPresenter = ({ children, procedureOpen, setProcedureOpen, pathname }: Props) => {
+export const LayoutPresenter = ({
+  children,
+  procedureOpen,
+  setProcedureOpen,
+  pathname,
+}: Props) => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
@@ -73,7 +80,9 @@ export const LayoutPresenter = ({ children, procedureOpen, setProcedureOpen, pat
               height: "100%",
               display: "block",
               borderLeft:
-                to === pathname ? `10px ${theme.palette.themeBase.primary} solid` : "none",
+                to === pathname
+                  ? `10px ${theme.palette.themeBase.primary} solid`
+                  : "none",
             },
           })}
         >
@@ -114,7 +123,11 @@ export const LayoutPresenter = ({ children, procedureOpen, setProcedureOpen, pat
           <ListItemIcon>{icon}</ListItemIcon>
           <Typography>{primaryText}</Typography>
           <ListItemIcon>
-            {procedureOpen ? <KeyboardArrowDownIcon /> : <KeyboardArrowRightIcon />}
+            {procedureOpen ? (
+              <KeyboardArrowDownIcon />
+            ) : (
+              <KeyboardArrowRightIcon />
+            )}
           </ListItemIcon>
         </ListItemButton>
       </ListItem>
@@ -138,7 +151,11 @@ export const LayoutPresenter = ({ children, procedureOpen, setProcedureOpen, pat
         />
         {procedureOpen && (
           <>
-            <AppListItem small to={"/procedure/introduction"} primaryText="はじめに" />
+            <AppListItem
+              small
+              to={"/procedure/introduction"}
+              primaryText="はじめに"
+            />
             <AppListItem small to={"/procedure/1"} primaryText="ステップ1" />
             <AppListItem small to={"/procedure/2"} primaryText="ステップ2" />
             <AppListItem small to={"/procedure/3"} primaryText="ステップ3" />
@@ -150,14 +167,24 @@ export const LayoutPresenter = ({ children, procedureOpen, setProcedureOpen, pat
         )}
         <ListSubheader>その他</ListSubheader>
         <Divider />
-        <AppListItem to={"/release"} primaryText="リリース情報" icon={<NewReleasesIcon />} />
+        <AppListItem
+          to={"/release"}
+          primaryText="リリース情報"
+          icon={<NewReleasesIcon />}
+        />
         <AppListItem to={"/help"} primaryText="ヘルプ" icon={<HelpIcon />} />
       </List>
     </Box>
   );
 
   return (
-    <Box component="div" style={{ display: "flex" }}>
+    <Box
+      component="div"
+      style={{ display: "flex" }}
+      className={clsx({
+        [styles.noSelect]: pathname === "/",
+      })}
+    >
       <CssBaseline />
       <AppBar
         position="fixed"
@@ -165,7 +192,7 @@ export const LayoutPresenter = ({ children, procedureOpen, setProcedureOpen, pat
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
           backgroundColor: "themeBase.primary",
-          zIndex: 16777272,
+          zIndex: 16777273,
         }}
       >
         <Toolbar sx={{ justifyContent: "space-between" }}>
@@ -177,13 +204,21 @@ export const LayoutPresenter = ({ children, procedureOpen, setProcedureOpen, pat
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h5" noWrap component="div" sx={{ fontWeight: "bold" }}>
+          <Typography
+            variant="h5"
+            noWrap
+            component="div"
+            sx={{ fontWeight: "bold" }}
+          >
             RubikStation
           </Typography>
         </Toolbar>
       </AppBar>
 
-      <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}>
+      <Box
+        component="nav"
+        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+      >
         <Drawer
           container={window?.document?.body}
           variant="temporary"
@@ -223,14 +258,19 @@ export const LayoutPresenter = ({ children, procedureOpen, setProcedureOpen, pat
         component="main"
         sx={{
           flexGrow: 1,
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          width: { xs: "100%", sm: `calc(100% - ${drawerWidth}px)` },
+          position: "relative",
         }}
       >
         <Toolbar />
         <Box
           component="div"
           sx={{
-            height: `calc(100vh - ${64 + 64}px)`, // AppBarとToolBarの分を引く
+            minHeight: `calc(100vh - ${64 + 32}px)`, // ToolBarとmargint: 2の分を引く
+            height: `calc(100% - ${64 + 32}px)`,
+            position: "relative",
+            // padding: 2,
+            margin: 2,
           }}
         >
           {children}

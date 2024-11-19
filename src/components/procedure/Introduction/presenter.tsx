@@ -55,7 +55,13 @@ export const IntroductionPresenter = () => {
       </B>
 
       <BorderBox>
-        <Box component="div" display="flex">
+        <Box
+          component="div"
+          display="flex"
+          sx={{
+            flexWrap: "wrap",
+          }}
+        >
           <STandRubicModel st="世界配色" status="WORLD_ALL" isRotate={true} />
           <Box component="div" m={2} />
           <STandRubicModel st="日本配色" status="JAPAN_ALL" isRotate={true} />
@@ -67,7 +73,13 @@ export const IntroductionPresenter = () => {
       <ST>各キューブの名前</ST>
       <B>各キューブを3種の呼び方で分けます</B>
       <BorderBox>
-        <Box component="div" display="flex">
+        <Box
+          component="div"
+          display="flex"
+          sx={{
+            flexWrap: "wrap",
+          }}
+        >
           <STandRubicModel
             orthographic
             cameraControls={false}
@@ -99,19 +111,30 @@ export const IntroductionPresenter = () => {
           本記事では矢印で図示してるので、覚えなくて大丈夫です！
         </Typography>
       </B>
-      <B>ただ回転記号は世界共通なので、覚えると、他の手順を覚える時にも役立ちます</B>
+      <B>
+        ただ回転記号は世界共通なので、覚えると、他の手順を覚える時にも役立ちます
+      </B>
       <B>気になる人は調べてみてね</B>
       <BorderBox>
         <ST>回転記号例(一部)</ST>
         <B>RはRight、LはLeft、UはUp、の頭文字</B>
-        <B>プライム(')がついてると反時計周りになります(意外と覚えやすいかも？)</B>
-        <StyledScrambleModels status="WORLD_ALL" scrambleList={["R", "R'", "L", "U"]} />
+        <B>
+          プライム(')がついてると反時計周りになります(意外と覚えやすいかも？)
+        </B>
+        <StyledScrambleModels
+          status="WORLD_ALL"
+          scrambleList={["R", "R'", "L", "U"]}
+        />
       </BorderBox>
 
       <Box component="div" sx={{ height: "20px" }}></Box>
       <B>
         それでは最初のステップ
-        <Typography component={Link} to="/procedure/1" sx={{ fontWeight: "bold" }}>
+        <Typography
+          component={Link}
+          to="/procedure/1"
+          sx={{ fontWeight: "bold" }}
+        >
           ステップ1
         </Typography>
         から始めましょう！

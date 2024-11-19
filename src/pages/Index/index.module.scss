@@ -1,0 +1,9 @@
+.indexPage {
+  height: 100%;
+
+  &.Center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

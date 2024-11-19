@@ -42,6 +42,20 @@ export const ReleasePagePresenter = () => {
       </Typography>
       <Divider sx={{ mb: 2 }} />
 
+      <StyledVersionTitle>[3.0.0] - 2024-11-19</StyledVersionTitle>
+      <List>
+        <StyledListItemText>モバイル対応</StyledListItemText>
+        <StyledListItemText tab={1}>
+          タイマーの操作を画面タップでも行えるように変更
+        </StyledListItemText>
+        <StyledListItemText tab={1}>
+          スマホ等の小さい画面でも見やすくなるようにレイアウト調整
+        </StyledListItemText>
+        <StyledListItemText tab={1}>
+          PWA対応：iosの場合「ホーム画面に追加」、androidの場合「アプリをインストール」するとモバイルアプリのように使えるようになります
+        </StyledListItemText>
+      </List>
+
       <StyledVersionTitle>[2.3.0] - 2024-09-04</StyledVersionTitle>
       <List>
         <StyledListItemText>タイム記録一覧にグラフを追加</StyledListItemText>

@@ -49,8 +49,11 @@ export const TimerPresenter = React.memo(
           !timerState.standbyState.isCanStart && (
             <StyledTypography variant="h6">New Record !!!</StyledTypography>
           )}
-        <Box component="div" sx={{ display: "flex", justifyContent: "center" }}>
-          <Box component="div" sx={{ position: "relative" }}>
+        <Box component="div" sx={{ position: "relative" }}>
+          <Box
+            component="div"
+            sx={{ display: "flex", justifyContent: "center" }}
+          >
             <Typography
               variant={
                 timerState.startingState.isStarted ||
@@ -75,7 +78,6 @@ export const TimerPresenter = React.memo(
                   : "DNF"
                 : convertToTimerText(time)}
             </Typography>
-            <InspectionSwitch />
             {isDisplayInspectionIcon && (
               <TimerOutlinedIcon
                 sx={{
@@ -87,6 +89,7 @@ export const TimerPresenter = React.memo(
               />
             )}
           </Box>
+          <InspectionSwitch />
         </Box>
       </>
     );
